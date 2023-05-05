@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RegistrationFormComponent implements OnInit {
   registrationForm!: FormGroup;
+required: any;
+email: any;
 
   constructor(private fb: FormBuilder) { }
 

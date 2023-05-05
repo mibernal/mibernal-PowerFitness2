@@ -20,6 +20,7 @@ import { ProductDetailComponent } from './components/products/product-detail/pro
 import { ProductListComponent } from './components/products/product-list/product-list.component';
 import { DiscountPipe } from './shared/pipes/discount.pipe';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterModule
   ],
   providers: [],
   bootstrap: [AppComponent]
