@@ -1,0 +1,63 @@
+@import '../../../../node_modules/bootstrap/scss/bootstrap';
+
+
+// Definición de variables de color
+$primary-color: #511a87;
+$secondary-color: #ffffff;
+
+// Estilos para la barra de navegación
+.navbar {
+  background-image: linear-gradient(to bottom, $primary-color, darken($primary-color, 10%));
+  background-color: $primary-color;
+
+  .navbar-brand {
+
+    font-size: 30px;
+    font-weight: bold;
+    color: $secondary-color;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  .nav-link {
+    color: $secondary-color;
+
+    &:hover {
+      color: $secondary-color;
+    }
+  }
+
+  .dropdown-menu {
+    background-color: $primary-color;
+
+    .dropdown-item {
+      color: $secondary-color;
+
+      &:hover {
+        color: $secondary-color;
+        background-color: lighten($primary-color, 10%);
+      }
+    }
+  }
+
+  .form-control {
+    background-color: lighten($primary-color, 10%);
+    color: $secondary-color;
+
+    &::placeholder {
+      color: $secondary-color;
+    }
+  }
+
+  .btn-outline-success {
+    color: $secondary-color;
+    border-color: $secondary-color;
+
+    &:hover {
+      color: $primary-color;
+      background-color: $secondary-color;
+    }
+  }
+}

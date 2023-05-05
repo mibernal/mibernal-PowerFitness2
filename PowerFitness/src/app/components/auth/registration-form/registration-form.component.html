@@ -1,0 +1,37 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label for="firstName">First Name:</label>
+      <input type="text" id="firstName" formControlName="firstName">
+      <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched">
+        <div *ngIf="registrationForm.get('firstName')?.errors">First name is required.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="lastName">Last Name:</label>
+      <input type="text" id="lastName" formControlName="lastName">
+      <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched">
+        <div *ngIf="registrationForm.get('lastName')?.errors">Last name is required.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="email">Email:</label>
+      <input type="email" id="email" formControlName="email">
+      <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
+        <div *ngIf="registrationForm.get('email')?.errors">Email is required.</div>
+        <div *ngIf="registrationForm.get('email')?.errors">Invalid email format.</div>
+      </div>
+    </div>
+  
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" formControlName="password">
+      <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
+        <div *ngIf="registrationForm.get('password')?.errors">Password is required.</div>
+      </div>
+    </div>
+  
+    <button type="submit" [disabled]="registrationForm.invalid">Submit</button>
+  </form>
+  
