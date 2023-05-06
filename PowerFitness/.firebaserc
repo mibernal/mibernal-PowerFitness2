@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "powerfitness-401b2"
+  },
+  "targets": {
+    "powerfitness-401b2": {
+      "hosting": {
+        "PowerFitness": [
+          "powerfitness-401b2"
+        ]
+      }
+    }
   }
 }

@@ -1,21 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthService } from '../../services/auth/auth.service';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+//import { AngularFireAuth } from '@angular/fire/';
 
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss']
 })
+
 export class RegistrationFormComponent implements OnInit {
+
   registrationForm!: FormGroup;
   required: any;
   email: any;
 
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, @Inject(AuthService) private authService: AuthService) { }
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({

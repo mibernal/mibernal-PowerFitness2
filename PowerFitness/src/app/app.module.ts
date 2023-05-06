@@ -7,6 +7,7 @@ import { CartComponent } from './components/cart/cart.component';
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { HomeComponent } from './components/home/home.component';
+import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { SearchComponent } from './components/search/search.component';
@@ -19,8 +20,21 @@ import { ProductComponent } from './components/products/product/product.componen
 import { ProductDetailComponent } from './components/products/product-detail/product-detail.component';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
 import { DiscountPipe } from './shared/pipes/discount.pipe';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import 'firebase/auth';
+import { environment } from '../environments/environment';
+import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
+import { provideAuth,getAuth } from '@angular/fire/auth';
+import { provideDatabase,getDatabase } from '@angular/fire/database';
+import { provideFirestore,getFirestore } from '@angular/fire/firestore';
+import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config';
+import { provideStorage,getStorage } from '@angular/fire/storage';
+
 
 @NgModule({
   declarations: [
@@ -42,14 +56,31 @@ import { RouterModule } from '@angular/router';
     ProductListComponent,
     DiscountPipe,
     
+    
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule,
+//    environment,
+    AngularFirestoreModule,
+provideFirebaseApp(() => initializeApp(environment.firebase)),
+provideAuth(() => getAuth()),
+provideDatabase(() => getDatabase()),
+provideFirestore(() => getFirestore()),
+provideRemoteConfig(() => getRemoteConfig()),
+provideStorage(() => getStorage()),
+    AngularFireStorageModule,
+
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })
