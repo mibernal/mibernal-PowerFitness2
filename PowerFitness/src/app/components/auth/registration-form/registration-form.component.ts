@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-registration-form',
@@ -8,10 +12,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class RegistrationFormComponent implements OnInit {
   registrationForm!: FormGroup;
-required: any;
-email: any;
+  required: any;
+  email: any;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({

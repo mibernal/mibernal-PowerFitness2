@@ -12,12 +12,13 @@ import { RegistrationFormComponent } from './components/auth/registration-form/r
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'products', component: ProductListComponent },
   { path: 'products/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'contact', component: ContactComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+//  { path: '**', redirectTo: '', pathMatch: 'full' },
   { path: 'login-form', component: LoginFormComponent },
   { path: 'register', component: RegistrationFormComponent },
 ];
