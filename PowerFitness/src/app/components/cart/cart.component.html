@@ -1,1 +1,16 @@
-<p>cart works!</p>
+<div class="cart">
+    <h2>Carrito de compras</h2>
+    <div class="products">
+      <div *ngFor="let product of products">
+        <img [src]="product.image" alt="{{product.name}}">
+        <h3>{{product.name}}</h3>
+        <p>{{product.description}}</p>
+        <p>Precio: ${{product.price}}</p>
+        <button (click)="removeProduct(product)">Eliminar</button>
+      </div>
+    </div>
+    <div class="total">
+      <p>Total: ${{getTotal()}}</p>
+    </div>
+  </div>
+  

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
+
 
 @Component({
   selector: 'app-registration-form',
