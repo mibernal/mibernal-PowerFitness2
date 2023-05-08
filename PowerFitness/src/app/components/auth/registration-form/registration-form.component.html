@@ -1,37 +1,45 @@
-<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+<div class="form-container">
+  <h1>Formulario de Registro</h1>
+  <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
     <div>
-      <label for="firstName">First Name:</label>
+      <label for="firstName">Nombres:</label>
       <input type="text" id="firstName" formControlName="firstName">
       <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched">
-        <div *ngIf="registrationForm.get('firstName')?.errors?.[required]">First name is required.</div>
+        <div *ngIf="registrationForm.get('firstName')?.errors?.['required']">Es Necesario un Nombre.</div>
       </div>
     </div>
-  
+
     <div>
-      <label for="lastName">Last Name:</label>
+      <label for="lastName">Apellidos:</label>
       <input type="text" id="lastName" formControlName="lastName">
       <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched">
-        <div *ngIf="registrationForm.get('lastName')?.errors?.[required]">Last name is required.</div>
+        <div *ngIf="registrationForm.get('lastName')?.errors?.['required']">Es Necesario un Apellido.</div>
       </div>
     </div>
-  
+
     <div>
       <label for="email">Email:</label>
       <input type="email" id="email" formControlName="email">
       <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
-        <div *ngIf="registrationForm.get('email')?.errors?.[email]">Email is required.</div>
-        <div *ngIf="registrationForm.get('email')?.errors?.[required]">Invalid email format.</div>
+        <div *ngIf="registrationForm.get('email')?.errors?.['email']">Formato Invalido.</div>
+        <div *ngIf="registrationForm.get('email')?.errors?.['required']">Es Necesario un Email.</div>
       </div>
     </div>
-  
+
     <div>
-      <label for="password">Password:</label>
+      <label for="password">Contraseña:</label>
       <input type="password" id="password" formControlName="password">
       <div *ngIf="registrationForm.get('password')?.invalid && registrationForm.get('password')?.touched">
-        <div *ngIf="registrationForm.get('password')?.errors?.[required]">Password is required.</div>
+        <div *ngIf="registrationForm.get('password')?.errors?.['required']">Es necesaria una Contraseña.</div>
       </div>
     </div>
-  
-    <button type="submit" [disabled]="registrationForm.invalid">Submit</button>
+
+    <button type="submit" [disabled]="registrationForm.invalid">Enviar</button>
+
+    <hr>
+
+    <div>
+      <button class="google-btn" (click)="registerWithGoogle()">Registrar con Google</button>
+      <button class="facebook-btn" (click)="registerWithFacebook()">Registrar con Facebook</button>
+    </div>
   </form>
-  

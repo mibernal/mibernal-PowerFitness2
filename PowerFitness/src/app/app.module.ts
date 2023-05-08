@@ -80,7 +80,10 @@ provideStorage(() => getStorage()),
     AngularFireStorageModule,
 
   ],
-
+  exports: [
+    // otros componentes exportados aquí
+    LoginFormComponent,
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

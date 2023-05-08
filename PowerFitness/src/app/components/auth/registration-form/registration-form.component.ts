@@ -3,21 +3,19 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-//import { AngularFireAuth } from '@angular/fire/';
 
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss']
 })
-
 export class RegistrationFormComponent implements OnInit {
-
   registrationForm!: FormGroup;
-  required: any;
-  email: any;
 
-  constructor(private fb: FormBuilder, @Inject(AuthService) private authService: AuthService) { }
+  constructor(
+    private fb: FormBuilder,
+    @Inject(AuthService) private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.registrationForm = this.fb.group({
@@ -32,4 +30,16 @@ export class RegistrationFormComponent implements OnInit {
     console.log(this.registrationForm.value);
   }
 
+  registerWithGoogle(): void {
+    this.authService
+      .signInWithGoogle()
+      .then(() => console.log('Successfully registered with Google!'))
+      .catch((error) => console.log('Error registering with Google:', error));
+  }
+
+  registerWithFacebook(): void {
+    this.authService
+      .signInWithFacebook()
+      .then(() => console.log('Successfully registered with Facebook!'))
+  }
 }
