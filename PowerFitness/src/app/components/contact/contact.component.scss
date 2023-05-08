@@ -1,0 +1,109 @@
+// @import '../../../../node_modules/bootstrap/scss/bootstrap';
+
+$primary-color: #511a87;
+$secondary-color: #ffffff;
+
+.container {
+  padding: 50px;
+  background-color: $secondary-color;
+
+  h1 {
+    color: $primary-color;
+    font-size: 36px;
+    margin-bottom: 40px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .col-md-6 {
+      margin-bottom: 40px;
+
+      h3 {
+        color: $primary-color;
+        font-size: 26px;
+        margin-bottom: 20px;
+        text-align: center;
+        text-transform: uppercase;
+      }
+
+      p {
+        font-size: 18px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      iframe {
+        border: 0;
+        height: 350px;
+        width: 100%;
+      }
+
+      form {
+        input,
+        textarea {
+          border: 2px solid $primary-color;
+          border-radius: 4px;
+          font-size: 16px;
+          padding: 12px;
+          width: 100%;
+
+          &:focus {
+            border-color: darken($primary-color, 10%);
+            outline: none;
+          }
+        }
+
+        label {
+          display: block;
+          font-size: 16px;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+        }
+
+        button {
+          background-color: $primary-color;
+          border: none;
+          border-radius: 4px;
+          color: $secondary-color;
+          cursor: pointer;
+          font-size: 18px;
+          padding: 12px 24px;
+          transition: background-color 0.2s ease-in-out;
+
+          &:hover {
+            background-color: darken($primary-color, 10%);
+          }
+        }
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        li {
+          margin-bottom: 10px;
+
+          a {
+            color: $primary-color;
+            font-size: 16px;
+            text-decoration: none;
+
+            i {
+              margin-right: 10px;
+            }
+
+            &:hover {
+              text-decoration: underline;
+            }
+          }
+        }
+      }
+    }
+  }
+}

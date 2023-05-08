@@ -9,6 +9,7 @@ import { CheckoutComponent } from './components/checkout/checkout.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { LoginFormComponent } from './components/auth/login-form/login-form.component';
 import { RegistrationFormComponent } from './components/auth/registration-form/registration-form.component';
+import { NosotrosComponent } from './components/nosotros/nosotros.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'nosotros', component: NosotrosComponent },
 //  { path: '**', redirectTo: '', pathMatch: 'full' },
   { path: 'login-form', component: LoginFormComponent },
   { path: 'register', component: RegistrationFormComponent },

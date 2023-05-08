@@ -1,19 +1,17 @@
 @import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import 'variables';
+//@import 'variables';
 
-
-// Definición de variables de color
+// Variables de color
 $primary-color: #511a87;
 $secondary-color: #ffffff;
 $color-change-percentage: 10%;
 
 // Estilos para la barra de navegación
 .navbar {
-  background-image: linear-gradient(to bottom, $primary-color, darken($primary-color, $color-change-percentage));
   background-color: $primary-color;
+  background-image: linear-gradient(to bottom, $primary-color, $primary-color $color-change-percentage, $primary-color);
 
   .navbar-brand {
-
     font-size: 30px;
     font-weight: bold;
     color: $secondary-color;
@@ -26,7 +24,9 @@ $color-change-percentage: 10%;
   .nav-link {
     color: $secondary-color;
 
-    &:hover {
+    &:hover,
+    &:active,
+    &.active {
       color: $secondary-color;
     }
   }

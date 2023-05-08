@@ -1,0 +1,79 @@
+/* Estilos para la sección "Nosotros" */
+
+.nosotros-section {
+  background-color: #f8f8f8;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.nosotros-title {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 30px;
+}
+
+.nosotros-description {
+  font-size: 20px;
+  line-height: 1.5;
+  margin-bottom: 60px;
+}
+
+.nosotros-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.nosotros-card {
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 30px;
+  width: 30%;
+}
+
+.nosotros-card-icon {
+  font-size: 50px;
+  margin-bottom: 20px;
+}
+
+.nosotros-card-title {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.nosotros-card-description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.nosotros-card-link {
+  background-color: #008CBA;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.nosotros-card-link:hover {
+  background-color: #006E8A;
+}
+
+@media screen and (max-width: 768px) {
+  .nosotros-cards {
+    justify-content: center;
+  }
+
+  .nosotros-card {
+    width: 45%;
+  }
+}
