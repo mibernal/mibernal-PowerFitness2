@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { Product } from '../../models/product.model';
 
 @Injectable({
@@ -23,7 +23,11 @@ export class ProductService {
 
   getProductById(id: number): Observable<Product> {
     const product = this.products.find(p => p.id === id);
-    return of(product);
+    if (product) {
+      return of(product);
+    } else {
+      return throwError(`Product with id ${id} not found`);
+    }
   }
 
 }
