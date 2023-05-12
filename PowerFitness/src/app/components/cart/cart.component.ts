@@ -8,21 +8,16 @@ import { Product } from '../../models/product.model';
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
-
 export class CartComponent implements OnInit {
-  products: Product[];
+  products: Product[] = [];
 
   constructor(
     private productService: ProductService,
     private cartService: CartService
-  ) {
-    this.products = [];
-   }
+  ) { }
 
   ngOnInit(): void {
-    this.cartService.cartItems().subscribe(items => {
-      this.products = items.map(item => this.productService.getProduct(item.id));
-    });
+    this.products = this.cartService.getProducts();
   }
 
   getTotal(): number {
