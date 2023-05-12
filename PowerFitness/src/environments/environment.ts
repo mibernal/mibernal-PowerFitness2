@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import * as firebase from "firebase/compat";
 
 export const environment = {
     production: false,
@@ -16,6 +17,6 @@ export const environment = {
   }
   };
 
-// Initialize Firebase
-// const app = initializeApp(environment.firebaseConfig);
-// const analytics = getAnalytics(app);
+ Initialize Firebase
+ const app = initializeApp(environment.firebaseConfig);
+ const analytics = getAnalytics(app);

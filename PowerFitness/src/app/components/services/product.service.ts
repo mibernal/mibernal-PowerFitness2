@@ -1,60 +1,101 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Product } from '../../models/product.model';
+import {
+  collection,
+  CollectionReference,
+  deleteDoc,
+  doc,
+  DocumentData,
+  getDoc,
+  getDocs,
+  getFirestore,
+  limit,
+  orderBy,
+  query,
+  QuerySnapshot,
+  setDoc,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
-  private products: Product[] = [
-    { id: 1, name: 'Product 1', price: 9.99, description: 'Product 1 description', imageUrl: 'https://example.com/product1.jpg' },
-    { id: 2, name: 'Product 2', price: 19.99, description: 'Product 2 description', imageUrl: 'https://example.com/product2.jpg' },
-    { id: 3, name: 'Product 3', price: 29.99, description: 'Product 3 description', imageUrl: 'https://example.com/product3.jpg' },
-    { id: 4, name: 'Product 4', price: 39.99, description: 'Product 4 description', imageUrl: 'https://example.com/product4.jpg' },
-    { id: 5, name: 'Product 5', price: 49.99, description: 'Product 5 description', imageUrl: 'https://example.com/product5.jpg' }
-  ];
+  private collectionRef: CollectionReference<DocumentData>;
 
-  constructor() { }
-
-  getProducts(): Observable<Product[]> {
-    return of(this.products);
+  constructor() {
+    const firestore = getFirestore();
+    this.collectionRef = collection(firestore, 'products');
   }
 
-  getProductById(id: number): Observable<Product> {
-    const product = this.products.find(p => p.id === id);
-    if (product) {
-      return of(product);
-    } else {
-      return throwError(`Product with id ${id} not found`);
-    }
+  getProducts(): Observable<Product[]> {
+    const products: Product[] = [];
+    const productsQuery = query(this.collectionRef, orderBy('name'));
+    return new Observable((observer) => {
+      getDocs(productsQuery).then((querySnapshot: QuerySnapshot<DocumentData>) => {
+        querySnapshot.forEach((doc) => {
+          const product = doc.data() as Product;
+          product.id = doc.id;
+          products.push(product);
+        });
+        observer.next(products);
+      });
+    });
+  }
+
+  getProductById(id: string): Observable<Product> {
+    const productDocRef = doc(this.collectionRef, id);
+    return new Observable((observer) => {
+      getDoc(productDocRef).then((productDoc: DocumentData) => {
+        if (productDoc['exists']) {
+          const product = productDoc['data']() as Product;
+          product.id = productDoc['id'];
+          observer.next(product);
+        } else {
+          observer.error(`Product with id ${id} not found`);
+        }
+      }).catch((error) => {
+        observer.error(error);
+      });
+    });
   }
 
   createProduct(product: Product): Observable<Product> {
-    const id = this.products.length + 1;
-    const newProduct = { ...product, id };
-    this.products.push(newProduct);
-    return of(newProduct);
+    return new Observable((observer) => {
+      const firestore = getFirestore();
+      setDoc(doc(firestore, 'products', product.id), product).then(() => {
+        const newProduct = { ...product };
+        observer.next(newProduct);
+      }).catch((error) => {
+        observer.error(error);
+      });
+    });
   }
+  
+  
 
   updateProduct(product: Product): Observable<void> {
-    const index = this.products.findIndex(p => p.id === product.id);
-    if (index !== -1) {
-      this.products[index] = product;
-      return of(undefined);
-    } else {
-      return throwError(`Product with id ${product.id} not found`);
-    }
+    const productDocRef = doc(this.collectionRef, product.id);
+    return new Observable((observer) => {
+      updateDoc(productDocRef, product as any).then(() => {
+        observer.next();
+      }).catch((error) => {
+        observer.error(error);
+      });
+    });
   }
-
-  deleteProduct(id: number): Observable<void> {
-    const index = this.products.findIndex(p => p.id === id);
-    if (index !== -1) {
-      this.products.splice(index, 1);
-      return of(undefined);
-    } else {
-      return throwError(`Product with id ${id} not found`);
-    }
+  
+  deleteProduct(id: string): Observable<void> {
+    const productDocRef = doc(this.collectionRef, id);
+    return new Observable((observer) => {
+      deleteDoc(productDocRef).then(() => {
+        observer.next();
+      }).catch((error) => {
+        observer.error(error);
+      });
+    });
   }
-
 }
