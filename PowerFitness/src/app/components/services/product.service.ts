@@ -30,4 +30,31 @@ export class ProductService {
     }
   }
 
+  createProduct(product: Product): Observable<Product> {
+    const id = this.products.length + 1;
+    const newProduct = { ...product, id };
+    this.products.push(newProduct);
+    return of(newProduct);
+  }
+
+  updateProduct(product: Product): Observable<void> {
+    const index = this.products.findIndex(p => p.id === product.id);
+    if (index !== -1) {
+      this.products[index] = product;
+      return of(undefined);
+    } else {
+      return throwError(`Product with id ${product.id} not found`);
+    }
+  }
+
+  deleteProduct(id: number): Observable<void> {
+    const index = this.products.findIndex(p => p.id === id);
+    if (index !== -1) {
+      this.products.splice(index, 1);
+      return of(undefined);
+    } else {
+      return throwError(`Product with id ${id} not found`);
+    }
+  }
+
 }

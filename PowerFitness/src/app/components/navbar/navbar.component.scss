@@ -1,4 +1,6 @@
 @import '../../../../node_modules/bootstrap/scss/bootstrap';
+@import '~bootstrap-icons/font/bootstrap-icons.css';
+//@import '../../../../node_modules/bootstrap/';
 
 // Variables de color
 $primary-color: #511a87;
@@ -66,7 +68,9 @@ $color-change-percentage: 10%;
     &:hover {
       color: $secondary-color;
     }
-  .cart-icon {
+  }
+
+  .bi.bi-cart {
     font-size: 1.5rem;
     color: $secondary-color;
 
@@ -74,5 +78,4 @@ $color-change-percentage: 10%;
       color: $secondary-color;
     }
   }
-}
 }
