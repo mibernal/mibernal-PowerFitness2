@@ -34,6 +34,7 @@ import { provideDatabase,getDatabase } from '@angular/fire/database';
 import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config';
 import { provideStorage,getStorage } from '@angular/fire/storage';
+import { FirebaseTestComponent } from './components/services/firebase-test/firebase-test.component';
 
 
 @NgModule({
@@ -55,6 +56,7 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     ProductDetailComponent,
     ProductListComponent,
     DiscountPipe,
+    FirebaseTestComponent,
     
     
   ],
