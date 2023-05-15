@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
@@ -31,10 +32,10 @@ export class RegistrationFormComponent implements OnInit {
     const { firstName, lastName, email, password } = this.registrationForm.value;
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((result) => {
-        if (result && result.user) {
-          const user = result.user;
+        const user = result.user;
+        if (user) {
           console.log('User created:', user);
-  
+
           // Agregar al usuario a Firestore
           const userRef = this.firestore.collection('users').doc(user.uid);
           userRef.set({
@@ -54,13 +55,13 @@ export class RegistrationFormComponent implements OnInit {
   registerWithGoogle(): void {
     this.authService
       .signInWithGoogle()
-      .then((result) => {
+      .then((result: firebase.auth.UserCredential | void) => {
         if (result instanceof firebase.auth.UserCredential) {
           const user = result.user;
-          console.log('Successfully registered with Google!', user);
-  
-          // Agregar al usuario a Firestore
           if (user) {
+            console.log('Successfully registered with Google!', user);
+
+            // Agregar al usuario a Firestore
             const { displayName, email } = user;
             const [firstName, lastName] = displayName?.split(' ') ?? ["", ""];
             const userRef = this.firestore.collection('users').doc(user.uid);
@@ -81,11 +82,31 @@ export class RegistrationFormComponent implements OnInit {
       .catch((error) => console.log('Error registering with Google:', error));
   }
   
-
   registerWithFacebook(): void {
     this.authService
       .signInWithFacebook()
-      .then(() => console.log('Successfully registered with Facebook!'))
-      .catch((error) => console.log('Error registering with Facebook:', error));
+      .then((result: firebase.auth.UserCredential | void) => {
+        if (result instanceof firebase.auth.UserCredential) {
+          const user = result.user;
+          if (user) {
+            console.log('Successfully registered with Facebook!', user);
+
+            // Agregar al usuario a Firestore
+            const { displayName, email } = user;
+            const [firstName, lastName] = displayName?.split(' ') ?? ["", ""];
+            const userRef = this.firestore.collection('users').doc(user.uid);
+            userRef.set({
+              firstName,
+              lastName,
+              email
+            }).then(() => {
+              console.log('User added to Firestore:', user);
+            }).catch((error) => {
+              console.log('Error adding user to Firestore:', error);
+            });
+          }
+        })
+        .catch((error) => console.log('Error registering with Google:', error));
+    }
   }
-}
+ 
