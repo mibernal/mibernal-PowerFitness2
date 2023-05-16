@@ -5,7 +5,7 @@
       <label for="firstName">Nombres:</label>
       <input type="text" id="firstName" formControlName="firstName">
       <div *ngIf="registrationForm.get('firstName')?.invalid && registrationForm.get('firstName')?.touched">
-        <div *ngIf="registrationForm.get('firstName')?.errors?.['required']">Es Necesario un Nombre.</div>
+        <div *ngIf="registrationForm.get('firstName')?.errors?.['required']">Es necesario un Nombre.</div>
       </div>
     </div>
 
@@ -13,7 +13,7 @@
       <label for="lastName">Apellidos:</label>
       <input type="text" id="lastName" formControlName="lastName">
       <div *ngIf="registrationForm.get('lastName')?.invalid && registrationForm.get('lastName')?.touched">
-        <div *ngIf="registrationForm.get('lastName')?.errors?.['required']">Es Necesario un Apellido.</div>
+        <div *ngIf="registrationForm.get('lastName')?.errors?.['required']">Es necesario un Apellido.</div>
       </div>
     </div>
 
@@ -21,8 +21,8 @@
       <label for="email">Email:</label>
       <input type="email" id="email" formControlName="email">
       <div *ngIf="registrationForm.get('email')?.invalid && registrationForm.get('email')?.touched">
-        <div *ngIf="registrationForm.get('email')?.errors?.['email']">Formato Invalido.</div>
-        <div *ngIf="registrationForm.get('email')?.errors?.['required']">Es Necesario un Email.</div>
+        <div *ngIf="registrationForm.get('email')?.errors?.['email']">Formato inválido.</div>   
+        <div *ngIf="registrationForm.get('email')?.errors?.['required']">Es necesario un Email.</div>
       </div>
     </div>
 
@@ -43,3 +43,4 @@
       <button class="facebook-btn" (click)="registerWithFacebook()">Registrar con Facebook</button>
     </div>
   </form>
+</div>

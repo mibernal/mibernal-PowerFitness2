@@ -1,14 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import firebase from 'firebase/compat/app';
 import { Observable } from 'rxjs';
-import 'firebase/auth';
+import { User } from '@firebase/auth-types';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  user$: Observable<firebase.User | null>;
+  user$: Observable<User | null>;
 
   constructor(@Inject(AngularFireAuth) private afAuth: AngularFireAuth) {
     this.user$ = this.afAuth.authState;
@@ -22,10 +24,10 @@ export class AuthService {
     await this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
-  async signInWithGoogle(): Promise<void> {
+  signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
-    await this.afAuth.signInWithPopup(provider);
-  }
+    return this.afAuth.signInWithPopup(provider);
+  }  
 
   async signInWithFacebook(): Promise<void> {
     const provider = new firebase.auth.FacebookAuthProvider();
