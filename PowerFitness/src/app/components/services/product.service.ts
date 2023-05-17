@@ -69,8 +69,7 @@ export class ProductService {
 
   createProduct(product: Product): Observable<Product> {
     return new Observable((observer) => {
-      const firestore = getFirestore();
-      setDoc(doc(firestore, 'productos', product.id), product).then(() => {
+      setDoc(doc(this.collectionRef, product.id), product).then(() => {
         const newProduct = { ...product };
         observer.next(newProduct);
       }).catch((error) => {
@@ -78,6 +77,7 @@ export class ProductService {
       });
     });
   }
+  
 
   updateProduct(product: Product): Observable<void> {
     const productDocRef = doc(this.collectionRef, product.id);

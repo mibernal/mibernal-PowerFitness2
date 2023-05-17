@@ -1,11 +1,30 @@
-<!-- product-list.component.html -->
-
-<div class="product-list">
-  <div class="product" *ngFor="let product of products">
-    <img class="product-image" [src]="product.imageUrl" alt="{{ product.name }}" />
-    <h3 class="product-name">{{ product.name }}</h3>
-    <p class="product-description">{{ product.description }}</p>
-    <p class="product-price">{{ product.price | currency }}</p>
-    <button class="add-to-cart-button" (click)="addProduct(product)">Add to Cart</button>
+<div class="container">
+  <div class="row">
+    <div class="col-md-4" *ngFor="let product of products">
+      <div class="card product">
+        <div class="image-wrapper">
+          <div class="image-container">
+            <button class="arrow left-arrow" (click)="scrollImages(product, -1)">&lt;</button>
+            <div class="images">
+              <img class="card-img-top product-image" [src]="product.imageUrl" alt="{{ product.name }}" />
+              <img class="card-img-top product-image" [src]="product.imageUrl2" alt="{{ product.name }}" />
+              <img class="card-img-top product-image" [src]="product.imageUrl3" alt="{{ product.name }}" />
+              <img class="card-img-top product-image" [src]="product.imageUrl4" alt="{{ product.name }}" />
+            </div>
+            <button class="arrow right-arrow" (click)="scrollImages(product, 1)">&gt;</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title product-name">{{ product.name }}</h5>
+          <p class="card-text product-category">Categoria: {{ product.category }}</p>
+          <p class="card-text product-brand">Marca: {{ product.brand }}</p>
+          <p class="card-text product-size">Tamaño: {{ product.size }}</p>
+          <p class="card-text product-description">{{ product.description }}</p>
+          <p class="card-text product-discount">Descuento: {{ product.discount }}</p>
+          <p class="card-text product-price">{{ product.price | currency }}</p>
+          <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

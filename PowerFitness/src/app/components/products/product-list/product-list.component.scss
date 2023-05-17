@@ -1,57 +1,68 @@
-$product-bg-color: #f9f9f9;
+@import '../../../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+// Variables
 $product-border-color: #ccc;
-$product-text-color: #333;
-$product-primary-color: #511a87;
+$product-bg-color: #f9f9f9;
 
-.product-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-
+// Estilos CSS
 .product {
-  width: 300px;
-  padding: 16px;
   margin-bottom: 20px;
   border: 1px solid $product-border-color;
   border-radius: 8px;
   background-color: $product-bg-color;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
-  .product-image {
-    width: 100%;
-    height: auto;
-    margin-bottom: 16px;
-    border-radius: 8px;
+  
+  // Especificar que ocupe 4 columnas en dispositivos de tamaño mediano
+  @include media-breakpoint-up(md) {
+    @extend .col-md-4;
   }
+}
 
-  .product-name {
-    font-size: 18px;
-    margin-bottom: 8px;
-    color: $product-primary-color;
-  }
+.product-image {
+  width: 100%;
+  height: auto;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
 
-  .product-description {
-    margin-bottom: 8px;
-    color: $product-text-color;
-  }
+.image-wrapper {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  align-items: center;
+}
 
-  .product-price {
-    font-weight: bold;
-    color: $product-primary-color;
-  }
-  .add-to-cart-button {
-    display: block;
-    margin-top: 16px;
-    padding: 8px 16px;
-    background-color: #511a87;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+.image-container {
+  position: relative;
+  overflow: hidden;
+  height: 200px;
+}
 
-    &:hover {
-      background-color: #410e6b;
-    }
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.3s ease-in-out;
+
+  &:hover {
+    opacity: 1;
   }
+}
+
+.left-arrow {
+  left: 0;
+}
+
+.right-arrow {
+  right: 0;
 }
