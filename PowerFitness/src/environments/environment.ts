@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import firebase from 'firebase/app';
 
 export const environment = {
   production: false,

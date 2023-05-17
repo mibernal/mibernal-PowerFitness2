@@ -14,7 +14,7 @@ import { NosotrosComponent } from './components/nosotros/nosotros.component';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'home', component: HomeComponent },
-  { path: 'products', component: ProductListComponent },
+  { path: 'product-list', component: ProductListComponent },
   { path: 'products/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },

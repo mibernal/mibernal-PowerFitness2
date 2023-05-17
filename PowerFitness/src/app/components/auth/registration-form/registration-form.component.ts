@@ -5,6 +5,7 @@ import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import 'firebase/compat/firestore';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registration-form',
@@ -17,7 +18,8 @@ export class RegistrationFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private firestore: AngularFirestore
+    private firestore: AngularFirestore,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -29,14 +31,15 @@ export class RegistrationFormComponent implements OnInit {
     });
   }
 
+  isPopupOpen = false;
   onSubmit(): void {
+
     const { firstName, lastName, email, password } = this.registrationForm.value;
-  
+
     if (this.registrationForm.controls['email'].invalid || !this.isEmailValid(email)) {
       console.log('Invalid email format');
       return;
     }
-    
 
     firebase.auth().createUserWithEmailAndPassword(email, password)
       .then((userCredential) => {
@@ -48,7 +51,8 @@ export class RegistrationFormComponent implements OnInit {
           userRef.set({
             firstName,
             lastName,
-            email
+            email,
+            password  // Agregar la contraseña al documento del usuario en Firestore
           }).then(() => {
             console.log('User added to Firestore:', user);
           }).catch((error) => {
@@ -57,9 +61,15 @@ export class RegistrationFormComponent implements OnInit {
         }
       })
       .catch((error) => console.log('Error creating user:', error));
-  }  
+  }
 
   registerWithGoogle(): void {
+    if (this.isPopupOpen) {
+      return;
+    }
+
+    this.isPopupOpen = true;
+
     this.authService
       .signInWithGoogle()
       .then((result: any) => {
@@ -77,7 +87,8 @@ export class RegistrationFormComponent implements OnInit {
               userRef.set({
                 firstName,
                 lastName,
-                email
+                email,
+                password: null // Agregar la contraseña como null al documento del usuario en Firestore
               }).then(() => {
                 console.log('User added to Firestore:', user);
               }).catch((error) => {
@@ -89,7 +100,13 @@ export class RegistrationFormComponent implements OnInit {
           }
         }
       })
-      .catch((error) => console.log('Error registering with Google:', error));
+      .catch((error) => {
+      this.snackBar.open('Error al registrar con Google', 'Cerrar', { duration: 5000 });
+      console.log('Error registering with Google:', error);
+      })
+      .finally(() => {
+        this.isPopupOpen = false;
+      });
   }
 
   private isEmailValid(email: string): boolean {
@@ -99,6 +116,11 @@ export class RegistrationFormComponent implements OnInit {
   }
 
   registerWithFacebook(): void {
+    if (this.isPopupOpen) {
+      return;
+    }
+    this.isPopupOpen = true;
+
     this.authService
       .signInWithFacebook()
       .then((result: any) => {
@@ -110,25 +132,29 @@ export class RegistrationFormComponent implements OnInit {
 
             // Agregar al usuario a Firestore
             const { displayName, email } = user;
-            const [firstName, lastName] = displayName?.split(' ') ?? ["", ""];
-            const userRef = this.firestore.collection('users').doc(user.uid);
-            userRef.set({
-              firstName,
-              lastName,
-              email
-            }).then(() => {
-              console.log('User added to Firestore:', user);
-            }).catch((error) => {
-              console.log('Error adding user to Firestore:', error);
-            });
-          }
-        } else {
-          console.log('Error registering with Facebook:', result);
+          const [firstName, lastName] = displayName?.split(' ') ?? ["", ""];
+          const userRef = this.firestore.collection('users').doc(user.uid);
+          userRef.set({
+            firstName,
+            lastName,
+            email,
+            password: null // Agregar la contraseña como null al documento del usuario en Firestore
+          }).then(() => {
+            console.log('User added to Firestore:', user);
+          }).catch((error) => {
+            console.log('Error adding user to Firestore:', error);
+          });
         }
-      })
-      .catch((error) => console.log('Error registering with Facebook:', error));
-    }
-
-    
-  }    
-  
+      } else {
+        console.log('Error registering with Facebook:', result);
+      }
+    })
+    .catch((error) => {
+      this.snackBar.open('Error al registrar con Facebook', 'Cerrar', { duration: 5000 });
+      console.log('Error registering with Google:', error);
+    })
+    .finally(() => {
+      this.isPopupOpen = false;
+    });
+  }
+}

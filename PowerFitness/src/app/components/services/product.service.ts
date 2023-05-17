@@ -1,3 +1,4 @@
+import { initializeApp } from 'firebase/app';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Product } from '../../models/product.model';
@@ -18,17 +19,20 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductService {
 
+  private firestore: any;
   private collectionRef: CollectionReference<DocumentData>;
 
   constructor() {
-    const firestore = getFirestore();
-    this.collectionRef = collection(firestore, 'products');
+    const app = initializeApp(environment.firebase);
+    const firestore = getFirestore(app);
+    this.collectionRef = collection(firestore, 'productos');
   }
 
   getProducts(): Observable<Product[]> {
@@ -66,7 +70,7 @@ export class ProductService {
   createProduct(product: Product): Observable<Product> {
     return new Observable((observer) => {
       const firestore = getFirestore();
-      setDoc(doc(firestore, 'products', product.id), product).then(() => {
+      setDoc(doc(firestore, 'productos', product.id), product).then(() => {
         const newProduct = { ...product };
         observer.next(newProduct);
       }).catch((error) => {
@@ -74,8 +78,6 @@ export class ProductService {
       });
     });
   }
-  
-  
 
   updateProduct(product: Product): Observable<void> {
     const productDocRef = doc(this.collectionRef, product.id);
@@ -87,7 +89,7 @@ export class ProductService {
       });
     });
   }
-  
+
   deleteProduct(id: string): Observable<void> {
     const productDocRef = doc(this.collectionRef, id);
     return new Observable((observer) => {

@@ -1,0 +1,43 @@
+$product-bg-color: #f9f9f9;
+$product-border-color: #ccc;
+$product-text-color: #333;
+$product-primary-color: #511a87;
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product {
+  width: 300px;
+  padding: 16px;
+  margin-bottom: 20px;
+  border: 1px solid $product-border-color;
+  border-radius: 8px;
+  background-color: $product-bg-color;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .product-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 16px;
+    border-radius: 8px;
+  }
+
+  .product-name {
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: $product-primary-color;
+  }
+
+  .product-description {
+    margin-bottom: 8px;
+    color: $product-text-color;
+  }
+
+  .product-price {
+    font-weight: bold;
+    color: $product-primary-color;
+  }
+}

@@ -35,6 +35,7 @@ import { provideFirestore,getFirestore } from '@angular/fire/firestore';
 import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config';
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { FirebaseTestComponent } from './components/services/firebase-test/firebase-test.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -57,10 +58,10 @@ import { FirebaseTestComponent } from './components/services/firebase-test/fireb
     ProductListComponent,
     DiscountPipe,
     FirebaseTestComponent,
-    
-    
+
+
   ],
-  
+
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -80,6 +81,7 @@ import { FirebaseTestComponent } from './components/services/firebase-test/fireb
     provideRemoteConfig(() => getRemoteConfig()),
     provideStorage(() => getStorage()),
     AngularFireStorageModule,
+    MatSnackBarModule
 
   ],
   exports: [
