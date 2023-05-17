@@ -3,6 +3,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../../models/product.model';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -18,5 +19,9 @@ export class ProductListComponent implements OnInit {
     this.productService.getProducts().subscribe((products: Product[]) => {
       this.products = products;
     });
+  }
+
+  addProduct(product: Product): void {
+    this.products.push(product);
   }
 }
