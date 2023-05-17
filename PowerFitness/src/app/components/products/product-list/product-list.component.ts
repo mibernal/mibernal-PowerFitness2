@@ -37,5 +37,4 @@ export class ProductListComponent implements OnInit {
 
     product.imageUrl = imageUrls[newIndex];
   }
-
 }

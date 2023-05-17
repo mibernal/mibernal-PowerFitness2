@@ -1,0 +1,27 @@
+import { createObjectCsvWriter } from 'csv-writer';
+
+const products: Product[] = [
+  // ... datos de los productos
+];
+
+const csvWriter = createObjectCsvWriter({
+  path: 'products.csv',
+  header: [
+    { id: 'name', title: 'Name' },
+    { id: 'description', title: 'Description' },
+    { id: 'price', title: 'Price' },
+    { id: 'brand', title: 'Brand' },
+    { id: 'category', title: 'Category' },
+    { id: 'size', title: 'Size' },
+    { id: 'stock', title: 'Stock' },
+    { id: 'discount', title: 'Discount' },
+    { id: 'imageUrl', title: 'Image URL' },
+    { id: 'imageUrl2', title: 'Image URL 2' },
+    { id: 'imageUrl3', title: 'Image URL 3' },
+    { id: 'imageUrl4', title: 'Image URL 4' },
+  ]
+});
+
+csvWriter.writeRecords(products)
+  .then(() => console.log('CSV file generated successfully'))
+  .catch((error) => console.error('Error generating CSV file:', error));

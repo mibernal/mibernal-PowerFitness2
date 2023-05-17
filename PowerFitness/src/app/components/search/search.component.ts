@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent {
+  searchQuery: string;
 
+  searchProducts(): void {
+    // Aquí puedes agregar la lógica para realizar la búsqueda
+    console.log('Realizando búsqueda: ' + this.searchQuery);
+  }
 }

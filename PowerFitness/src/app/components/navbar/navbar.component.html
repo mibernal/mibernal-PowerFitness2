@@ -35,8 +35,8 @@
             <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contacto</a>
           </li>
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar">
+        <form class="d-flex" (ngSubmit)="searchForm.ngSubmit.emit()">
+          <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" [(ngModel)]="searchQuery" name="searchQuery">
           <button class="btn btn-outline-success" type="submit">Buscar</button>
         </form>
         <ul class="navbar-nav mb-2 mb-lg-0">
