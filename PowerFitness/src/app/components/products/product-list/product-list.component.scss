@@ -14,7 +14,7 @@ $product-bg-color: #f9f9f9;
   
   // Especificar que ocupe 4 columnas en dispositivos de tamaño mediano
   @include media-breakpoint-up(md) {
-    @extend .col-md-3;
+    @extend .col-md-4;
   }
 }
 
@@ -85,6 +85,14 @@ $product-bg-color: #f9f9f9;
 
 .add-to-cart-button {
   width: 100%;
+}
+
+.filter-menu {
+  background-color: #f9f9f9;
+  border: 1px solid $product-border-color;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
 }
 
 @media (min-width: 768px) {

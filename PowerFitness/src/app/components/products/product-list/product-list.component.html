@@ -1,6 +1,17 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 col-md-3 col-lg-3" *ngFor="let product of products">
+    <div class="col-12 col-md-3 col-lg-6">
+      <div class="filter-menu">
+        <h5>Filtrar por tipo:</h5>
+        <select [(ngModel)]="selectedCategory" (change)="filterProductsByCategory()">
+          <option value="">Todos</option>
+          <option *ngFor="let category of productCategories" [value]="category">{{ category }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 col-md-3 col-lg-6" *ngFor="let product of filteredProducts">
       <div class="card product">
         <div class="image-wrapper">
           <div class="image-container">
@@ -18,7 +29,17 @@
           <h5 class="card-title product-name">{{ product.name }}</h5>
           <p class="card-text product-category">Categoria: {{ product.category }}</p>
           <p class="card-text product-brand">Marca: {{ product.brand }}</p>
-          <p class="card-text product-size">Tamaño: {{ product.size }}</p>
+          <p class="card-text product-size">Tamaño:
+            <select [(ngModel)]="selectedSize" (change)="checkAvailability(product)">
+              <option *ngFor="let size of product.sizes" [value]="size">{{ size }}</option>
+            </select>
+          </p>
+          <p class="card-text product-flavor">Sabor:
+            <select [(ngModel)]="selectedFlavor" (change)="checkAvailability(product)">
+              <option *ngFor="let flavor of product.flavors" [value]="flavor">{{ flavor }}</option>
+            </select>
+          </p>
+          <p class="card-text product-stock">Stock: {{ product.stock }}</p>
           <p class="card-text product-description">{{ product.description }}</p>
           <p class="card-text product-discount">Descuento: {{ product.discount }}</p>
           <p class="card-text product-price">{{ product.price | currency }}</p>
