@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-
 import { HomeComponent } from './components/home/home.component';
 import { ProductListComponent } from './components/products/product-list/product-list.component';
 import { ProductDetailComponent } from './components/products/product-detail/product-detail.component';
@@ -10,6 +9,8 @@ import { ContactComponent } from './components/contact/contact.component';
 import { LoginFormComponent } from './components/auth/login-form/login-form.component';
 import { RegistrationFormComponent } from './components/auth/registration-form/registration-form.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
+import { ProductManagementComponent } from './components/product-management/product-management.component';
+import { ProductImportComponent } from './components/product-import/product-import.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,6 +24,8 @@ const routes: Routes = [
 //  { path: '**', redirectTo: '', pathMatch: 'full' },
   { path: 'login-form', component: LoginFormComponent },
   { path: 'register', component: RegistrationFormComponent },
+  { path: 'product-import', component: ProductImportComponent },
+  { path: 'product-management', component: ProductManagementComponent },
 ];
 
 @NgModule({

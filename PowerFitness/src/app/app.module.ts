@@ -36,6 +36,8 @@ import { provideRemoteConfig,getRemoteConfig } from '@angular/fire/remote-config
 import { provideStorage,getStorage } from '@angular/fire/storage';
 import { FirebaseTestComponent } from './components/services/firebase-test/firebase-test.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ProductManagementComponent } from './components/product-management/product-management.component';
+import { ProductImportComponent } from './components/product-import/product-import.component';
 
 
 @NgModule({
@@ -58,6 +60,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     ProductListComponent,
     DiscountPipe,
     FirebaseTestComponent,
+    ProductManagementComponent,
+    ProductImportComponent,
 
 
   ],

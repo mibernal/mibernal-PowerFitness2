@@ -21,8 +21,8 @@ import {
   where,
 } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
-
-
+import { CsvParserService } from '../../services/csv-parser.service';
+import { CsvWriterService } from '../../services/csv-writer.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,10 +31,13 @@ export class ProductService {
   private firestore: any;
   private collectionRef: CollectionReference<DocumentData>;
 
-  constructor() {
+  constructor(private csvParserService: CsvParserService) {
     const app = initializeApp(environment.firebase);
     const firestore = getFirestore(app);
     this.collectionRef = collection(firestore, 'productos');
+
+    const file = new File([''], 'products.csv'); // Crear objeto File vacío con el nombre del archivo
+    this.csvParserService.importProductsFromCSV(file);
   }
 
   getProducts(): Observable<Product[]> {
@@ -48,7 +51,6 @@ export class ProductService {
       )
     );
   }
-  
 
   getProductById(id: string): Observable<Product> {
     const productDocRef = doc(this.collectionRef, id);
