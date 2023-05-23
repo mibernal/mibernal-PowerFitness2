@@ -1,5 +1,8 @@
 <div class="container">
   <div class="row">
+    <div *ngIf="confirmationMessage" class="confirmation-message">
+      {{ confirmationMessage }}
+    </div>
     <div class="col-12 col-md-3 col-lg-6">
       <div class="filter-menu">
         <h5>Filtrar por tipo:</h5>
@@ -44,6 +47,7 @@
           <p class="card-text product-discount">Descuento: {{ product.discount }}</p>
           <p class="card-text product-price">{{ product.price | currency }}</p>
           <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
+
         </div>
       </div>
     </div>

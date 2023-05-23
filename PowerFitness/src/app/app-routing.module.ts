@@ -21,11 +21,15 @@ const routes: Routes = [
   { path: 'checkout', component: CheckoutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'nosotros', component: NosotrosComponent },
-//  { path: '**', redirectTo: '', pathMatch: 'full' },
+
   { path: 'login-form', component: LoginFormComponent },
   { path: 'register', component: RegistrationFormComponent },
   { path: 'product-import', component: ProductImportComponent },
   { path: 'product-management', component: ProductManagementComponent },
+//  { path: 'categorias', component: CategoriasComponent },
+
+
+  { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -38,6 +38,8 @@ import { FirebaseTestComponent } from './components/services/firebase-test/fireb
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { ProductImportComponent } from './components/product-import/product-import.component';
+import { UserPanelComponent } from './components/user-panel/user-panel.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 
 @NgModule({
@@ -62,6 +64,8 @@ import { ProductImportComponent } from './components/product-import/product-impo
     FirebaseTestComponent,
     ProductManagementComponent,
     ProductImportComponent,
+    UserPanelComponent,
+    LogoutComponent,
 
 
   ],

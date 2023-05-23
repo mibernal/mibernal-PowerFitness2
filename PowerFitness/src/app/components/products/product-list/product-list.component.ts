@@ -3,6 +3,7 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../../models/product.model';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-product-list',
@@ -16,8 +17,9 @@ export class ProductListComponent implements OnInit {
   selectedCategory: string = '';
   productCategories: string[] = [];
   filteredProducts: Product[] = [];
+  confirmationMessage: string = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService, private cartService: CartService) {}
 
   ngOnInit() {
     this.productService.getProducts().subscribe((products: Product[]) => {
@@ -33,7 +35,8 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct(product: Product): void {
-    this.products = [...this.products, product];
+    this.cartService.addProduct(product);
+    this.confirmationMessage = 'Producto agregado al carrito: ' + product.name;
   }
 
   scrollImages(product: Product, direction: number): void {
