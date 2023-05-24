@@ -11,6 +11,7 @@ import { RegistrationFormComponent } from './components/auth/registration-form/r
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { ProductImportComponent } from './components/product-import/product-import.component';
+import { UserPanelComponent } from "./components/user-panel/user-panel.component";
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -26,7 +27,9 @@ const routes: Routes = [
   { path: 'register', component: RegistrationFormComponent },
   { path: 'product-import', component: ProductImportComponent },
   { path: 'product-management', component: ProductManagementComponent },
+  { path: 'user-panel', component: UserPanelComponent },
 //  { path: 'categorias', component: CategoriasComponent },
+
 
 
   { path: '**', redirectTo: '', pathMatch: 'full' },

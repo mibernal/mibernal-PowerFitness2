@@ -70,11 +70,11 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
-facebookLogin(): void {
-  if (!this.isSubmitting) {
-    this.isSubmitting = true;
-    this.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
-    .then((result: any) => {
+  facebookLogin(): void {
+    if (!this.isSubmitting) {
+      this.isSubmitting = true;
+      this.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
+        .then((result: any) => {
           console.log(result);
         })
         .catch((error: any) => {
