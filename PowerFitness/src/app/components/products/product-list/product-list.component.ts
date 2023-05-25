@@ -79,12 +79,14 @@ export class ProductListComponent implements OnInit {
     }
   }
 
-  filterProductsByCategory(): void {
-    if (this.selectedCategory) {
+  filterProductsByCategory(category?: string): void {
+    if (category) {
+      this.selectedCategory = category;
       this.filteredProducts = this.products.filter(
-        (product) => product.category === this.selectedCategory
+        (product) => product.category === category
       );
     } else {
+      this.selectedCategory = '';
       this.filteredProducts = [...this.products];
     }
   }
