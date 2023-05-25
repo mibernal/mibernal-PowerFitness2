@@ -40,6 +40,8 @@ export class CsvParserService {
             imageUrl4: currentLine[13],
             flavor: currentLine[14],
             flavors: currentLine[15].split(','),
+            selectedFlavor: 'Selected Flavor', // Add selectedFlavor property
+            selectedSize: 'Selected Size', // Add selectedSize property
           };
 
           products.push(product);

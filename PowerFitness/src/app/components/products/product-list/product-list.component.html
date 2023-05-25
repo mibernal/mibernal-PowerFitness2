@@ -1,3 +1,4 @@
+<!-- product-list.component.html -->
 <div class="container">
   <div class="row">
     <div *ngIf="confirmationMessage" class="confirmation-message">
@@ -14,7 +15,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-12 col-md-3 col-lg-6" *ngFor="let product of filteredProducts">
+    <div class="col-12 col-md-6 col-lg-3" *ngFor="let product of filteredProducts">
       <div class="card product">
         <div class="image-wrapper">
           <div class="image-container">
@@ -30,24 +31,31 @@
         </div>
         <div class="card-body">
           <h5 class="card-title product-name">{{ product.name }}</h5>
-          <p class="card-text product-category">Categoria: {{ product.category }}</p>
-          <p class="card-text product-brand">Marca: {{ product.brand }}</p>
-          <p class="card-text product-size">Tamaño:
-            <select [(ngModel)]="selectedSize" (change)="checkAvailability(product)">
-              <option *ngFor="let size of product.sizes" [value]="size">{{ size }}</option>
+          <p class="card-text product-category" *ngIf="product.category && product.category.length > 0">Categoria: {{ product.category }}</p>
+          <p class="card-text product-brand" *ngIf="product.brand && product.brand.length > 0">Marca: {{ product.brand }}</p>
+          <p class="card-text product-size" *ngIf="product.size && product.size.length > 0">
+            Tamaño:
+            <select [(ngModel)]="product.selectedSize" (change)="filterProductsBySize()">
+              <option *ngFor="let size of productSizes" [value]="size">{{ size }}</option>
             </select>
           </p>
-          <p class="card-text product-flavor">Sabor:
-            <select [(ngModel)]="selectedFlavor" (change)="checkAvailability(product)">
-              <option *ngFor="let flavor of product.flavors" [value]="flavor">{{ flavor }}</option>
+          <p class="card-text product-flavor" *ngIf="product.flavor && product.flavor.length > 0">
+            Sabor:
+            <select [(ngModel)]="product.selectedFlavor" (change)="filterProductsByFlavor()">
+              <option *ngFor="let flavor of productFlavors" [value]="flavor">{{ flavor }}</option>
             </select>
           </p>
-          <p class="card-text product-stock">Stock: {{ product.stock }}</p>
-          <p class="card-text product-description">{{ product.description }}</p>
-          <p class="card-text product-discount">Descuento: {{ product.discount }}</p>
-          <p class="card-text product-price">{{ product.price | currency }}</p>
+          <p class="card-text product-stock" *ngIf="product.stock !== undefined && product.stock !== 0">
+            Stock: {{ product.stock }}
+          </p>
+          <p class="card-text product-description" *ngIf="product.description">{{ product.description }}</p>
+          <p class="card-text product-discount" *ngIf="product.discount !== undefined && product.discount !== 0">
+            Descuento: {{ product.discount }}
+          </p>
+          <p class="card-text product-price" *ngIf="product.price !== undefined && product.price !== 0">
+            {{ product.price | currency }}
+          </p>
           <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
-
         </div>
       </div>
     </div>

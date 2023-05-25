@@ -1,4 +1,6 @@
 export interface Product {
+  selectedFlavor: string;
+  selectedSize: string;
   id?: string;
   name: string;
   description: string;
