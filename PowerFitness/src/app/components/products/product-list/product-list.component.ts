@@ -35,36 +35,38 @@ export class ProductListComponent implements OnInit {
 
       this.productCategories = Array.from(new Set(this.products.map((product) => product.category)));
       this.productSizes = Array.from(new Set(this.products.map((product) => product.size)));
-      this.productFlavors = Array.from(new Set(this.products.map((product) => product.flavor)));
+      this.productFlavors = Array.from(new Set(this.products.flatMap((product) => product.flavors)));
       this.filteredProducts = [...this.products];
     });
   }
 
   addProduct(product: Product): void {
-    this.cartService.addProduct(product);
+    const selectedProduct = { ...product };
+    selectedProduct.selectedSize = this.selectedSize;
+    selectedProduct.selectedFlavor = this.selectedFlavor;
+
+    this.cartService.addProduct(selectedProduct);
     this.confirmationMessage = 'Producto agregado al carrito: ' + product.name;
+
+    this.selectedSize = '';
+    this.selectedFlavor = '';
   }
 
   scrollImages(product: Product, direction: number): void {
-    const imageUrls = [
-      product.imageUrl,
-      product.imageUrl2,
-      product.imageUrl3,
-      product.imageUrl4,
-    ];
+    const imageUrls = product.imageUrl;
     const lastIndex = imageUrls.length - 1;
-
+  
     this.currentImageIndex += direction;
-
+  
     if (this.currentImageIndex > lastIndex) {
       this.currentImageIndex = 0;
     } else if (this.currentImageIndex < 0) {
       this.currentImageIndex = lastIndex;
     }
-
-    product.imageUrl = imageUrls[this.currentImageIndex];
+  
+    product.imageUrl[this.currentImageIndex];
   }
-
+  
   checkAvailability(product: Product): void {
     const selectedProduct = { ...product };
     if (selectedProduct.id !== undefined) {
@@ -104,10 +106,14 @@ export class ProductListComponent implements OnInit {
   filterProductsByFlavor(): void {
     if (this.selectedFlavor) {
       this.filteredProducts = this.products.filter(
-        (product) => product.flavor === this.selectedFlavor
+        (product) => product.flavors.includes(this.selectedFlavor)
       );
     } else {
       this.filteredProducts = [...this.products];
     }
+  }
+
+  formatPrice(price: number): string {
+    return price.toLocaleString('es-ES');
   }
 }

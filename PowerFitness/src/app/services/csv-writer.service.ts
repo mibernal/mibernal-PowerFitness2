@@ -41,10 +41,6 @@ export class CsvWriterService {
         stock,
         discount,
         imageUrl,
-        imageUrl2,
-        imageUrl3,
-        imageUrl4,
-        flavor,
         flavors
       } = product;
 
@@ -52,7 +48,7 @@ export class CsvWriterService {
       const sizesString = sizes ? sizes.join(',') : '';
       const flavorsString = flavors ? flavors.join(',') : '';
 
-      return `${id},"${name}","${description}",${price},"${brand}","${category}","${size}","${sizesString}","${stock}",${discount},"${imageUrl}","${imageUrl2}","${imageUrl3}","${imageUrl4}","${flavor}","${flavorsString}"`;
+      return `${id},"${name}","${description}",${price},"${brand}","${category}","${size}","${sizesString}","${stock}",${discount},"${imageUrl}","${flavorsString}"`;
     });
 
     return `${headers}\n${rows.join('\n')}`;

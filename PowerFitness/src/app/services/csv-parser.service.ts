@@ -34,14 +34,10 @@ export class CsvParserService {
             sizes: currentLine[7].split(','),
             stock: parseInt(currentLine[8]),
             discount: parseFloat(currentLine[9]),
-            imageUrl: currentLine[10],
-            imageUrl2: currentLine[11],
-            imageUrl3: currentLine[12],
-            imageUrl4: currentLine[13],
-            flavor: currentLine[14],
-            flavors: currentLine[15].split(','),
-            selectedFlavor: 'Selected Flavor', // Add selectedFlavor property
-            selectedSize: 'Selected Size', // Add selectedSize property
+            imageUrl: currentLine[10].split(','),
+            flavors: currentLine[11].split(','),
+            selectedFlavor: 'Selected Flavor',
+            selectedSize: 'Selected Size',
           };
 
           products.push(product);

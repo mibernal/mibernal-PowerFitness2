@@ -1,20 +1,18 @@
+import { AuthError } from "firebase/auth";
+
 export interface Product {
-  selectedFlavor: string;
-  selectedSize: string;
-  id?: string;
-  name: string;
-  description: string;
-  price: number;
   brand: string;
   category: string;
-  size: string;
-  sizes: string[]; // Agregado: Atributo sizes
-  stock: number;
+  description: string;
   discount: number;
-  imageUrl: string;
-  imageUrl2: string;
-  imageUrl3: string;
-  imageUrl4: string;
-  flavor: string;
-  flavors: string[]; // Agregado: Atributo flavors
+  flavors: string[];
+  id?: string;
+  imageUrl: string[];
+  name: string;
+  price: number;
+  size: string;
+  sizes: string[];
+  stock: number;
+  selectedSize?: string;
+  selectedFlavor?: string;
 }

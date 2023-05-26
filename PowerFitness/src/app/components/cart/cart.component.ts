@@ -28,4 +28,16 @@ export class CartComponent implements OnInit {
     this.cartService.removeProduct(product);
     this.products = this.cartService.getProducts();
   }
+
+  getSelectedSizes(product: Product): string {
+    return product.selectedSize ? product.selectedSize : "";
+  }
+  
+  getSelectedFlavors(product: Product): string {
+    return product.selectedFlavor ? product.selectedFlavor : "";
+  }
+
+  formatPrice(price: number): string {
+    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
 }
