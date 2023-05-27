@@ -32,16 +32,16 @@
                 Categoría: {{ product.category }}
               </p>
               <p class="card-text product-brand" *ngIf="product.brand && product.brand.length > 0">Marca: {{ product.brand }}</p>
-              <p class="card-text product-size" *ngIf="product.sizes && product.sizes.length > 1">
+              <p class="card-text product-size" *ngIf="product.sizes && product.sizes.length > 0">
                 Tamaño:
                 <select [(ngModel)]="product.selectedSize" (change)="filterProductsBySize()">
                   <option *ngFor="let size of product.sizes" [value]="size">{{ size }}</option>
                 </select>
               </p>
-              <p class="card-text product-size" *ngIf="product.size && product.size.length === 1">
-                Tamaño: {{ product.size[0] }}
+              <p class="card-text product-size" *ngIf="product.size && product.size.length > 0">
+                Tamaño: {{ product.size }}
               </p>
-              <p class="card-text product-flavor" *ngIf="product.flavors && product.flavors.length > 1">
+              <p class="card-text product-flavor" *ngIf="product.flavors && product.flavors.length > 0">
                 Sabor:
                 <select [(ngModel)]="product.selectedFlavor" (change)="filterProductsByFlavor()">
                   <option *ngFor="let flavor of product.flavors" [value]="flavor">{{ flavor }}</option>
@@ -61,6 +61,8 @@
                 {{ formatPrice(product.price) }}
               </p>
               <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
+              <p class="error-message" *ngIf="product.flavors && product.flavors.length > 0 && !product.selectedFlavor">Selecciona un sabor</p>
+              <p class="error-message" *ngIf="product.sizes && product.sizes.length > 0 && !product.selectedSize">Selecciona un tamaño</p>
             </div>
           </div>
         </div>

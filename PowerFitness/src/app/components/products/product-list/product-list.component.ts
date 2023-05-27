@@ -41,9 +41,14 @@ export class ProductListComponent implements OnInit {
   }
 
   addProduct(product: Product): void {
+    if ((product.flavors && product.flavors.length > 0 && !product.selectedFlavor) || (product.sizes && product.sizes.length > 0 && !product.selectedSize)) {
+      this.confirmationMessage = '';
+      return;
+    }
+    
     const selectedProduct = { ...product };
-    selectedProduct.selectedSize = this.selectedSize;
-    selectedProduct.selectedFlavor = this.selectedFlavor;
+    this.selectedSize = this.selectedSize;
+    this.selectedFlavor = this.selectedFlavor;
 
     this.cartService.addProduct(selectedProduct);
     this.confirmationMessage = 'Producto agregado al carrito: ' + product.name;

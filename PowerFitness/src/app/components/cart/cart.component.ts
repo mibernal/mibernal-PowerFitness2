@@ -29,15 +29,15 @@ export class CartComponent implements OnInit {
     this.products = this.cartService.getProducts();
   }
 
-  getSelectedSizes(product: Product): string {
-    return product.selectedSize ? product.selectedSize : "";
+  getSelectedSize(product: Product): string {
+    return product.selectedSize ? product.selectedSize : 'N/A';
   }
   
-  getSelectedFlavors(product: Product): string {
-    return product.selectedFlavor ? product.selectedFlavor : "";
+  getSelectedFlavor(product: Product): string {
+    return product.selectedFlavor ? product.selectedFlavor : 'N/A';
   }
 
   formatPrice(price: number): string {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return price.toLocaleString('es-ES');
   }
 }
