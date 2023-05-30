@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-//import { GoogleAuthProvider, FacebookAuthProvider } from '@angular/fire/compat/auth';
+import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -15,12 +15,16 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class LoginFormComponent implements OnInit {
   loginForm!: FormGroup;
   isSubmitting = false;
+  isRegistrationEnabled = true; // Variable para habilitar o deshabilitar el registro
+  isUserRegistered = false;
 
   constructor(
     private fb: FormBuilder,
     private auth: AngularFireAuth,
-    private snackBar: MatSnackBar
-    ) { }
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private authService: AuthService // Agregar el servicio AuthService
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -29,22 +33,11 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  isPopupOpen = false;
-
   onSubmit(): void {
     if (this.loginForm.valid && !this.isSubmitting) {
       this.isSubmitting = true;
       const { email, password } = this.loginForm.value;
-      this.auth.signInWithEmailAndPassword(email, password)
-      .then((result: any) => {
-          console.log(result);
-        })
-        .catch((error: any) => {
-          console.error(error);
-        })
-        .finally(() => {
-          this.isSubmitting = false;
-        });
+      this.authenticateUser(email, password);
     }
   }
 
@@ -54,15 +47,10 @@ export class LoginFormComponent implements OnInit {
       this.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())
         .then((result: any) => {
           console.log(result);
+          this.redirectToUserPanel();
         })
         .catch((error: any) => {
-          if (error.code === 'auth/popup-closed-by-user') {
-            // Ventana emergente cerrada por el usuario
-            console.log('Autenticación cancelada por el usuario');
-          } else {
-            // Otro error de autenticación
-            console.error(error);
-          }
+          this.handleAuthenticationError(error);
         })
         .finally(() => {
           this.isSubmitting = false;
@@ -76,19 +64,66 @@ export class LoginFormComponent implements OnInit {
       this.auth.signInWithPopup(new firebase.auth.FacebookAuthProvider())
         .then((result: any) => {
           console.log(result);
+          this.redirectToUserPanel();
         })
         .catch((error: any) => {
-          if (error.code === 'auth/popup-closed-by-user') {
-            // Ventana emergente cerrada por el usuario
-            console.log('Autenticación cancelada por el usuario');
-          } else {
-            // Otro error de autenticación
-            console.error(error);
-          }
+          this.handleAuthenticationError(error);
         })
         .finally(() => {
           this.isSubmitting = false;
         });
+    }
+  }
+
+  redirectToRegistration(): void {
+    this.router.navigate(['/registration-form']); // Redireccionar a la página de registro
+  }
+
+  private authenticateUser(email: string, password: string): void {
+    this.auth.signInWithEmailAndPassword(email, password)
+      .then((result: any) => {
+        console.log(result);
+        if (result.user.metadata.creationTime === result.user.metadata.lastSignInTime) {
+          // El usuario es nuevo, mostrar mensaje de error
+          this.isUserRegistered = false;
+          this.showUserNotRegisteredError();
+        } else {
+          // El usuario existe, redirigir al panel de usuario
+          this.redirectToUserPanel();
+        }
+      })
+      .catch((error: any) => {
+        if (error.code === 'auth/user-not-found') {
+          // Usuario no registrado, mostrar mensaje de error
+          this.isUserRegistered = false;
+          this.showUserNotRegisteredError();
+        } else {
+          this.handleAuthenticationError(error);
+        }
+      })
+      .finally(() => {
+        this.isSubmitting = false;
+      });
+  }
+
+  private showUserNotRegisteredError(): void {
+    this.snackBar.open('El usuario no está registrado. Regístrate antes de iniciar sesión.', 'Cerrar', { duration: 3000 });
+    this.redirectToRegistration(); // Redireccionar a la página de registro
+  }
+
+  private redirectToUserPanel(): void {
+    this.router.navigate(['/user-panel']); // Redireccionar al panel de usuario después de iniciar sesión
+  }
+
+  private handleAuthenticationError(error: any): void {
+    if (error.code === 'auth/popup-closed-by-user') {
+      console.log('Autenticación cancelada por el usuario');
+    } else if (error.code === 'auth/wrong-password') {
+      console.log('Contraseña incorrecta');
+      this.snackBar.open('Contraseña incorrecta. Por favor, verifica tus credenciales.', 'Cerrar', { duration: 3000 });
+    } else {
+      console.error(error);
+      this.snackBar.open('Error en el inicio de sesión', 'Cerrar', { duration: 3000 });
     }
   }
 }

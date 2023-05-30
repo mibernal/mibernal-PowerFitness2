@@ -12,15 +12,22 @@
     <div>
       <label for="password">Contraseña:</label>
       <input type="password" id="password" formControlName="password">
-      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-        <div *ngIf="loginForm.get('password')?.errors?.['required']">Es necesaria una Contraseña.</div>
+      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')!.touched">
+        <div *ngIf="loginForm.get('password')!.errors?.['required']">Es necesaria una Contraseña.</div>
       </div>
     </div>
-    
-    <button type="submit" [disabled]="loginForm.invalid">Ingresar</button>
+    <button type="submit" [disabled]="loginForm.invalid || isSubmitting">Ingresar</button>
     <hr>
-    <div class="google-btn" (click)="googleLogin()">Ingresar con Google</div>
-    <div class="facebook-btn" (click)="facebookLogin()">Ingresar con Facebook</div>
+    <div class="google-btn" (click)="googleLogin()" [hidden]="isSubmitting">Ingresar con Google</div>
+    <div class="facebook-btn" (click)="facebookLogin()" [hidden]="isSubmitting">Ingresar con Facebook</div>
   </form>
-</div> 
-    
+
+  <div *ngIf="isRegistrationEnabled === false && isSubmitting === false" class="error-message">
+    No se permite el inicio de sesión. Por favor, regístrate antes de iniciar sesión.
+    <a (click)="redirectToRegistration()">Regístrate aquí</a>
+  </div>
+
+  <div *ngIf="isSubmitting" class="loading-message">
+    Iniciando sesión...
+  </div>
+</div>

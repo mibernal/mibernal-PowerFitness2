@@ -5,6 +5,7 @@ import { User } from '@firebase/auth-types';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { UserCredential, GoogleAuthProvider, FacebookAuthProvider, EmailAuthProvider } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -43,8 +44,8 @@ export class AuthService {
       .pipe(first())
       .toPromise()
       .then((user) => {
-        const userId = user?.uid;
-        if (userId) {
+        if (user) {
+          const userId = user.uid;
           return this.firestore.collection('users').doc(userId).update(updatedProfileData);
         } else {
           throw new Error('User not authenticated');

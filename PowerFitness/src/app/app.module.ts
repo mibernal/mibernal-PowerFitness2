@@ -11,7 +11,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { SearchComponent } from './components/search/search.component';
-import { AuthComponent } from './components/auth/auth/auth.component';
 import { LoginFormComponent } from './components/auth/login-form/login-form.component';
 import { RegistrationFormComponent } from './components/auth/registration-form/registration-form.component';
 import { FooterComponent } from './components/layout/footer/footer.component';
@@ -52,7 +51,6 @@ import { LogoutComponent } from './components/logout/logout.component';
     NavbarComponent,
     NosotrosComponent,
     SearchComponent,
-    AuthComponent,
     LoginFormComponent,
     RegistrationFormComponent,
     FooterComponent,

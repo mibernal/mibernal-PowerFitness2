@@ -12,31 +12,29 @@ import { NosotrosComponent } from './components/nosotros/nosotros.component';
 import { ProductManagementComponent } from './components/product-management/product-management.component';
 import { ProductImportComponent } from './components/product-import/product-import.component';
 import { UserPanelComponent } from "./components/user-panel/user-panel.component";
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'product-list', component: ProductListComponent },
-  { path: 'products/:id', component: ProductDetailComponent },
-  { path: 'cart', component: CartComponent },
-  { path: 'checkout', component: CheckoutComponent },
-  { path: 'contact', component: ContactComponent },
-  { path: 'nosotros', component: NosotrosComponent },
+{ path: '', component: HomeComponent },
+{ path: 'home', component: HomeComponent },
+{ path: 'product-list', component: ProductListComponent },
+{ path: 'products/:id', component: ProductDetailComponent },
+{ path: 'cart', component: CartComponent },
+{ path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
+{ path: 'contact', component: ContactComponent },
+{ path: 'nosotros', component: NosotrosComponent },
 
-  { path: 'login-form', component: LoginFormComponent },
-  { path: 'register', component: RegistrationFormComponent },
-  { path: 'product-import', component: ProductImportComponent },
-  { path: 'product-management', component: ProductManagementComponent },
-  { path: 'user-panel', component: UserPanelComponent },
-//  { path: 'categorias', component: CategoriasComponent },
+{ path: 'login-form', component: LoginFormComponent },
+{ path: 'register', component: RegistrationFormComponent },
+{ path: 'product-import', component: ProductImportComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
+{ path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
+{ path: 'user-panel', component: UserPanelComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 
-
-
-  { path: '**', redirectTo: '', pathMatch: 'full' },
+{ path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+imports: [RouterModule.forRoot(routes)],
+exports: [RouterModule]
 })
 export class AppRoutingModule { }
