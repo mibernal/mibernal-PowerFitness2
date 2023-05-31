@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-panel',
@@ -11,7 +12,11 @@ export class UserPanelComponent implements OnInit {
   profileForm: FormGroup;
   passwordForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.profileForm = this.formBuilder.group({
@@ -41,28 +46,23 @@ export class UserPanelComponent implements OnInit {
   updateProfile(): void {
     if (this.profileForm.valid) {
       const updatedProfileData = {
-        displayName: this.profileForm.get('displayName')?.value,
-        phoneNumber: this.profileForm.get('phoneNumber')?.value
+        displayName: this.profileForm.get('name')?.value,
+        email: this.profileForm.get('email')?.value
+        // Add more profile fields as needed
       };
   
       this.authService.updateUserProfile(updatedProfileData)
         .then(() => {
-          this.showSuccessMessage('Perfil actualizado exitosamente');
+          this.showSuccessMessage('Profile updated successfully');
           this.profileForm.reset();
         })
         .catch(error => {
-          this.showErrorMessage('Error al actualizar el perfil');
+          this.showErrorMessage('Error updating profile');
           console.error('Error updating profile:', error);
         });
     } else {
-      this.showErrorMessage('Por favor, completa todos los campos requeridos');
+      this.showErrorMessage('Please fill in all required fields');
     }
-  }
-  showErrorMessage(arg0: string) {
-    throw new Error('Method not implemented.');
-  }
-  showSuccessMessage(arg0: string) {
-    throw new Error('Method not implemented.');
   }
 
   changePassword(): void {
@@ -72,16 +72,23 @@ export class UserPanelComponent implements OnInit {
 
       this.authService.changePassword(currentPassword, newPassword)
         .then(() => {
-          this.showSuccessMessage('Contraseña actualizada exitosamente');
+          this.showSuccessMessage('Password changed successfully');
           this.passwordForm.reset();
         })
         .catch(error => {
-          this.showErrorMessage('Error al cambiar la contraseña');
+          this.showErrorMessage('Error changing password');
           console.error('Error changing password:', error);
         });
     } else {
-      this.showErrorMessage('Por favor, completa todos los campos requeridos');
+      this.showErrorMessage('Please fill in all required fields');
     }
   }
-}
 
+  showErrorMessage(message: string): void {
+    this.snackBar.open(message, 'Close', { duration: 3000 });
+  }
+
+  showSuccessMessage(message: string): void {
+    this.snackBar.open(message, 'Close', { duration: 3000 });
+  }
+}

@@ -4,7 +4,6 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router } from '@angular/router';
 import firebase from 'firebase/compat/app';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
@@ -13,7 +12,7 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
-  loginForm!: FormGroup;
+  loginForm: FormGroup;
   isSubmitting = false;
   isRegistrationEnabled = true; // Variable para habilitar o deshabilitar el registro
   isUserRegistered = false;
@@ -24,13 +23,14 @@ export class LoginFormComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private authService: AuthService // Agregar el servicio AuthService
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
+  }
+
+  ngOnInit(): void {
   }
 
   onSubmit(): void {

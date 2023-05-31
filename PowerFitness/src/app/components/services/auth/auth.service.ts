@@ -5,7 +5,6 @@ import { User } from '@firebase/auth-types';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { UserCredential, GoogleAuthProvider, FacebookAuthProvider, EmailAuthProvider } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +24,7 @@ export class AuthService {
     await this.afAuth.signInWithEmailAndPassword(email, password);
   }
 
-  signInWithGoogle() {
+  signInWithGoogle(): Promise<firebase.auth.UserCredential> {
     const provider = new firebase.auth.GoogleAuthProvider();
     return this.afAuth.signInWithPopup(provider);
   }  

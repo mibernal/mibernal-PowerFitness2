@@ -39,6 +39,8 @@ import { ProductManagementComponent } from './components/product-management/prod
 import { ProductImportComponent } from './components/product-import/product-import.component';
 import { UserPanelComponent } from './components/user-panel/user-panel.component';
 import { LogoutComponent } from './components/logout/logout.component';
+import { CommonModule } from '@angular/common';
+
 
 
 @NgModule({
@@ -87,7 +89,8 @@ import { LogoutComponent } from './components/logout/logout.component';
     provideRemoteConfig(() => getRemoteConfig()),
     provideStorage(() => getStorage()),
     AngularFireStorageModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    CommonModule
 
   ],
   exports: [
