@@ -1,6 +1,7 @@
 import { AuthError } from "firebase/auth";
 
 export interface Product {
+  imageUrls: any;
   brand: string;
   category: string;
   description: string;

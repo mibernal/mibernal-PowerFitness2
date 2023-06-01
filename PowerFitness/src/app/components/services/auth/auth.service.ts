@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable, first } from 'rxjs';
-import { User } from '@firebase/auth-types';
+import { Observable, from, throwError } from 'rxjs';
+import { User, UserCredential } from '@firebase/auth-types';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { Subscription } from 'rxjs';
+import { switchMap, take, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -16,59 +18,87 @@ export class AuthService {
     this.user$ = this.afAuth.authState;
   }
 
-  async signUpWithEmailAndPassword(email: string, password: string): Promise<firebase.auth.UserCredential> {
-    return await this.afAuth.createUserWithEmailAndPassword(email, password);
+  signUpWithEmailAndPassword(email: string, password: string): Observable<UserCredential> {
+    return from(this.afAuth.createUserWithEmailAndPassword(email, password)).pipe(
+      catchError((error) => {
+        console.error('Error signing up:', error);
+        return throwError(error);
+      })
+    );
   }  
 
-  async signInWithEmailAndPassword(email: string, password: string): Promise<void> {
-    await this.afAuth.signInWithEmailAndPassword(email, password);
-  }
-
-  signInWithGoogle(): Promise<firebase.auth.UserCredential> {
+  signInWithGoogle(): Observable<UserCredential> {
     const provider = new firebase.auth.GoogleAuthProvider();
-    return this.afAuth.signInWithPopup(provider);
+    return from(this.afAuth.signInWithPopup(provider)).pipe(
+      catchError((error) => {
+        console.error('Error signing in with Google:', error);
+        return throwError(error);
+      })
+    );
   }  
 
-  async signInWithFacebook(): Promise<void> {
+  signInWithFacebook(): Observable<UserCredential> {
     const provider = new firebase.auth.FacebookAuthProvider();
-    await this.afAuth.signInWithPopup(provider);
+    return from(this.afAuth.signInWithPopup(provider)).pipe(
+      catchError((error) => {
+        console.error('Error signing in with Facebook:', error);
+        return throwError(error);
+      })
+    );
   }
 
-  async signOut(): Promise<void> {
-    await this.afAuth.signOut();
+  signOut(): Observable<void> {
+    return from(this.afAuth.signOut()).pipe(
+      catchError((error) => {
+        console.error('Error signing out:', error);
+        return throwError(error);
+      })
+    );
   }
   
-  updateUserProfile(updatedProfileData: any): Promise<void> {
-    return this.afAuth.authState
-      .pipe(first())
-      .toPromise()
-      .then((user) => {
+  updateUserProfile(updatedProfileData: any): Observable<void> {
+    return this.getCurrentUser().pipe(
+      switchMap((user) => {
         if (user) {
           const userId = user.uid;
-          return this.firestore.collection('users').doc(userId).update(updatedProfileData);
+          return from(this.firestore.collection('users').doc(userId).update(updatedProfileData)).pipe(
+            catchError((error) => {
+              console.error('Error updating user profile:', error);
+              return throwError(error);
+            })
+          );
         } else {
-          throw new Error('User not authenticated');
+          return throwError(new Error('User not authenticated'));
         }
       })
-      .catch((error) => {
-        console.error('Error updating user profile:', error);
-        throw error;
-      });
+    );
   }
 
-  async changePassword(currentPassword: string, newPassword: string): Promise<void> {
-    const user = await this.afAuth.currentUser;
-    if (user) {
-      const credential = firebase.auth.EmailAuthProvider.credential(user.email || '', currentPassword);
-      try {
-        await user.reauthenticateWithCredential(credential);
-        await user.updatePassword(newPassword);
-      } catch (error) {
-        console.error('Error changing password:', error);
-        throw error;
-      }
-    } else {
-      throw new Error('User not authenticated');
-    }
-  }  
+  changePassword(currentPassword: string, newPassword: string): Observable<void> {
+    return this.getCurrentUser().pipe(
+      switchMap((user) => {
+        if (user) {
+          const credential = firebase.auth.EmailAuthProvider.credential(user.email || '', currentPassword);
+          return from(user.reauthenticateWithCredential(credential)).pipe(
+            switchMap(() => from(user.updatePassword(newPassword))),
+            catchError((error) => {
+              console.error('Error changing password:', error);
+              return throwError(error);
+            })
+          );
+        } else {
+          return throwError(new Error('User not authenticated'));
+        }
+      })
+    );
+  }
+
+  getCurrentUser(): Observable<User | null> {
+    return this.afAuth.authState.pipe(take(1));
+  }
+  
+  unsubscribeAuthState(): void {
+    // Implement the logic for unsubscribing authState here
+  }
+  
 }

@@ -1,20 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
-import firebase from 'firebase/compat/app';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
+import { User } from 'firebase/auth';
 
 @Component({
   selector: 'app-registration-form',
   templateUrl: './registration-form.component.html',
   styleUrls: ['./registration-form.component.scss']
 })
-export class RegistrationFormComponent implements OnInit {
+export class RegistrationFormComponent implements OnInit, OnDestroy {
   registrationForm!: FormGroup;
   isSubmitting = false;
+  isPopupOpen = false;
+  currentUserSubscription: any;
 
   constructor(
     private fb: FormBuilder,
@@ -30,13 +33,18 @@ export class RegistrationFormComponent implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+    this.currentUserSubscription = this.authService.getCurrentUser().subscribe(() => {
+      // handle current user value
     });
   }
 
-  isPopupOpen = false;
+  ngOnDestroy(): void {
+    this.currentUserSubscription.unsubscribe();
+  }
 
-  onSubmit(): void {
+  async onSubmit(): Promise<void> {
     const { firstName, lastName, email, password } = this.registrationForm.value;
 
     if (this.registrationForm.controls['email'].invalid || !this.isEmailValid(email)) {
@@ -44,48 +52,39 @@ export class RegistrationFormComponent implements OnInit {
       return;
     }
 
-    // Verificar si el correo electrónico ya existe en la base de datos
-    this.firestore
-      .collection('users', (ref) => ref.where('email', '==', email))
-      .get()
-      .toPromise()
-      .then((querySnapshot) => {
-        if (!querySnapshot?.empty) {
-          console.log('Correo Electronico Ya Existe');
+    try {
+      // Verificar si el correo electrónico ya existe en la base de datos
+      const querySnapshot = await this.firestore
+        .collection('users', (ref) => ref.where('email', '==', email))
+        .get()
+        .toPromise();
+
+      if (!querySnapshot?.empty) {
+        console.log('Correo Electronico Ya Existe');
         // Mostrar mensaje de error
         this.snackBar.open('Correo Electronico Ya Existe', 'Cerrar', { duration: 5000 });
-          return;
-        }
+        return;
+      }
 
-        // Si el correo electrónico no existe, crear el usuario
-        this.authService
-          .signUpWithEmailAndPassword(email, password)
-          .then((userCredential) => {
-            const user = userCredential.user;
-            if (user) {
-              console.log('User created:', user);
-              // Agregar al usuario a Firestore
-              const userRef = this.firestore.collection('users').doc(user.uid);
-              userRef
-                .set({
-                  firstName,
-                  lastName,
-                  email,
-                  password // Agregar la contraseña al documento del usuario en Firestore
-                })
-                .then(() => {
-                  console.log('User added to Firestore:', user);
-                  // Redirigir al panel de usuario
-                  this.router.navigate(['/user-panel']);
-                })
-                .catch((error) => {
-                  console.log('Error adding user to Firestore:', error);
-                });
-            }
-          })
-          .catch((error) => console.log('Error creating user:', error));
-      })
-      .catch((error) => console.log('Error checking email existence:', error));
+      // Si el correo electrónico no existe, crear el usuario
+      const userCredential = await this.authService.signUpWithEmailAndPassword(email, password).toPromise();
+      if (userCredential?.user) {
+        console.log('User created:', userCredential.user);
+        // Agregar al usuario a Firestore
+        const userRef = this.firestore.collection('users').doc(userCredential.user.uid);
+        await userRef.set({
+          firstName,
+          lastName,
+          email,
+          password // Agregar la contraseña al documento del usuario en Firestore
+        });
+        console.log('User added to Firestore:', userCredential.user);
+        // Redirigir al panel de usuario
+        this.router.navigate(['/user-panel']);
+      }
+    } catch (error) {
+      console.log('Error creating user:', error);
+    }
   }
 
   verifyAndRegisterWithExternalProvider(email: string, uid: string, displayName: string | null, photoURL: string | null): void {
@@ -97,11 +96,12 @@ export class RegistrationFormComponent implements OnInit {
       .then((querySnapshot) => {
         if (!querySnapshot?.empty) {
           console.log('Correo Electronico Ya Existe');
+          // Mostrar mensaje de error
           this.snackBar.open('Correo Electronico Ya Existe', 'Cerrar', { duration: 5000 });
           return;
         }
-  
-        // Si el correo electrónico no existe, registrar al usuario con proveedor externo
+
+        // Si el correo electrónico no existe, crear el usuario con el proveedor externo
         const [firstName, lastName] = (displayName || '').split(' ');
         const userRef = this.firestore.collection('users').doc(uid);
         userRef
@@ -123,8 +123,10 @@ export class RegistrationFormComponent implements OnInit {
             this.snackBar.open('Error Creando Usuario', 'Cerrar', { duration: 5000 });
           });
       })
-      .catch((error) => console.log('Error checking email existence:', error));
-      this.snackBar.open('Error al Verificar Email', 'Cerrar', { duration: 5000 });
+      .catch((error) => {
+        console.log('Error checking email existence:', error);
+        this.snackBar.open('Error al Verificar Email', 'Cerrar', { duration: 5000 });
+      });
   }
 
   registerWithGoogle(): void {
@@ -136,10 +138,10 @@ export class RegistrationFormComponent implements OnInit {
 
     this.auth
       .signInWithPopup(new firebase.auth.GoogleAuthProvider())
-      .then((result: any) => {
-        const credential = result?.credential?.accessToken;
+      .then((result: firebase.auth.UserCredential) => {
+        const credential = result?.credential;
         if (credential) {
-          const user = firebase.auth().currentUser;
+          const user = result.user;
           if (user) {
             const email = user.email ?? '';
             const photoURL = user.photoURL ?? '';
@@ -166,10 +168,10 @@ export class RegistrationFormComponent implements OnInit {
 
     this.auth
       .signInWithPopup(new firebase.auth.FacebookAuthProvider())
-      .then((result: any) => {
-        const credential = result?.credential?.accessToken;
+      .then((result: firebase.auth.UserCredential) => {
+        const credential = result?.credential;
         if (credential) {
-          const user = firebase.auth().currentUser;
+          const user = result.user;
           if (user) {
             const email = user.email ?? '';
             const photoURL = user.photoURL ?? '';

@@ -38,6 +38,7 @@ export class CsvParserService {
             flavors: currentLine[11].split(','),
             selectedFlavor: 'Selected Flavor',
             selectedSize: 'Selected Size',
+            imageUrls: undefined
           };
 
           products.push(product);

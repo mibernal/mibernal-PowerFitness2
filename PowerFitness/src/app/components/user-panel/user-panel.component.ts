@@ -1,38 +1,66 @@
-import { Component, OnInit } from '@angular/core';
+// user-panel.component.ts
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subscription } from 'rxjs';
+import firebase from 'firebase/compat/app';
+import { User } from '@firebase/auth-types';
 
 @Component({
   selector: 'app-user-panel',
   templateUrl: './user-panel.component.html',
   styleUrls: ['./user-panel.component.scss']
 })
-export class UserPanelComponent implements OnInit {
+export class UserPanelComponent implements OnInit, OnDestroy {
   profileForm: FormGroup;
   passwordForm: FormGroup;
+  selectedModule: string;
+  currentUser: User | null;
+  currentUserSubscription: Subscription;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
+
+  ngOnDestroy(): void {
+    if (this.currentUserSubscription) {
+      this.currentUserSubscription.unsubscribe();
+    }
+  }
 
   ngOnInit(): void {
+    this.selectedModule = 'profile';
+
     this.profileForm = this.formBuilder.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       // Add more profile fields as needed
     });
 
-    this.passwordForm = this.formBuilder.group({
-      currentPassword: ['', Validators.required],
-      newPassword: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
-    }, { validator: this.passwordMatchValidator });
+    this.passwordForm = this.formBuilder.group(
+      {
+        currentPassword: ['', Validators.required],
+        newPassword: ['', [Validators.required, Validators.minLength(6)]],
+        confirmPassword: ['', Validators.required]
+      },
+      { validator: this.passwordMatchValidator }
+    );
+
+    this.currentUserSubscription = this.authService.getCurrentUser().subscribe((value: User | null) => {
+      if (value) {
+        this.currentUser = value;
+        this.profileForm.patchValue({
+          name: value.displayName || '',
+          email: value.email || ''
+        });
+      }
+    });
   }
 
-  passwordMatchValidator(formGroup: FormGroup) {
+  passwordMatchValidator(formGroup: FormGroup): void {
     const newPassword = formGroup.get('newPassword')?.value;
     const confirmPassword = formGroup.get('confirmPassword')?.value;
 
@@ -43,45 +71,16 @@ export class UserPanelComponent implements OnInit {
     }
   }
 
+  selectModule(module: string): void {
+    this.selectedModule = module;
+  }
+
   updateProfile(): void {
-    if (this.profileForm.valid) {
-      const updatedProfileData = {
-        displayName: this.profileForm.get('name')?.value,
-        email: this.profileForm.get('email')?.value
-        // Add more profile fields as needed
-      };
-  
-      this.authService.updateUserProfile(updatedProfileData)
-        .then(() => {
-          this.showSuccessMessage('Profile updated successfully');
-          this.profileForm.reset();
-        })
-        .catch(error => {
-          this.showErrorMessage('Error updating profile');
-          console.error('Error updating profile:', error);
-        });
-    } else {
-      this.showErrorMessage('Please fill in all required fields');
-    }
+    // Update profile logic...
   }
 
   changePassword(): void {
-    if (this.passwordForm.valid) {
-      const currentPassword = this.passwordForm.get('currentPassword')?.value;
-      const newPassword = this.passwordForm.get('newPassword')?.value;
-
-      this.authService.changePassword(currentPassword, newPassword)
-        .then(() => {
-          this.showSuccessMessage('Password changed successfully');
-          this.passwordForm.reset();
-        })
-        .catch(error => {
-          this.showErrorMessage('Error changing password');
-          console.error('Error changing password:', error);
-        });
-    } else {
-      this.showErrorMessage('Please fill in all required fields');
-    }
+    // Change password logic...
   }
 
   showErrorMessage(message: string): void {

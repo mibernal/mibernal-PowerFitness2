@@ -1,62 +1,78 @@
 <div class="container">
-  <h2>User Profile</h2>
-  <form [formGroup]="profileForm">
-    <div class="form-group">
-      <label for="name">Name</label>
-      <input type="text" formControlName="name" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input type="email" formControlName="email" class="form-control" required>
-    </div>
-    <!-- Add more profile fields as needed -->
+  <div class="menu">
+    <ul class="menu-items">
+      <li class="menu-item" (click)="selectModule('profile')">Profile</li>
+      <li class="menu-item" (click)="selectModule('password')">Change Password</li>
+      <li class="menu-item" (click)="selectModule('orders')">Pedidos</li>
+      <li class="menu-item" (click)="selectModule('addresses')">Direcciones</li>
+      <li class="menu-item" (click)="selectModule('account')">Detalles de la Cuenta</li>
+      <li class="menu-item" (click)="selectModule('wishlist')">Lista de Deseos</li>
+      <li class="menu-item" (click)="selectModule('logout')">Salir</li>
+    </ul>
+  </div>
 
-    <button type="button" class="btn btn-primary" (click)="updateProfile()">Update Profile</button>
-  </form>
-
-  <h2>Change Password</h2>
-  <form [formGroup]="passwordForm">
-    <div class="form-group">
-      <label for="currentPassword">Current Password</label>
-      <input type="password" formControlName="currentPassword" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label for="newPassword">New Password</label>
-      <input type="password" formControlName="newPassword" class="form-control" required>
-    </div>
-    <div class="form-group">
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" formControlName="confirmPassword" class="form-control" required>
-      <div *ngIf="passwordForm.hasError('passwordMismatch')" class="password-mismatch-error">
-        Passwords do not match
+  <div class="content">
+    <h2 *ngIf="selectedModule === 'profile'">User Profile</h2>
+    <form *ngIf="selectedModule === 'profile'" [formGroup]="profileForm">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" formControlName="name" class="form-control" required>
       </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" formControlName="email" class="form-control" required>
+      </div>
+      <!-- Add more profile fields as needed -->
+      <button type="button" class="btn btn-primary" (click)="updateProfile()">Update Profile</button>
+    </form>
+    <div *ngIf="selectedModule === 'profile'">
+      <h4>Name: {{ profileForm.get('name')?.value }}</h4>
+      <h4>Email: {{ profileForm.get('email')?.value }}</h4>
     </div>
 
-    <button type="button" class="btn btn-primary" (click)="changePassword()">Change Password</button>
-  </form>
+    <h2 *ngIf="selectedModule === 'password'">Change Password</h2>
+    <form *ngIf="selectedModule === 'password'" [formGroup]="passwordForm">
+      <div class="form-group">
+        <label for="currentPassword">Current Password</label>
+        <input type="password" formControlName="currentPassword" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="newPassword">New Password</label>
+        <input type="password" formControlName="newPassword" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" formControlName="confirmPassword" class="form-control" required>
+        <div *ngIf="passwordForm.hasError('passwordMismatch')" class="password-mismatch-error">
+          Passwords do not match
+        </div>
+      </div>
+      <button type="button" class="btn btn-primary" (click)="changePassword()">Change Password</button>
+    </form>
 
-  <h2>Pedidos</h2>
-  <div class="module-content">
-    <!-- Agrega el contenido del módulo de Pedidos aquí -->
-  </div>
+    <h2 *ngIf="selectedModule === 'orders'">Pedidos</h2>
+    <div *ngIf="selectedModule === 'orders'" class="module-content">
+      <!-- Pedidos module content -->
+    </div>
 
-  <h2>Direcciones</h2>
-  <div class="module-content">
-    <!-- Agrega el contenido del módulo de Direcciones aquí -->
-  </div>
+    <h2 *ngIf="selectedModule === 'addresses'">Direcciones</h2>
+    <div *ngIf="selectedModule === 'addresses'" class="module-content">
+      <!-- Direcciones module content -->
+    </div>
 
-  <h2>Detalles de la Cuenta</h2>
-  <div class="module-content">
-    <!-- Agrega el contenido del módulo de Detalles de la Cuenta aquí -->
-  </div>
+    <h2 *ngIf="selectedModule === 'account'">Detalles de la Cuenta</h2>
+    <div *ngIf="selectedModule === 'account'" class="module-content">
+      <!-- Detalles de la Cuenta module content -->
+    </div>
 
-  <h2>Lista de Deseos</h2>
-  <div class="module-content">
-    <!-- Agrega el contenido del módulo de Lista de Deseos aquí -->
-  </div>
+    <h2 *ngIf="selectedModule === 'wishlist'">Lista de Deseos</h2>
+    <div *ngIf="selectedModule === 'wishlist'" class="module-content">
+      <!-- Lista de Deseos module content -->
+    </div>
 
-  <h2>Salir</h2>
-  <div class="module-content">
-    <!-- Agrega el contenido del módulo de Salir aquí -->
+    <h2 *ngIf="selectedModule === 'logout'">Salir</h2>
+    <div *ngIf="selectedModule === 'logout'" class="module-content">
+      <!-- Salir module content -->
+    </div>
   </div>
 </div>

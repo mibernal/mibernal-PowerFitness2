@@ -1,20 +1,20 @@
 @import '../../../../../node_modules/bootstrap/scss/bootstrap';
 
+
+.container {
+  display: flex;
+
+
 .category-menu {
   position: sticky;
   top: 0;
-  height: 300px;
-  background-color: #f8f8f8;
+  width: 200px;
+  background-color: #f2f2f2;
   padding: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 500;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  border-right: 1px solid #ccc;
 
   h5 {
-    font-size: 18px;
+    font-size: 25px;
     font-weight: bold;
     margin-bottom: 10px;
     color: #333;
@@ -27,8 +27,13 @@
     li {
       cursor: pointer;
       margin-bottom: 5px;
-      font-size: 14px;
+      border-radius: 5px;
+      font-size: 18px;
       transition: all 0.2s ease;
+    //  font-weight: bolder;
+      color: #000;
+      background-color: #fff;
+      transition: background-color 0.3s;
 
       &:hover {
         color: #ff6b6b;
@@ -36,9 +41,6 @@
     }
   }
 }
-
-.container {
-  padding: 20px;
 }
 
 .product {
@@ -150,3 +152,43 @@
     max-width: 75%;
   }
 }
+
+
+.user-panel {
+  display: flex;
+
+  .menu {
+    width: 200px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+
+    .menu-items {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+
+      .menu-item {
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 5px;
+        margin-bottom: 5px;
+        font-weight: bold;
+        color: #000;
+        background-color: #fff;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #e0e0e0;
+        }
+      }
+    }
+  }
+
+  .content {
+    flex: 1;
+    padding: 10px;
+  }
+}
+
+// Rest of the styles...
