@@ -1,1 +1,51 @@
-<p>product-detail works!</p>
+<!-- product-detail.component.html -->
+<div class="container" *ngIf="product">
+    <div class="row">
+      <div class="col-12">
+        <div class="card product">
+          <div class="image-wrapper">
+            <div class="image-container">
+              <button class="arrow left-arrow" (click)="setCurrentImageIndex(currentImageIndex - 1)">&lt;</button>
+              <div class="images">
+                <img class="card-img-top product-image" [src]="product.imageUrl || ''" alt="{{ product.name }}" />
+              </div>
+              <button class="arrow right-arrow" (click)="setCurrentImageIndex(currentImageIndex + 1)">&gt;</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="card-title product-name">{{ product.name }}</h5>
+            <p class="card-text product-category" *ngIf="product?.category?.length">
+              Categoría: {{ product.category }}
+            </p>
+            <p class="card-text product-brand" *ngIf="product?.brand?.length">Marca: {{ product.brand }}</p>
+            <p class="card-text product-size" *ngIf="product?.sizes?.length">
+              Tamaño:
+              <select [(ngModel)]="product.selectedSize" (change)="filterProductsBySize()">
+                <option *ngFor="let size of product.sizes" [value]="size">{{ size }}</option>
+              </select>
+            </p>
+            <p class="card-text product-size" *ngIf="product?.size?.length">Tamaño: {{ product.size }}</p>
+            <p class="card-text product-flavor" *ngIf="product?.flavors?.length">
+              Sabor:
+              <select [(ngModel)]="product.selectedFlavor" (change)="filterProductsByFlavor()">
+                <option *ngFor="let flavor of product.flavors" [value]="flavor">{{ flavor }}</option>
+              </select>
+            </p>
+            <p class="card-text product-flavor" *ngIf="product?.flavors?.length === 1">Sabor: {{ product.flavors[0] }}</p>
+            <p class="card-text product-stock" *ngIf="product?.stock !== undefined && product.stock !== 0">
+              Stock: {{ product.stock }}
+            </p>
+            <p class="card-text product-description" *ngIf="product?.description">{{ product.description }}</p>
+            <p class="card-text product-discount" *ngIf="product?.discount !== undefined && product.discount !== 0">
+              Descuento: {{ product.discount }}
+            </p>
+            <p class="card-text product-price" *ngIf="product?.price !== undefined && product.price !== 0">
+              {{ formatPrice(product.price || 0) }}
+            </p>
+            <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

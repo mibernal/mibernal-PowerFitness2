@@ -4,43 +4,41 @@
 .container {
   display: flex;
 
+  .category-menu {
+    position: sticky;
+    top: 0;
+    width: 200px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border-right: 1px solid #ccc;
 
-.category-menu {
-  position: sticky;
-  top: 0;
-  width: 200px;
-  background-color: #f2f2f2;
-  padding: 10px;
-  border-right: 1px solid #ccc;
+    h5 {
+      font-size: 25px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
 
-  h5 {
-    font-size: 25px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: #333;
-  }
+    ul {
+      list-style: none;
+      padding-left: 0;
 
-  ul {
-    list-style: none;
-    padding-left: 0;
+      li {
+        cursor: pointer;
+        margin-bottom: 5px;
+        border-radius: 5px;
+        font-size: 18px;
+        transition: all 0.2s ease;
+        color: #000;
+        background-color: #fff;
+        transition: background-color 0.3s;
 
-    li {
-      cursor: pointer;
-      margin-bottom: 5px;
-      border-radius: 5px;
-      font-size: 18px;
-      transition: all 0.2s ease;
-    //  font-weight: bolder;
-      color: #000;
-      background-color: #fff;
-      transition: background-color 0.3s;
-
-      &:hover {
-        color: #ff6b6b;
+        &:hover {
+          color: #ff6b6b;
+        }
       }
     }
   }
-}
 }
 
 .product {
@@ -95,6 +93,12 @@
 
 .product-name {
   margin-bottom: 0;
+  cursor: pointer; /* Agregado */
+  text-decoration: underline; /* Agregado */
+}
+
+.product-name:hover {
+  color: #ff6b6b; /* Agregado */
 }
 
 .product-category,
@@ -153,7 +157,6 @@
   }
 }
 
-
 .user-panel {
   display: flex;
 
@@ -191,4 +194,4 @@
   }
 }
 
-// Rest of the styles...
+// Resto de los estilos...

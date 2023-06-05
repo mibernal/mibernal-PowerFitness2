@@ -1,3 +1,4 @@
+<!-- product-list.component.html -->
 <div class="container">
   <div class="row">
     <div class="col-12 col-lg-3">
@@ -21,13 +22,16 @@
               <div class="image-container">
                 <button class="arrow left-arrow" (click)="scrollImages(product, -1)">&lt;</button>
                 <div class="images">
-                  <img class="card-img-top product-image" *ngFor="let imageUrl of product.imageUrl" [src]="imageUrl" alt="{{ product.name }}" />
+                  <img class="card-img-top product-image" [src]="product.imageUrl[currentImageIndex]" alt="{{ product.name }}" />
                 </div>
                 <button class="arrow right-arrow" (click)="scrollImages(product, 1)">&gt;</button>
               </div>
             </div>
             <div class="card-body">
-              <h5 class="card-title product-name">{{ product.name }}</h5>
+              <h5 class="card-title product-name">
+                <a *ngIf="product.id" (click)="viewProductDetails(product.id)" [title]="product.name">{{ product.name }}</a>
+                <span *ngIf="!product.id" [title]="product.name">{{ product.name }}</span>
+              </h5>
               <p class="card-text product-category" *ngIf="product.category && product.category.length > 0">
                 Categoría: {{ product.category }}
               </p>
@@ -61,6 +65,7 @@
                 {{ formatPrice(product.price) }}
               </p>
               <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
+              <button class="btn btn-primary view-more-button" *ngIf="product.id" (click)="viewProductDetails(product.id)">Ver más</button>
               <p class="error-message" *ngIf="product.flavors && product.flavors.length > 0 && !product.selectedFlavor">Selecciona un sabor</p>
               <p class="error-message" *ngIf="product.sizes && product.sizes.length > 0 && !product.selectedSize">Selecciona un tamaño</p>
             </div>

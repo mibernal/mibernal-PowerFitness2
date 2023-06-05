@@ -2,9 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../../models/product.model';
-import { catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
 import { CartService } from '../../services/cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-product-list',
@@ -23,7 +22,11 @@ export class ProductListComponent implements OnInit {
   confirmationMessage: string = '';
   currentImageIndex: number = 0;
 
-  constructor(private productService: ProductService, private cartService: CartService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.productService.getProducts().subscribe((products: Product[]) => {
@@ -68,8 +71,6 @@ export class ProductListComponent implements OnInit {
     } else if (this.currentImageIndex < 0) {
       this.currentImageIndex = lastIndex;
     }
-  
-    product.imageUrl[this.currentImageIndex];
   }
   
   checkAvailability(product: Product): void {
@@ -120,5 +121,9 @@ export class ProductListComponent implements OnInit {
 
   formatPrice(price: number): string {
     return price.toLocaleString('es-ES');
+  }
+
+  viewProductDetails(productId: string): void {
+    this.router.navigate(['/products', productId]);
   }
 }
