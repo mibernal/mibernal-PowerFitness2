@@ -23,13 +23,23 @@ import {
 import { environment } from 'src/environments/environment';
 import { CsvParserService } from '../../services/csv-parser.service';
 import { CsvWriterService } from '../../services/csv-writer.service';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+  getProduct(productId: any) {
+    throw new Error('Method not implemented.');
+  }
   private firestore: any;
   private collectionRef: CollectionReference<DocumentData>;
+  private addToCartSubject: Subject<Product> = new Subject<Product>();
+  addToCart$: Observable<Product> = this.addToCartSubject.asObservable();
+
+  addProductToCart(product: Product) {
+    this.addToCartSubject.next(product);
+  }
 
   constructor(private csvParserService: CsvParserService) {
     const app = initializeApp(environment.firebase);

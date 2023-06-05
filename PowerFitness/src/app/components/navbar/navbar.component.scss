@@ -77,5 +77,15 @@ $color-change-percentage: 10%;
     &:hover {
       color: $secondary-color;
     }
+    .cart-items {
+      background-color: #ff0000;  // Color de fondo para el número de elementos
+      color: #ffffff;  // Color del texto para el número de elementos
+      font-size: 12px;  // Tamaño de fuente para el número de elementos
+      border-radius: 50%;  // Forma redondeada para crear un círculo
+      padding: 2px 6px;  // Espaciado interno para el número de elementos
+      position: absolute;  // Posición absoluta para colocar el número sobre el ícono
+      top: -5px;  // Ajuste vertical para posicionar el número correctamente
+      right: -5px;  // Ajuste horizontal para posicionar el número correctamente
+    }
   }
 }

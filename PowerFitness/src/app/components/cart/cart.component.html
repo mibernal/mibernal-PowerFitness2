@@ -1,13 +1,13 @@
-  <div class="cart">
-    <h2>Carrito de compras</h2>
-    <div *ngIf="products.length > 0; else emptyCart"></div>
+<div class="cart">
+  <h2>Carrito de compras</h2>
+  <div *ngIf="products.length > 0; else emptyCart">
     <div class="products">
       <div *ngFor="let product of products">
         <img [src]="product.imageUrl[0]" alt="{{ product.name }}">
         <h3>{{ product.name }}</h3>
         <p>{{ product.description }}</p>
         <p>Tamaño: {{ product.size  }}</p>
-        <p>Sabor: {{ product.selectedFlavor || 'N/A' }}</p>
+        <p>Sabor: {{ getSelectedFlavor(product) }}</p>
         <p>Precio: ${{ formatPrice(product.price) }}</p>
         <button (click)="removeProduct(product)">Eliminar</button>
       </div>
@@ -20,3 +20,4 @@
   <ng-template #emptyCart>
     <p>Tu carrito de compras está vacío.</p>
   </ng-template>
+</div>

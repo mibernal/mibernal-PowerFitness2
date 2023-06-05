@@ -82,6 +82,7 @@ export class ProductDetailComponent implements OnInit {
     this.selectedFlavor = this.selectedFlavor;
 
     this.cartService.addProduct(selectedProduct);
+    this.productService.addProductToCart(selectedProduct);
     this.confirmationMessage = 'Producto agregado al carrito: ' + product.name;
 
     this.selectedSize = '';
