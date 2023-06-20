@@ -44,6 +44,11 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
     this.currentUserSubscription.unsubscribe();
   }
 
+  isEmailValid(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+
   async onSubmit(): Promise<void> {
     const { firstName, lastName, email, password } = this.registrationForm.value;
 
@@ -76,7 +81,6 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
           firstName,
           lastName,
           email,
-          password // Agregar la contraseña al documento del usuario en Firestore
         });
         console.log('User added to Firestore:', userCredential.user);
         // Redirigir al panel de usuario
@@ -187,10 +191,5 @@ export class RegistrationFormComponent implements OnInit, OnDestroy {
       .finally(() => {
         this.isPopupOpen = false;
       });
-  }
-
-  isEmailValid(email: string): boolean {
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emailRegex.test(email);
   }
 }

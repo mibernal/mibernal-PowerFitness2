@@ -1,3 +1,4 @@
+// auth.service.ts
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, from, throwError } from 'rxjs';
@@ -12,6 +13,9 @@ import { switchMap, take, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
+  logout() {
+    throw new Error('Method not implemented.');
+  }
   user$: Observable<User | null>;
 
   constructor(private afAuth: AngularFireAuth, private firestore: AngularFirestore) {
@@ -47,21 +51,19 @@ export class AuthService {
     );
   }
 
-  signOut(): Observable<void> {
-    return from(this.afAuth.signOut()).pipe(
-      catchError((error) => {
-        console.error('Error signing out:', error);
-        return throwError(error);
-      })
-    );
+  signOut(): Promise<void> {
+    return this.afAuth.signOut().catch((error) => {
+      console.error('Error signing out:', error);
+      throw error;
+    });
   }
   
-  updateUserProfile(updatedProfileData: any): Observable<void> {
+  updateUserProfile(name: string, email: string): Observable<void> {
     return this.getCurrentUser().pipe(
       switchMap((user) => {
         if (user) {
           const userId = user.uid;
-          return from(this.firestore.collection('users').doc(userId).update(updatedProfileData)).pipe(
+          return from(this.firestore.collection('users').doc(userId).update({ name, email })).pipe(
             catchError((error) => {
               console.error('Error updating user profile:', error);
               return throwError(error);
@@ -74,7 +76,7 @@ export class AuthService {
     );
   }
 
-  changePassword(currentPassword: string, newPassword: string): Observable<void> {
+  changeUserPassword(currentPassword: string, newPassword: string): Observable<void> {
     return this.getCurrentUser().pipe(
       switchMap((user) => {
         if (user) {
@@ -96,7 +98,7 @@ export class AuthService {
   getCurrentUser(): Observable<User | null> {
     return this.afAuth.authState.pipe(take(1));
   }
-  
+
   unsubscribeAuthState(): void {
     // Implement the logic for unsubscribing authState here
   }

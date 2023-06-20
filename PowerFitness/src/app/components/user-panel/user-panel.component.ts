@@ -1,4 +1,3 @@
-// user-panel.component.ts
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service';
@@ -76,11 +75,45 @@ export class UserPanelComponent implements OnInit, OnDestroy {
   }
 
   updateProfile(): void {
-    // Update profile logic...
+    if (this.profileForm.valid) {
+      const { name, email } = this.profileForm.value;
+      this.authService.updateUserProfile(name, email)
+        .subscribe(
+          () => {
+            this.showSuccessMessage('Profile updated successfully');
+          },
+          (error: any) => {
+            this.showErrorMessage('Failed to update profile');
+            console.error(error);
+          }
+        );
+    }
   }
 
   changePassword(): void {
-    // Change password logic...
+    if (this.passwordForm.valid) {
+      const { currentPassword, newPassword } = this.passwordForm.value;
+      this.authService.changeUserPassword(currentPassword, newPassword)
+        .subscribe(
+          () => {
+            this.showSuccessMessage('Password changed successfully');
+          },
+          (error: any) => {
+            this.showErrorMessage('Failed to change password');
+            console.error(error);
+          }
+        );
+    }
+  }
+
+  logout(): void {
+    this.authService.signOut()
+      .then(() => {
+        // Handle successful logout
+      })
+      .catch((error: any) => {
+        console.error('Logout error:', error);
+      });
   }
 
   showErrorMessage(message: string): void {

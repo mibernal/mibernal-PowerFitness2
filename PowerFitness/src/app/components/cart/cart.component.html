@@ -6,7 +6,7 @@
         <img [src]="product.imageUrl[0]" alt="{{ product.name }}">
         <h3>{{ product.name }}</h3>
         <p>{{ product.description }}</p>
-        <p>Tamaño: {{ product.size  }}</p>
+        <p>Tamaño: {{ product.size }}</p>
         <p>Sabor: {{ getSelectedFlavor(product) }}</p>
         <p>Precio: ${{ formatPrice(product.price) }}</p>
         <button (click)="removeProduct(product)">Eliminar</button>
@@ -14,6 +14,7 @@
     </div>
     <div class="total">
       <p>Total: ${{ getTotal() | number }}</p>
+      <button (click)="completePurchase()">Finalizar Pago</button>
     </div>
   </div>
 

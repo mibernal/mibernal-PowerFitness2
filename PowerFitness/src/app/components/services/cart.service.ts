@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Product } from '../../models/product.model';
-//import { CsvWriterService } from '../../services/csv-writer.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService {
-  getCartItemCount(): number {
-    throw new Error('Method not implemented.');
-  }
-
   private products: Product[] = [];
+  private cartItemCount: number = 0;
 
-//  constructor(private csvWriterService: CsvWriterService) { }
+  getCartItemCount(): number {
+    return this.cartItemCount;
+  }
 
   addProduct(product: Product): void {
     this.products.push(product);
+    this.cartItemCount++;
   }
 
   removeProduct(product: Product): void {
     const index = this.products.findIndex(p => p.id === product.id);
     if (index !== -1) {
       this.products.splice(index, 1);
+      this.cartItemCount--;
     }
   }
 
@@ -33,10 +32,10 @@ export class CartService {
 
   clearCart(): void {
     this.products = [];
+    this.cartItemCount = 0;
   }
 
   getTotal(): number {
     return this.products.reduce((acc, product) => acc + product.price, 0);
   }
-
 }

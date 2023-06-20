@@ -51,6 +51,7 @@ export class LoginFormComponent implements OnInit {
         })
         .catch((error: any) => {
           this.handleAuthenticationError(error);
+          console.log(error)
         })
         .finally(() => {
           this.isSubmitting = false;
@@ -68,6 +69,7 @@ export class LoginFormComponent implements OnInit {
         })
         .catch((error: any) => {
           this.handleAuthenticationError(error);
+          console.log(error)
         })
         .finally(() => {
           this.isSubmitting = false;
@@ -97,6 +99,7 @@ export class LoginFormComponent implements OnInit {
           // Usuario no registrado, mostrar mensaje de error
           this.isUserRegistered = false;
           this.showUserNotRegisteredError();
+          console.log(error)
         } else {
           this.handleAuthenticationError(error);
         }

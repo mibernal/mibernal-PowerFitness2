@@ -70,9 +70,8 @@
       <!-- Lista de Deseos module content -->
     </div>
 
-    <h2 *ngIf="selectedModule === 'logout'">Salir</h2>
     <div *ngIf="selectedModule === 'logout'" class="module-content">
-      <!-- Salir module content -->
+      <button type="button" class="btn btn-primary" (click)="logout()">Logout</button>
     </div>
   </div>
 </div>
