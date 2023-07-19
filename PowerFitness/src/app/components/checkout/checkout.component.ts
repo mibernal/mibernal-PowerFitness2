@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import firebase from 'firebase/compat/app';
 import { CartService } from '../services/cart.service';
 import { Product } from 'src/app/models/product.model';
+import { LocationService } from '../services/location.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-checkout',
@@ -15,12 +16,15 @@ export class CheckoutComponent implements OnInit {
   checkoutForm: FormGroup;
   products: Product[];
   total: number;
+  departments: any[];
+  cities: any[];
 
   constructor(
     private formBuilder: FormBuilder,
     private firestore: AngularFirestore,
     private cartService: CartService,
     private router: Router,
+    private locationService: LocationService // Inject the LocationService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +46,38 @@ export class CheckoutComponent implements OnInit {
 
     this.products = this.cartService.getProducts();
     this.total = this.cartService.getTotal();
+
+    // Fetch departments from the LocationService
+    this.locationService.departments$.subscribe((departments) => {
+      this.departments = departments;
+    });
+
+    // Initialize the cities array with an empty array
+    this.cities = [];
+
+    // Subscribe to changes in the selected department
+    this.checkoutForm.get('departamento')?.valueChanges.subscribe((departmentId) => {
+      if (departmentId) {
+        // Fetch cities by department from the LocationService
+        this.locationService.getCitiesByDepartment(departmentId).subscribe((cities) => {
+          this.cities = cities;
+        });
+      } else {
+        // If no department selected, reset the cities array
+        this.cities = [];
+      }
+    });
+  }
+
+  onDepartmentChange(departmentId: string): void {
+    if (departmentId) {
+      // Fetch cities by department from the LocationService
+      this.locationService.getCitiesByDepartment(departmentId).subscribe((cities: any[]) => {
+        this.cities = cities;
+      });
+    } else {
+      this.cities = [];
+    }
   }
 
   onSubmit(): void {
@@ -108,4 +144,3 @@ export class CheckoutComponent implements OnInit {
     return this.total;
   }
 }
-

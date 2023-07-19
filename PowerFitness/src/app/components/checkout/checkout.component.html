@@ -1,74 +1,82 @@
 <div class="checkout-container">
-    <div class="checkout-form">
-      <h2>Checkout</h2>
-      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="numero_documento">Número de documento:</label>
-          <input type="number" id="numero_documento" formControlName="numero_documento" required>
-        </div>
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input type="email" id="email" formControlName="email" required>
-        </div>
-        <div class="form-group">
-          <label for="nombres">Nombres:</label>
-          <input type="text" id="nombres" formControlName="nombres" required>
-        </div>
-        <div class="form-group">
-          <label for="apellidos">Apellidos:</label>
-          <input type="text" id="apellidos" formControlName="apellidos" required>
-        </div>
-        <div class="form-group">
-          <label for="departamento">Departamento:</label>
-          <input type="text" id="departamento" formControlName="departamento" required>
-        </div>
-        <div class="form-group">
-          <label for="ciudad">Ciudad:</label>
-          <input type="text" id="ciudad" formControlName="ciudad" required>
-        </div>
-        <div class="form-group">
-          <label for="direccion_envio">Dirección de envío:</label>
-          <input type="text" id="direccion_envio" formControlName="direccion_envio" required>
-        </div>
-        <div class="form-group">
-          <label for="complemento">Complemento:</label>
-          <input type="text" id="complemento" formControlName="complemento">
-        </div>
-        <div class="form-group">
-          <label for="celular">Celular:</label>
-          <input type="number" id="celular" formControlName="celular" required>
-        </div>
-        <div class="form-group">
-          <label for="notas">Notas:</label>
-          <textarea id="notas" formControlName="notas"></textarea>
-        </div>
-        <button type="submit" [disabled]="checkoutForm.invalid">Realizar pedido</button>
-      </form>
-    </div>
+  <div class="checkout-form">
+    <h2>Checkout</h2>
+    <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="numero_documento">Número de documento:</label>
+        <input type="number" id="numero_documento" formControlName="numero_documento" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" required>
+      </div>
+      <div class="form-group">
+        <label for="nombres">Nombres:</label>
+        <input type="text" id="nombres" formControlName="nombres" required>
+      </div>
+      <div class="form-group">
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" id="apellidos" formControlName="apellidos" required>
+      </div>
+      <div class="form-group">
+        <label for="departamento">Departamento:</label>
+        <select id="departamento" formControlName="departamento" required (change)="onDepartmentChange(checkoutForm.value.departamento)">
+          <option value="" disabled selected>Seleccione un departamento</option>
+          <option *ngFor="let department of departments" [value]="department">{{ department }}</option>
+        </select>
+      </div>
   
-    <div class="payment-summary">
-      <h2>Resumen de pedido</h2>
-      <div *ngFor="let product of products" class="product-item">
-        <img [src]="product.imageUrl[0]" alt="{{ product.name }}">
-        <div class="product-details">
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
-          <p>Tamaño: {{ product.size }}</p>
-          <p>Sabor: {{ getSelectedFlavor(product) }}</p>
-          <p>Precio: ${{ formatPrice(product.price) }}</p>
-        </div>
-        <button (click)="removeProduct(product)">Eliminar</button>
+      <div class="form-group">
+        <label for="ciudad">Ciudad:</label>
+        <select id="ciudad" formControlName="ciudad" required>
+          <option value="" disabled selected>Seleccione una ciudad</option>
+          <ng-container *ngFor="let ciudad of cities">
+            <option [value]="ciudad">{{ ciudad }}</option>
+          </ng-container>
+        </select>
       </div>
-      <div class="total">
-        <p>Total: ${{ getTotal() | number }}</p>
+      <div class="form-group">
+        <label for="direccion_envio">Dirección de envío:</label>
+        <input type="text" id="direccion_envio" formControlName="direccion_envio" required>
       </div>
-      <div class="payment-options">
-        <h3>Seleccione el método de pago</h3>
-        <div>
-        <!--  <p><button (click)="makeMercadoPagoPayment()">Pagar con MercadoPago</button></p> -->
-        <!--  <p><button (click)="makePSEPayment()">Pagar con PSE</button></p> -->
-        </div>
+      <div class="form-group">
+        <label for="complemento">Complemento:</label>
+        <input type="text" id="complemento" formControlName="complemento">
+      </div>
+      <div class="form-group">
+        <label for="celular">Celular:</label>
+        <input type="number" id="celular" formControlName="celular" required>
+      </div>
+      <div class="form-group">
+        <label for="notas">Notas:</label>
+        <textarea id="notas" formControlName="notas"></textarea>
+      </div>
+      <button type="submit" [disabled]="checkoutForm.invalid">Realizar pedido</button>
+    </form>
+  </div>
+
+  <div class="payment-summary">
+    <h2>Resumen de pedido</h2>
+    <div *ngFor="let product of products" class="product-item">
+      <img [src]="product.imageUrl[0]" alt="{{ product.name }}">
+      <div class="product-details">
+        <h3>{{ product.name }}</h3>
+        <p>{{ product.description }}</p>
+        <p>Tamaño: {{ product.size }}</p>
+        <p>Sabor: {{ getSelectedFlavor(product) }}</p>
+        <p>Precio: ${{ formatPrice(product.price) }}</p>
+      </div>
+      <button (click)="removeProduct(product)">Eliminar</button>
+    </div>
+    <div class="total">
+      <p>Total: ${{ getTotal() | number }}</p>
+    </div>
+    <div class="payment-options">
+      <h3>Seleccione el método de pago</h3>
+      <div>
+      <!--  <p><button (click)="makeMercadoPagoPayment()">Pagar con MercadoPago</button></p> -->
+      <!--  <p><button (click)="makePSEPayment()">Pagar con PSE</button></p> -->
       </div>
     </div>
   </div>
-  
+</div>
