@@ -24,6 +24,7 @@ import { environment } from 'src/environments/environment';
 import { CsvParserService } from '../../services/csv-parser.service';
 import { CsvWriterService } from '../../services/csv-writer.service';
 import { Subject } from 'rxjs';
+import { Brand } from 'src/app/models/brand.model';
 
 @Injectable({
   providedIn: 'root',
@@ -120,5 +121,14 @@ export class ProductService {
           observer.error(error);
         });
     });
+  }
+
+  getBrands(): Observable<Brand[]> {
+    const brandsQuery = query(collection(this.collectionRef.firestore, 'brands'), orderBy('name'));
+    return from(getDocs(brandsQuery)).pipe(
+      map((querySnapshot: QuerySnapshot<DocumentData>) =>
+        querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() as Brand }))
+      )
+    );
   }
 }

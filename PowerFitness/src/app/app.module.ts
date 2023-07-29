@@ -90,8 +90,7 @@ import { CommonModule } from '@angular/common';
     provideStorage(() => getStorage()),
     AngularFireStorageModule,
     MatSnackBarModule,
-    CommonModule
-
+    CommonModule,
   ],
   exports: [
     // otros componentes exportados aquí
