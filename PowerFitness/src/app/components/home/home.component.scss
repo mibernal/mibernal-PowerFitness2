@@ -19,33 +19,33 @@ main {
 .carousel {
   display: flex;
   align-items: center;
-  height: 100px;
+  height: 200px;
   overflow: hidden; /* Ocultamos cualquier contenido adicional fuera del carrusel */
 }
 
 .carousel-item {
   flex: 0 0 auto; /* Evitamos que las imágenes cambien de tamaño */
-  width: 20%; /* Ancho fijo para que solo se muestren 5 marcas a la vez */
+  width: 35%; /* Ancho fijo para que solo se muestren 5 marcas a la vez */
   display: flex;
   justify-content: center;
-  padding: 0 5px; /* Ajustamos el espacio entre las marcas */
+  padding: 2 2px; /* Ajustamos el espacio entre las marcas */
 }
 
 .brand-logo {
-  max-height: 80px;
-  max-width: 100%;
+  max-height: 150px;
+  max-width: 150%;
 }
 
 /* Estilos para las tarjetas de productos */
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin: -15px;
+  margin: -5px;
 }
 
 .col-md-3,
 .col-sm-6 {
-  padding: 15px;
+  padding: 30px;
 }
 
 .card {
@@ -54,14 +54,14 @@ main {
 }
 
 .card-img-top {
-  height: 150px;
-  object-fit: cover;
+  height: 350px;
+  object-fit: scale-down;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
 }
 
 .card-body {
-  padding: 1.25rem;
+  padding: 3.25rem;
 }
 
 h4.card-title {

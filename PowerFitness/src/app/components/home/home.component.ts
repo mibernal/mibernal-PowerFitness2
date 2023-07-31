@@ -11,17 +11,17 @@ import { SlickCarouselComponent } from 'ngx-slick-carousel';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  @ViewChild('slickModal', { static: false }) slickModal: SlickCarouselComponent;
+  @ViewChild('slickModal', { static: true }) slickModal: SlickCarouselComponent;
 
   products: Product[] = [];
   brands: Brand[] = [];
   carouselConfig: any = {
-    slidesToShow: 5, // Mostrar 5 marcas a la vez en el carrusel
+    slidesToShow: 3, // Mostrar 5 marcas a la vez en el carrusel
     slidesToScroll: 1, // Desplazarse 1 marca a la vez
     dots: true,
     arrows: true,
     autoplay: true,
-    autoplaySpeed: 2000
+    autoplaySpeed: 1000
   };
 
   constructor(
