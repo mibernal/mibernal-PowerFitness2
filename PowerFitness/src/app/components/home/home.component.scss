@@ -20,13 +20,15 @@ main {
   display: flex;
   align-items: center;
   height: 100px;
+  overflow: hidden; /* Ocultamos cualquier contenido adicional fuera del carrusel */
 }
 
 .carousel-item {
-  flex: 1;
+  flex: 0 0 auto; /* Evitamos que las imágenes cambien de tamaño */
+  width: 20%; /* Ancho fijo para que solo se muestren 5 marcas a la vez */
   display: flex;
-  align-items: center;
   justify-content: center;
+  padding: 0 5px; /* Ajustamos el espacio entre las marcas */
 }
 
 .brand-logo {
@@ -41,7 +43,8 @@ main {
   margin: -15px;
 }
 
-.col-md-6 {
+.col-md-3,
+.col-sm-6 {
   padding: 15px;
 }
 
@@ -51,7 +54,7 @@ main {
 }
 
 .card-img-top {
-  height: 200px;
+  height: 150px;
   object-fit: cover;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;

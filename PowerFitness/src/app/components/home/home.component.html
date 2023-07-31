@@ -14,7 +14,7 @@
 
       <h1 class="text-center mb-5">Productos en Oferta</h1>
       <div class="row">
-        <div *ngFor="let product of products" class="col-md-6 mb-4">
+        <div *ngFor="let product of products" class="col-md-3 col-sm-6 mb-4">
           <div class="card shadow-sm">
             <img class="card-img-top" [src]="product.imageUrl" alt="{{ product.name }}">
             <div class="card-body">

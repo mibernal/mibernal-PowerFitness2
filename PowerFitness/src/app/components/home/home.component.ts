@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductService } from '../services/product.service';
 import { BrandService } from '../services/brand/brand.service';
 import { Product } from '../../models/product.model';
 import { Brand } from '../../models/brand.model';
+import { SlickCarouselComponent } from 'ngx-slick-carousel';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +11,13 @@ import { Brand } from '../../models/brand.model';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('slickModal', { static: false }) slickModal: SlickCarouselComponent;
+
   products: Product[] = [];
   brands: Brand[] = [];
   carouselConfig: any = {
-    slidesToShow: 3,
-    slidesToScroll: 1,
+    slidesToShow: 5, // Mostrar 5 marcas a la vez en el carrusel
+    slidesToScroll: 1, // Desplazarse 1 marca a la vez
     dots: true,
     arrows: true,
     autoplay: true,
@@ -34,6 +37,7 @@ export class HomeComponent implements OnInit {
 
     this.brandService.getBrands().subscribe((brands: Brand[]) => {
       this.brands = brands;
+      this.updateCarousel(); // Actualizar el carrusel cuando se obtengan las marcas
     });
   }
 
@@ -58,5 +62,18 @@ export class HomeComponent implements OnInit {
     }
 
     return randomProducts;
+  }
+
+  updateCarousel() {
+    // Actualizar el número de slidesToShow del carrusel
+    // según el número de marcas disponibles
+    const numBrands = this.brands.length;
+    this.carouselConfig.slidesToShow = Math.min(numBrands, 5);
+
+    // Reiniciar el carrusel para reflejar los cambios
+    if (this.slickModal) {
+      this.slickModal.unslick();
+      this.slickModal.initSlick();
+    }
   }
 }
