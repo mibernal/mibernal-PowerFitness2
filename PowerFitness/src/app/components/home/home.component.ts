@@ -3,7 +3,6 @@ import { ProductService } from '../services/product.service';
 import { BrandService } from '../services/brand/brand.service';
 import { Product } from '../../models/product.model';
 import { Brand } from '../../models/brand.model';
-import Swiper from 'swiper';
 
 @Component({
   selector: 'app-home',
@@ -13,6 +12,14 @@ import Swiper from 'swiper';
 export class HomeComponent implements OnInit {
   products: Product[] = [];
   brands: Brand[] = [];
+  carouselConfig: any = {
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    dots: true,
+    arrows: true,
+    autoplay: true,
+    autoplaySpeed: 2000
+  };
 
   constructor(
     private productService: ProductService,
@@ -27,17 +34,6 @@ export class HomeComponent implements OnInit {
 
     this.brandService.getBrands().subscribe((brands: Brand[]) => {
       this.brands = brands;
-
-      // Configurar el Swiper
-      const swiper = new Swiper('.swiper-container', {
-        slidesPerView: 'auto', // Número de slides visibles en el contenedor
-        spaceBetween: 10, // Espacio entre slides
-        loop: true, // Hacer el slider en bucle
-        navigation: {
-          nextEl: '.swiper-button-next', // Selector del botón siguiente
-          prevEl: '.swiper-button-prev' // Selector del botón anterior
-        }
-      });
     });
   }
 

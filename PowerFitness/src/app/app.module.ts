@@ -40,8 +40,7 @@ import { ProductImportComponent } from './components/product-import/product-impo
 import { UserPanelComponent } from './components/user-panel/user-panel.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { CommonModule } from '@angular/common';
-
-
+import { SlickCarouselModule } from 'ngx-slick-carousel';
 
 @NgModule({
   declarations: [
@@ -91,6 +90,7 @@ import { CommonModule } from '@angular/common';
     AngularFireStorageModule,
     MatSnackBarModule,
     CommonModule,
+    SlickCarouselModule,
   ],
   exports: [
     // otros componentes exportados aquí

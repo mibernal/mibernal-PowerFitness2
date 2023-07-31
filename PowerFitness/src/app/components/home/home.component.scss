@@ -1,111 +1,85 @@
+@import '~bootstrap/dist/css/bootstrap.min.css';
+
 /* Estilos generales */
 main {
-    min-height: 100vh;
-  }
-  
-  .py-5 {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
-  }
-  
-  /* Estilos para el slider de marcas */
-  .swiper-container {
-    width: 100%;
-    height: 200px;
-  }
-  
-  .swiper-slide {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .brand-logo {
-    max-height: 100px;
-  }
-  
-  /* Estilos para los controles de navegación del slider */
-  .swiper-button-prev,
-  .swiper-button-next {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.5);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-  
-  .swiper-button-prev:hover,
-  .swiper-button-next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  .swiper-button-prev {
-    left: 10px;
-  }
-  
-  .swiper-button-next {
-    right: 10px;
-  }
-  
-  /* Estilos para las tarjetas de productos */
-  .card-columns {
-    column-count: 2;
-    column-gap: 1rem;
-  }
-  
-  .card {
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border: none; /* Elimina el borde predeterminado */
-  }
-  
-  .card-img-top {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-  
-  .card-body {
-    padding: 1.5rem;
-  }
-  
-  .card-title {
-    font-size: 1.2rem;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 1rem;
-  }
-  
-  .card-text {
-    font-size: 1rem;
-    color: #777;
-    margin-bottom: 1rem;
-  }
-  
-  .btn-group {
-    margin-top: 10px;
-  }
-  
-  .btn {
-    margin-right: 10px;
-  }
-  
-  .text-muted {
-    font-size: 0.8rem;
-    color: #999;
-  }
-  
-  /* Estilos adicionales para otros elementos del componente */
-  /* ... */
-  
+  min-height: 100vh;
+}
+
+.py-5 {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+/* Estilos para el carrusel de marcas */
+.carousel-container {
+  width: 80%;
+  margin-bottom: 30px;
+}
+
+.carousel {
+  display: flex;
+  align-items: center;
+  height: 100px;
+}
+
+.carousel-item {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brand-logo {
+  max-height: 80px;
+  max-width: 100%;
+}
+
+/* Estilos para las tarjetas de productos */
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: -15px;
+}
+
+.col-md-6 {
+  padding: 15px;
+}
+
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+.card-body {
+  padding: 1.25rem;
+}
+
+h4.card-title {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+p.card-text {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+.btn-group {
+  margin-top: 15px;
+}
+
+.btn {
+  margin-right: 8px;
+}
+
+small.text-muted {
+  font-size: 0.8rem;
+  color: #999;
+}
