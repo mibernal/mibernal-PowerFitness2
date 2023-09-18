@@ -15,14 +15,17 @@ export class HomeComponent implements OnInit {
 
   products: Product[] = [];
   brands: Brand[] = [];
+  
   carouselConfig: any = {
-    slidesToShow: 3, // Mostrar 5 marcas a la vez en el carrusel
+    slidesToShow: 4, // Mostrar 4 marcas a la vez en el carrusel
     slidesToScroll: 1, // Desplazarse 1 marca a la vez
     dots: true,
     arrows: true,
-    autoplay: true,
-    autoplaySpeed: 1000
+    autoplay: true, // Habilitar el movimiento automático
+    autoplaySpeed: 3000, // Cambiar la velocidad de cambio de elementos (en milisegundos)
+    infinite: true // Para que el carrusel sea infinito
   };
+  
 
   constructor(
     private productService: ProductService,

@@ -12,29 +12,33 @@ main {
 
 /* Estilos para el carrusel de marcas */
 .carousel-container {
-  width: 80%;
+  width: 100%;
   margin-bottom: 30px;
 }
 
 .carousel {
   display: flex;
   align-items: center;
-  height: 200px;
+  height: auto; /* Cambia esto a auto para permitir la altura automática según el contenido */
   overflow: hidden; /* Ocultamos cualquier contenido adicional fuera del carrusel */
+  justify-content: space-between; /* Alineación de elementos */
 }
 
+/* Ajustamos el ancho de las columnas del carrusel para mostrar 4 marcas por fila */
 .carousel-item {
-  flex: 0 0 auto; /* Evitamos que las imágenes cambien de tamaño */
-  width: 35%; /* Ancho fijo para que solo se muestren 5 marcas a la vez */
+  flex: 0 0 20%; /* Ancho fijo para mostrar 5 marcas por fila */
+  max-width: 20%; /* Ancho fijo para mostrar 5 marcas por fila */
   display: flex;
   justify-content: center;
-  padding: 2 2px; /* Ajustamos el espacio entre las marcas */
+  padding: 2px; /* Ajustamos el espacio entre las marcas */
 }
 
 .brand-logo {
   max-height: 150px;
-  max-width: 150%;
+  max-width: 100%; /* Cambia el ancho máximo según tus necesidades */
 }
+
+
 
 /* Estilos para las tarjetas de productos */
 .row {
