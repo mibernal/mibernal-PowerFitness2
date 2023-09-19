@@ -1,4 +1,4 @@
-@import '~bootstrap/dist/css/bootstrap.min.css';
+
 
 /* Estilos generales */
 main {
@@ -44,29 +44,43 @@ main {
 .row {
   display: flex;
   flex-wrap: wrap;
-  margin: -5px;
+  margin: -5px; /* Aumentamos el espacio entre las filas */
 }
 
-.col-md-3,
+.col-md-4,
 .col-sm-6 {
-  padding: 30px;
+  padding: 5px; /* Aumentamos el espacio entre las tarjetas */
 }
 
 .card {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: none;
+  width: 100%; /* Las tarjetas ocuparán todo el ancho de su contenedor */
+  max-width: calc(100% - 10px); /* Para asegurarnos de que haya 3 tarjetas por fila */
+  margin-right: 10px; /* Añadimos margen derecho para separar las tarjetas */
+  margin-bottom: 10px; /* Añadimos margen inferior para separar las filas */
+}
+
+.card:last-child {
+  margin-right: 0; /* Eliminamos el margen derecho de la última tarjeta en la fila */
 }
 
 .card-img-top {
-  height: 350px;
-  object-fit: scale-down;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
+  height: 400px;
+  object-fit: cover; /* Cambiamos a "cover" para ajustar la imagen al tamaño de la tarjeta */
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .card-body {
-  padding: 3.25rem;
+  padding: 3.5rem;
 }
+
+h1.text-center {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
 
 h4.card-title {
   font-size: 1.3rem;
@@ -87,6 +101,7 @@ p.card-text {
 }
 
 small.text-muted {
-  font-size: 0.8rem;
+  font-size: 1rem;
+  font-weight: bolder;
   color: #999;
 }

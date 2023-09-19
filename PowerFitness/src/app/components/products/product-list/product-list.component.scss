@@ -1,17 +1,17 @@
-@import '../../../../../node_modules/bootstrap/scss/bootstrap';
-@import '~bootstrap/dist/css/bootstrap.min.css';
-
-
+/* Estilos generales */
 .container {
   display: flex;
+  margin-top: 20px;
 
+  // Menú de categorías
   .category-menu {
     position: sticky;
-    top: 0;
+    left: 0;
     width: 200px;
     background-color: #f2f2f2;
     padding: 10px;
     border-right: 1px solid #ccc;
+    margin-left: -50px;
 
     h5 {
       font-size: 25px;
@@ -32,7 +32,6 @@
         transition: all 0.2s ease;
         color: #000;
         background-color: #fff;
-        transition: background-color 0.3s;
 
         &:hover {
           color: #ff6b6b;
@@ -42,81 +41,93 @@
   }
 }
 
+// Tarjetas de productos
 .product {
-  margin-bottom: 20px;
-}
-
-.image-wrapper {
-  position: relative;
-}
-
-.image-container {
-  position: relative;
-  overflow: hidden;
-}
-
-.images {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.left-arrow,
-.right-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background-color: transparent;
-  border: none;
-  color: black;
-  font-size: 20px;
-  padding: 8px;
-  cursor: pointer;
-}
-
-.left-arrow {
-  left: 0;
-}
-
-.right-arrow {
-  right: 0;
-}
-
-.card-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.card-text {
-  font-size: 14px;
   margin-bottom: 5px;
+  position: sticky;
+  margin-left: -15px; // Elimina el margen izquierdo para alinear a la izquierda
+
+  .image-wrapper {
+    position: relative;
+
+    .image-container {
+      position: relative;
+      overflow: hidden;
+
+      .images {
+        display: flex;
+        transition: transform 0.5s ease;
+      }
+
+      .left-arrow,
+      .right-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: transparent;
+        border: none;
+        color: black;
+        font-size: 20px;
+        padding: 8px;
+        cursor: pointer;
+
+        &.left-arrow {
+          left: 0;
+        }
+
+        &.right-arrow {
+          right: 0;
+        }
+      }
+    }
+  }
+
+  .card-body {
+    .card-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .card-text {
+      font-size: 14px;
+      margin-bottom: 5px;
+      text-align: justify;
+    }
+
+    .product-name {
+      margin-bottom: 0;
+      cursor: pointer;
+      text-decoration: underline;
+
+      &:hover {
+        color: #ff6b6b;
+      }
+    }
+
+    .product-category,
+    .product-brand,
+    .product-size,
+    .product-flavor,
+    .product-stock,
+    .product-description,
+    .product-discount,
+    .product-price {
+      margin-bottom: 5px;
+    }
+
+    .add-to-cart-button {
+      margin-top: 10px;
+      margin-right: 5px;
+    }
+
+    .view-more-button {
+      margin-top: 10px;
+    }
+  }
 }
 
-.product-name {
-  margin-bottom: 0;
-  cursor: pointer; /* Agregado */
-  text-decoration: underline; /* Agregado */
-}
-
-.product-name:hover {
-  color: #ff6b6b; /* Agregado */
-}
-
-.product-category,
-.product-brand,
-.product-size,
-.product-flavor,
-.product-stock,
-.product-description,
-.product-discount,
-.product-price {
-  margin-bottom: 5px;
-}
-
-.add-to-cart-button {
-  margin-top: 10px;
-}
-
+// Mensaje de confirmación
 .confirmation-message {
   background-color: #dff0d8;
   color: #3c763d;
@@ -127,6 +138,7 @@
 }
 
 @media (max-width: 767px) {
+  // Estilos para pantallas pequeñas
   .category-menu {
     height: 80px;
     padding: 10px;
@@ -145,54 +157,17 @@
 }
 
 @media (min-width: 768px) {
-  .col-lg-3 {
-    flex-basis: 25%;
-    max-width: 25%;
+  // Estilos para pantallas medianas
+  .col-lg-4 { // Ajustar el ancho de las tarjetas
+    flex-basis: 33.33%;
+    max-width: 33.33%;
   }
 }
 
 @media (min-width: 992px) {
-  .col-lg-9 {
-    flex-basis: 75%;
-    max-width: 75%;
+  // Estilos para pantallas grandes
+  .col-lg-4 { // Ajustar el ancho de las tarjetas
+    flex-basis: 33.33%;
+    max-width: 33.33%;
   }
 }
-
-.user-panel {
-  display: flex;
-
-  .menu {
-    width: 200px;
-    background-color: #f2f2f2;
-    padding: 10px;
-    border-right: 1px solid #ccc;
-
-    .menu-items {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-
-      .menu-item {
-        cursor: pointer;
-        padding: 5px;
-        border-radius: 5px;
-        margin-bottom: 5px;
-        font-weight: bold;
-        color: #000;
-        background-color: #fff;
-        transition: background-color 0.3s;
-
-        &:hover {
-          background-color: #e0e0e0;
-        }
-      }
-    }
-  }
-
-  .content {
-    flex: 1;
-    padding: 10px;
-  }
-}
-
-// Resto de los estilos...

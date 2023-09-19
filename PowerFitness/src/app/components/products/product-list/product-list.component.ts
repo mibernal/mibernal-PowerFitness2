@@ -4,6 +4,10 @@ import { ProductService } from '../../services/product.service';
 import { Product } from '../../../models/product.model';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
+import { ImageIndexMixin } from '../../services/product/image-index.mixin';
+
+// Extiende el tipo Product con la interfaz ImageIndexMixin
+type ProductWithImageIndex = Product & ImageIndexMixin;
 
 @Component({
   selector: 'app-product-list',
@@ -11,7 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['product-list.component.scss'],
 })
 export class ProductListComponent implements OnInit {
-  products: Product[] = [];
+  products: ProductWithImageIndex[] = [];
   selectedSize: string = '';
   selectedFlavor: string = '';
   selectedCategory: string = '';
@@ -21,6 +25,7 @@ export class ProductListComponent implements OnInit {
   filteredProducts: Product[] = [];
   confirmationMessage: string = '';
   currentImageIndex: number = 0;
+  
 
   constructor(
     private productService: ProductService,
@@ -61,17 +66,24 @@ export class ProductListComponent implements OnInit {
     this.selectedFlavor = '';
   }
 
-  scrollImages(product: Product, direction: number): void {
+  scrollImages(product: ProductWithImageIndex, direction: number): void {
     const imageUrls = product.imageUrl;
     const lastIndex = imageUrls.length - 1;
   
-    this.currentImageIndex += direction;
+    // Obtén el índice actual de la imagen para este producto
+    const currentImageIndex = product.currentImageIndex || 0;
   
-    if (this.currentImageIndex > lastIndex) {
-      this.currentImageIndex = 0;
-    } else if (this.currentImageIndex < 0) {
-      this.currentImageIndex = lastIndex;
+    // Calcula el nuevo índice
+    let newImageIndex = currentImageIndex + direction;
+  
+    if (newImageIndex > lastIndex) {
+      newImageIndex = 0;
+    } else if (newImageIndex < 0) {
+      newImageIndex = lastIndex;
     }
+  
+    // Actualiza el índice de la imagen para este producto
+    product.currentImageIndex = newImageIndex;
   }
   
   checkAvailability(product: Product): void {

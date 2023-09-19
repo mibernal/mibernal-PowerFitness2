@@ -41,6 +41,7 @@ import { UserPanelComponent } from './components/user-panel/user-panel.component
 import { LogoutComponent } from './components/logout/logout.component';
 import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
+import { DecimalPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -96,7 +97,7 @@ import { SlickCarouselModule } from 'ngx-slick-carousel';
     // otros componentes exportados aquí
     LoginFormComponent,
   ],
-  providers: [],
+  providers: [DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

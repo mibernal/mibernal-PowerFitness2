@@ -4,6 +4,7 @@ import { BrandService } from '../services/brand/brand.service';
 import { Product } from '../../models/product.model';
 import { Brand } from '../../models/brand.model';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -14,22 +15,22 @@ export class HomeComponent implements OnInit {
   @ViewChild('slickModal', { static: true }) slickModal: SlickCarouselComponent;
 
   products: Product[] = [];
-  brands: Brand[] = [];
-  
+  brands: Brand[];
+
   carouselConfig: any = {
-    slidesToShow: 4, // Mostrar 4 marcas a la vez en el carrusel
-    slidesToScroll: 1, // Desplazarse 1 marca a la vez
+    slidesToShow: 4,
+    slidesToScroll: 1,
     dots: true,
     arrows: true,
-    autoplay: true, // Habilitar el movimiento automático
-    autoplaySpeed: 3000, // Cambiar la velocidad de cambio de elementos (en milisegundos)
-    infinite: true // Para que el carrusel sea infinito
+    autoplay: true,
+    autoplaySpeed: 3000,
+    infinite: true
   };
-  
 
   constructor(
     private productService: ProductService,
-    private brandService: BrandService
+    private brandService: BrandService,
+    private decimalPipe: DecimalPipe
   ) {}
 
   ngOnInit() {
@@ -40,7 +41,7 @@ export class HomeComponent implements OnInit {
 
     this.brandService.getBrands().subscribe((brands: Brand[]) => {
       this.brands = brands;
-      this.updateCarousel(); // Actualizar el carrusel cuando se obtengan las marcas
+      this.updateCarousel();
     });
   }
 
@@ -78,5 +79,9 @@ export class HomeComponent implements OnInit {
       this.slickModal.unslick();
       this.slickModal.initSlick();
     }
+  }
+
+  formatPriceWithThousandsSeparator(price: number | null): string {
+    return this.decimalPipe.transform(price, '1.2-2') ?? '';
   }
 }
