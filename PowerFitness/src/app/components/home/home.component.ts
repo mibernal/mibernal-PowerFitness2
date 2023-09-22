@@ -82,6 +82,12 @@ export class HomeComponent implements OnInit {
   }
 
   formatPriceWithThousandsSeparator(price: number | null): string {
-    return this.decimalPipe.transform(price, '1.2-2') ?? '';
+    if (price == null) return '';
+  
+    // Usar toLocaleString para agregar separadores de miles
+    const formattedPrice = price.toLocaleString(undefined, { minimumFractionDigits: 0 });
+  
+    // Reemplazar la coma por un punto
+    return formattedPrice.replace(',', '.');
   }
 }

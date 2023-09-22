@@ -13,6 +13,11 @@ import { ProductManagementComponent } from './components/product-management/prod
 import { ProductImportComponent } from './components/product-import/product-import.component';
 import { UserPanelComponent } from "./components/user-panel/user-panel.component";
 import { AuthGuard } from './guards/auth.guard';
+import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
+import { DashboardChildComponent } from './dashboard/dashboard-child/dashboard-child.component';
+import { ProductAddComponent } from './dashboard/product-add/product-add.component';
+import { ProductEditComponent } from './dashboard/product-edit/product-edit.component';
+
 
 const routes: Routes = [
 { path: '', component: HomeComponent },
@@ -30,6 +35,11 @@ const routes: Routes = [
 { path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 { path: 'user-panel', component: UserPanelComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 
+{ path: 'product-add', component: ProductAddComponent },
+{ path: 'product-edit/:id', component: ProductEditComponent },
+
+{ path: 'dashboard', component: DashboardComponent },
+{ path: 'dashboard-child', component: DashboardChildComponent },
 { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 

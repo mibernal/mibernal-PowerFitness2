@@ -111,9 +111,15 @@
     .product-flavor,
     .product-stock,
     .product-description,
-    .product-discount,
-    .product-price {
+    .product-discount {
       margin-bottom: 5px;
+
+    }
+
+    .product-price {
+      font-size: 15px;
+      margin-bottom: 5px;
+      font-weight: bolder;
     }
 
     .add-to-cart-button {

@@ -63,7 +63,7 @@
                 Descuento: {{ product.discount }}
               </p>
               <p class="card-text product-price" *ngIf="product.price !== undefined && product.price !== 0">
-                {{ formatPrice(product.price) }}
+               ${{ formatPrice(product.price) }}
               </p>
               <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
               <button class="btn btn-primary view-more-button" *ngIf="product.id" (click)="viewProductDetails(product.id)">Ver más</button>

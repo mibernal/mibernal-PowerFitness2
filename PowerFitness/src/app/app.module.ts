@@ -42,6 +42,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { DecimalPipe } from '@angular/common';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -66,8 +67,6 @@ import { DecimalPipe } from '@angular/common';
     ProductImportComponent,
     UserPanelComponent,
     LogoutComponent,
-
-
   ],
 
   imports: [
@@ -92,6 +91,7 @@ import { DecimalPipe } from '@angular/common';
     MatSnackBarModule,
     CommonModule,
     SlickCarouselModule,
+    DashboardModule
   ],
   exports: [
     // otros componentes exportados aquí

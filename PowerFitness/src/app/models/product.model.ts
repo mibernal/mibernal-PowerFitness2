@@ -1,4 +1,3 @@
-import { AuthError } from "firebase/auth";
 
 export interface Product {
   currentImageIndex: number;
