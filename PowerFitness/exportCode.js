@@ -24,7 +24,11 @@ function exportFilesInDirectory(directoryPath) {
     const filePath = path.join(directoryPath, file);
     const stats = fs.statSync(filePath);
     if (stats.isFile()) {
-      exportCode(path.relative(projectDirectory, filePath), outputFilePath);
+      // Verificar si la extensión del archivo es .html o .ts y no es .css, .scss ni .spec.ts antes de exportarlo
+      const fileExtension = path.extname(filePath);
+      if ((fileExtension === '.html' || fileExtension === '.ts') && fileExtension !== '.css' && fileExtension !== '.scss' && !file.endsWith('.spec.ts')) {
+        exportCode(path.relative(projectDirectory, filePath), outputFilePath);
+      }
     } else if (stats.isDirectory()) {
       exportFilesInDirectory(filePath);
     }

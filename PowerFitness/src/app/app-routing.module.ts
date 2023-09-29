@@ -15,8 +15,8 @@ import { UserPanelComponent } from "./components/user-panel/user-panel.component
 import { AuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
 import { DashboardChildComponent } from './dashboard/dashboard-child/dashboard-child.component';
-import { ProductAddComponent } from './dashboard/product-add/product-add.component';
-import { ProductEditComponent } from './dashboard/product-edit/product-edit.component';
+import { ProductAddComponent } from './dashboard/product-management/product-add/product-add.component';
+import { ProductEditComponent } from './dashboard/product-management/product-edit/product-edit.component';
 
 
 const routes: Routes = [
@@ -28,18 +28,19 @@ const routes: Routes = [
 { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 { path: 'contact', component: ContactComponent },
 { path: 'nosotros', component: NosotrosComponent },
-
 { path: 'login-form', component: LoginFormComponent },
 { path: 'register', component: RegistrationFormComponent },
 { path: 'product-import', component: ProductImportComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 { path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 { path: 'user-panel', component: UserPanelComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
-
 { path: 'product-add', component: ProductAddComponent },
 { path: 'product-edit/:id', component: ProductEditComponent },
-
 { path: 'dashboard', component: DashboardComponent },
 { path: 'dashboard-child', component: DashboardChildComponent },
+{ path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
+
+
+
 { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
