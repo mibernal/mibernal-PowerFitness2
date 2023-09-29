@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>Administración de Productos</h2>
+  <div class="row">
+    <div class="col-md-6">
+      <h3><a routerLink="add">Agregar Producto</a></h3>
+      <router-outlet></router-outlet> 
+    </div>
+    <div class="col-md-6">
+      <h3><a routerLink="edit/:id">Editar Producto</a></h3>
+      <router-outlet name="editOutlet"></router-outlet> 
+    </div>
+  </div>
+</div>
