@@ -44,6 +44,7 @@
     "@angular/compiler-cli": "^15.2.8",
     "@types/firebase": "^2.4.32",
     "@types/jasmine": "~4.3.0",
+    "angular-cli-ghpages": "^1.0.7",
     "css-loader": "^6.8.1",
     "jasmine-core": "~4.6.0",
     "karma": "~6.4.0",
