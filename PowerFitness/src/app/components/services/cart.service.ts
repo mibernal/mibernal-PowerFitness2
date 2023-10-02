@@ -6,6 +6,9 @@ import { Product } from '../../models/product.model';
   providedIn: 'root'
 })
 export class CartService {
+  getProductCategories() {
+    throw new Error('Method not implemented.');
+  }
   private products: Product[] = [];
   private cartItemCount: number = 0;
 

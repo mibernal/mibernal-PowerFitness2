@@ -1,13 +1,31 @@
 <div class="container">
-  <h2>Administración de Productos</h2>
-  <div class="row">
-    <div class="col-md-6">
-      <h3><a routerLink="add">Agregar Producto</a></h3>
-      <router-outlet></router-outlet> 
+  <h2>Gestión de Productos</h2>
+
+  <!-- Formulario para agregar/editar un producto -->
+  <form (submit)="editingProduct ? updateProduct() : addProduct()">
+    <div class="form-group">
+      <label for="productName">Nombre del Producto:</label>
+      <input type="text" class="form-control" id="productName" [(ngModel)]="editingProduct ? productToEdit.name : newProduct.name" required>
     </div>
-    <div class="col-md-6">
-      <h3><a routerLink="edit/:id">Editar Producto</a></h3>
-      <router-outlet name="editOutlet"></router-outlet> 
+    <div class="form-group">
+      <label for="productDescription">Descripción del Producto:</label>
+      <textarea class="form-control" id="productDescription" [(ngModel)]="editingProduct ? productToEdit.description : newProduct.description"></textarea>
     </div>
-  </div>
+    <!-- Agrega otros campos según tus necesidades, como precio, imagen, etc. -->
+
+    <!-- Botón para agregar o guardar cambios según si se está editando o agregando -->
+    <button type="submit" class="btn btn-primary">
+      {{ editingProduct ? 'Guardar Cambios' : 'Agregar Producto' }}
+    </button>
+  </form>
+
+  <!-- Lista de productos existentes -->
+  <ul class="list-group mt-4">
+    <li class="list-group-item" *ngFor="let product of products">
+      <h5>{{ product.name }}</h5>
+      <p>{{ product.description }}</p>
+      <button class="btn btn-sm btn-warning" (click)="editProduct(product)">Editar</button>
+      <button class="btn btn-sm btn-danger" (click)="deleteProduct(product)">Eliminar</button>
+    </li>
+  </ul>
 </div>

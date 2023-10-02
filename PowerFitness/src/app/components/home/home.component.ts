@@ -5,6 +5,8 @@ import { Product } from '../../models/product.model';
 import { Brand } from '../../models/brand.model';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { DecimalPipe } from '@angular/common';
+import { Router } from '@angular/router';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +32,9 @@ export class HomeComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private brandService: BrandService,
-    private decimalPipe: DecimalPipe
+    private decimalPipe: DecimalPipe,
+    private router: Router,
+    private cartService: CartService,
   ) {}
 
   ngOnInit() {
@@ -89,5 +93,10 @@ export class HomeComponent implements OnInit {
   
     // Reemplazar la coma por un punto
     return formattedPrice.replace(',', '.');
+  }
+  
+  // Función para ver los detalles de un producto
+  viewProductDetails(productId: string): void {
+    this.router.navigate(['/products', productId]);
   }
 }

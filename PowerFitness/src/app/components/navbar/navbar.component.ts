@@ -8,14 +8,17 @@ import { ProductService } from '../services/product.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-
 export class NavbarComponent implements OnInit {
   @ViewChild('searchForm') searchForm: NgForm;
   searchQuery: string;
 
-  cartItemCount: number = 0;  // Variable para almacenar el número de elementos en el carrito
+  cartItemCount: number = 0;
+  productCategories: string[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
     this.productService.addToCart$.subscribe(() => {
@@ -23,5 +26,9 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  // ...
+  // Define la función filterByCategory en el componente NavbarComponent
+  filterByCategory(category: string): void {
+    // Llama al método en product-list.component.ts para aplicar el filtro
+    this.productService.filterProductsByCategory(category);
+  }
 }

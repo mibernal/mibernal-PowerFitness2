@@ -1,7 +1,5 @@
-import { initializeApp } from 'firebase/app';
 import { Injectable } from '@angular/core';
 import { map, Observable, from } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { Product } from '../../models/product.model';
 import {
   collection,
@@ -12,35 +10,28 @@ import {
   getDoc,
   getDocs,
   getFirestore,
-  limit,
   orderBy,
   query,
   QuerySnapshot,
   setDoc,
   updateDoc,
-  where,
 } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
 import { CsvParserService } from '../../services/csv-parser.service';
-import { CsvWriterService } from '../../services/csv-writer.service';
 import { Subject } from 'rxjs';
 import { Brand } from 'src/app/models/brand.model';
+import { initializeApp } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  getProduct(productId: any) {
-    throw new Error('Method not implemented.');
-  }
   private firestore: any;
   private collectionRef: CollectionReference<DocumentData>;
   private addToCartSubject: Subject<Product> = new Subject<Product>();
   addToCart$: Observable<Product> = this.addToCartSubject.asObservable();
-
-  addProductToCart(product: Product) {
-    this.addToCartSubject.next(product);
-  }
+  productService: any;
+  selectedSize: any;
 
   constructor(private csvParserService: CsvParserService) {
     const app = initializeApp(environment.firebase);
@@ -130,5 +121,108 @@ export class ProductService {
         querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() as Brand }))
       )
     );
+  }
+
+  addProductToCart(product: Product) {
+    this.addToCartSubject.next(product);
+  }
+
+  getProductCategories(products: Product[]): string[] {
+    return Array.from(new Set(products.map((product) => product.category)));
+  }
+
+  getProductSizes(products: Product[]): string[] {
+    return Array.from(new Set(products.map((product) => product.size)));
+  }
+
+  getProductFlavors(products: Product[]): string[] {
+    return Array.from(new Set(products.flatMap((product) => product.flavors)));
+  }
+
+  scrollImages(product: Product, direction: number): void {
+    const imageUrls = product.imageUrl;
+    const lastIndex = imageUrls.length - 1;
+
+    const currentImageIndex = product.currentImageIndex || 0;
+
+    let newImageIndex = currentImageIndex + direction;
+
+    if (newImageIndex > lastIndex) {
+      newImageIndex = 0;
+    } else if (newImageIndex < 0) {
+      newImageIndex = lastIndex;
+    }
+
+    product.currentImageIndex = newImageIndex;
+  }
+
+  checkAvailability(product: Product): Observable<boolean> {
+    const selectedProduct = { ...product };
+    if (selectedProduct.id !== undefined) {
+      selectedProduct.id = selectedProduct.id.toString();
+      return this.getProductById(selectedProduct.id).pipe(
+        map((dbProduct: Product) => 
+              this.productService
+            .getProductById(selectedProduct.id)
+            .subscribe((dbProduct: Product) => {
+          // Por ejemplo, puedes verificar si la cantidad disponible es mayor que 0
+          return dbProduct && dbProduct.quantity > 0;
+        }))
+      );
+    } else {
+      // Manejar el caso en que el ID del producto sea undefined
+      return new Observable((observer) => {
+        observer.error('ID del producto no definido');
+      });
+    }
+  }
+
+  filterProductsByCategory(category?: string): Observable<Product[]> {
+    const productsQuery = category
+      ? query(this.collectionRef, orderBy('name'))
+      : query(this.collectionRef, orderBy('name'));
+
+    return from(getDocs(productsQuery)).pipe(
+      map((querySnapshot: QuerySnapshot<DocumentData>) =>
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data() as Product,
+        }))
+      )
+    );
+  }
+
+  filterProductsBySize(selectedSize: string): Observable<Product[]> {
+    const productsQuery = selectedSize
+      ? query(this.collectionRef, orderBy('name'))
+      : query(this.collectionRef, orderBy('name'));
+
+    return from(getDocs(productsQuery)).pipe(
+      map((querySnapshot: QuerySnapshot<DocumentData>) =>
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data() as Product,
+        }))
+      )
+    );
+  }
+
+  filterProductsByFlavor(selectedFlavor: string): Observable<Product[]> {
+    const productsQuery = selectedFlavor
+      ? query(this.collectionRef, orderBy('name'))
+      : query(this.collectionRef, orderBy('name'));
+
+    return from(getDocs(productsQuery)).pipe(
+      map((querySnapshot: QuerySnapshot<DocumentData>) =>
+        querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data() as Product,
+        }))
+      )
+    );
+  }
+
+  formatPrice(price: number): string {
+    return price.toLocaleString('es-ES');
   }
 }

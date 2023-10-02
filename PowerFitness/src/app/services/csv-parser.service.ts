@@ -39,7 +39,8 @@ export class CsvParserService {
             selectedFlavor: 'Selected Flavor',
             selectedSize: 'Selected Size',
             imageUrls: undefined,
-            currentImageIndex: 0, // Include currentImageIndex property
+            currentImageIndex: 0,
+            quantity: 0
           };
 
           products.push(product);

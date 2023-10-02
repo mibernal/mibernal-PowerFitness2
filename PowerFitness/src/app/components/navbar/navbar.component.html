@@ -10,16 +10,13 @@
             <a class="nav-link" routerLink="/home" routerLinkActive="active">Inicio</a>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" routerLink="/categorias" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Categorías
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="#">Proteínas</a></li>
-              <li><a class="dropdown-item" href="#">Pre-entrenamientos</a></li>
-              <li><a class="dropdown-item" href="#">Quemadores de grasa</a></li>
-              <li><a class="dropdown-item" href="#">Vitaminas y minerales</a></li>
-              <li><a class="dropdown-item" href="#">Accesorios de entrenamiento</a></li>
-              <li><a class="dropdown-item" href="#">Ropa deportiva</a></li>
+            <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+              <li *ngFor="let category of productCategories">
+                <a class="dropdown-item" href="#" (click)="filterByCategory(category)">{{ category }}</a>
+              </li>
             </ul>
           </li>
           <li class="nav-item">

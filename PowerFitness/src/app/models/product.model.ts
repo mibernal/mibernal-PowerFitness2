@@ -1,5 +1,6 @@
 
 export interface Product {
+  quantity: number;
   currentImageIndex: number;
   imageUrls: any;
   brand: string;

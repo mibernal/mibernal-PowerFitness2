@@ -1,29 +1,113 @@
-/* src/app/dashboard/dashboard/dashboard.component.scss */
+// Importa el archivo CSS de Bootstrap (asegúrate de tener Bootstrap instalado)
+@import '~bootstrap/dist/css/bootstrap.min.css';
 
-.dashboard {
-    background-color: #f2f2f2;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-  
-    h1 {
-      color: #333;
-    }
-  
-    button {
-      background-color: #007bff;
-      color: #fff;
-      border: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background-color 0.3s;
-  
+// Personaliza los colores
+$primary-color: #3366cc;
+$sidebar-bg-color: #333;
+$sidebar-text-color: #ffffff;
+$content-bg-color: #f5f6fa;
+$content-text-color: #333;
+$accent-color: #e74c3c;
+
+// Estilo general del cuerpo del dashboard
+body {
+  background-color: $content-bg-color;
+  color: $content-text-color;
+  font-family: 'Open Sans', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+// Estilo del encabezado
+.navbar {
+  background-color: $primary-color;
+  color: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+
+  .navbar-brand {
+    font-weight: bold;
+    font-size: 24px;
+    padding-left: 20px;
+  }
+
+  .navbar-nav .nav-item {
+    margin-right: 15px;
+
+    .nav-link {
+      color: white;
+      font-weight: 500;
+
       &:hover {
-        background-color: #0056b3;
+        color: $accent-color;
+      }
+    }
+
+    &.active .nav-link {
+      background-color: transparent;
+      color: $accent-color;
+    }
+  }
+}
+
+// Estilo de la barra lateral
+.sidebar {
+  background-color: $sidebar-bg-color;
+  color: $sidebar-text-color;
+  width: 250px;
+  box-shadow: 2px 0px 10px rgba(0, 0, 0, 0.2);
+  padding-top: 20px;
+  height: 100vh;
+  position: fixed;
+  overflow-y: auto;
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      a {
+        display: block;
+        padding: 15px 20px;
+        text-decoration: none;
+        color: $sidebar-text-color;
+
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.1);
+          color: $primary-color;
+        }
       }
     }
   }
-  
+}
+
+// Estilo del contenido principal
+.content {
+  margin-left: 250px;
+  padding: 20px;
+}
+
+// Estilo de botones
+.btn-primary {
+  background-color: $primary-color;
+  border: none;
+
+  &:hover {
+    background-color: $accent-color;
+  }
+}
+
+// Estilo de enlaces de la barra lateral activa
+.sidebar-active-link {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: $primary-color !important;
+}
+
+// Ajustar el contenido principal para evitar que se superponga al encabezado
+@media (min-width: 768px) {
+  .content {
+    margin-top: 56px;
+  }
+}
+
