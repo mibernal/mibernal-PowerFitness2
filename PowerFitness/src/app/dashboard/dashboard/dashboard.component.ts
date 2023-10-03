@@ -1,8 +1,4 @@
-// src/app/dashboard/dashboard/dashboard.component.ts
-
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,6 +6,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  constructor(    private router: Router) { }
-}
+  selectedContent: string = ''; // Variable para controlar el contenido
 
+  // Método para mostrar el contenido según la opción seleccionada
+  showContent(content: string): void {
+    this.selectedContent = content;
+  }
+}

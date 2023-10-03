@@ -1,19 +1,56 @@
 <!-- dashboard.component.html -->
-
-<div class="dashboard-container">
+<div class="wrapper">
   <!-- Sidebar -->
-  <div class="sidebar">
-    <ul>
-      <li><a routerLink="/dashboard/product-management">Gestión de Productos</a></li>
-      <li><a routerLink="/dashboard/order-management">Gestión de Pedidos</a></li>
-      <li><a routerLink="/dashboard/shipment-management">Gestión de Despachos</a></li>
-      <li><a routerLink="/dashboard/invoice-management">Gestión de Facturación</a></li>
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-header">
+      <h3>Dashboard</h3>
+    </div>
+
+    <ul class="list-unstyled components">
+      <li (click)="showContent('product')" class="active">
+        <a>Gestión de Productos</a>
+      </li>
+      <li (click)="showContent('order')">
+        <a>Gestión de Pedidos</a>
+      </li>
+      <li (click)="showContent('shipment')">
+        <a>Gestión de Despachos</a>
+      </li>
+      <li (click)="showContent('invoice')">
+        <a>Gestión de Facturación</a>
+      </li>
       <!-- Agrega más enlaces según tus necesidades -->
     </ul>
-  </div>
+  </nav>
 
-  <!-- Área de contenido principal -->
-  <div class="content">
-    <router-outlet></router-outlet>
+  <!-- Page Content -->
+  <div id="content" class="content">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+      </div>
+    </nav>
+
+    <ng-container [ngSwitch]="selectedContent">
+      <div *ngSwitchCase="'product'" class="content-section">
+        <!-- Contenido de Gestión de Productos -->
+        <app-product-management></app-product-management>
+        <!-- Utiliza el componente ProductManagementComponent aquí -->
+      </div>
+      <div *ngSwitchCase="'order'" class="content-section">
+        <!-- Contenido de Gestión de Pedidos -->
+        <app-order-management></app-order-management>
+        <!-- Agrega el contenido de gestión de pedidos aquí -->
+      </div>
+      <div *ngSwitchCase="'shipment'" class="content-section">
+        <!-- Contenido de Gestión de Despachos -->
+        <app-shipment-management></app-shipment-management>
+        <!-- Agrega el contenido de gestión de despachos aquí -->
+      </div>
+      <div *ngSwitchCase="'invoice'" class="content-section">
+        <!-- Contenido de Gestión de Facturación -->
+        <app-invoice-management></app-invoice-management>
+        <!-- Agrega el contenido de gestión de facturación aquí -->
+      </div>
+    </ng-container>
   </div>
 </div>

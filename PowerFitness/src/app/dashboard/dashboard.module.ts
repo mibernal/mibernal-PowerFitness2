@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { DashboardChildComponent } from './dashboard-child/dashboard-child.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './sidebar/sidebar.component';
@@ -13,7 +12,6 @@ import { InvoiceManagementComponent } from './invoice-management/invoice-managem
 @NgModule({
   declarations: [
     DashboardComponent,
-    DashboardChildComponent,
     SidebarComponent,
     ProductManagementComponent,
     OrderManagementComponent,

@@ -14,7 +14,6 @@ import { ProductImportComponent } from './components/product-import/product-impo
 import { UserPanelComponent } from "./components/user-panel/user-panel.component";
 import { AuthGuard } from './guards/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard/dashboard.component';
-import { DashboardChildComponent } from './dashboard/dashboard-child/dashboard-child.component';
 
 
 const routes: Routes = [
@@ -32,7 +31,6 @@ const routes: Routes = [
 { path: 'product-management', component: ProductManagementComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 { path: 'user-panel', component: UserPanelComponent, canActivate: [AuthGuard] }, // Proteger ruta con AuthGuard
 { path: 'dashboard', component: DashboardComponent },
-{ path: 'dashboard-child', component: DashboardChildComponent },
 { path: 'dashboard', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule) },
 { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
