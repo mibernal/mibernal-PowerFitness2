@@ -90,15 +90,24 @@ export class ProductService {
 
   updateProduct(product: Product): Observable<void> {
     const productDocRef = doc(this.collectionRef, product.id);
-    return new Observable((observer) => {
-      updateDoc(productDocRef, product as any)
+
+    // Asegúrate de que imageUrl sea un arreglo
+    const imageUrlArray = Array.isArray(product.imageUrl) ? product.imageUrl : [product.imageUrl];
+
+    // Crea un nuevo objeto product con las propiedades actualizadas
+    const updatedProduct = { ...product, imageUrl: imageUrlArray };
+
+    // Utiliza throwError para manejar errores y devolver un Observable con el error
+    return from(
+      updateDoc(productDocRef, updatedProduct)
         .then(() => {
-          observer.next();
+          console.log('Actualización completa');
         })
         .catch((error) => {
-          observer.error(error);
-        });
-    });
+          console.error('Error al actualizar el producto:', error);
+          return throwError(error);
+        })
+    );
   }
 
   deleteProduct(id: string): Observable<void> {
@@ -226,3 +235,7 @@ export class ProductService {
     return price.toLocaleString('es-ES');
   }
 }
+function throwError(error: any): any {
+  throw new Error('Function not implemented.');
+}
+

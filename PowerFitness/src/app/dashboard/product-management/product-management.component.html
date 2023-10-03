@@ -5,13 +5,46 @@
   <form (submit)="editingProduct ? updateProduct() : addProduct()">
     <div class="form-group">
       <label for="productName">Nombre del Producto:</label>
-      <input type="text" class="form-control" id="productName" [(ngModel)]="editingProduct ? productToEdit.name : newProduct.name" required>
+      <input type="text" class="form-control" id="productName" name="productName"[(ngModel)]="newProduct.name" required>
     </div>
     <div class="form-group">
       <label for="productDescription">Descripción del Producto:</label>
-      <textarea class="form-control" id="productDescription" [(ngModel)]="editingProduct ? productToEdit.description : newProduct.description"></textarea>
+      <textarea class="form-control" id="productDescription" name="productDescription" [(ngModel)]="newProduct.description"></textarea>
     </div>
-    <!-- Agrega otros campos según tus necesidades, como precio, imagen, etc. -->
+    <div class="form-group">
+      <label for="productBrand">Marca:</label>
+      <input type="text" class="form-control" id="productBrand" name="productBrand" [(ngModel)]="newProduct.brand">
+    </div>
+    <div class="form-group">
+      <label for="productCategory">Categoría:</label>
+      <input type="text" class="form-control" id="productCategory" name="productCategory" [(ngModel)]="newProduct.category">
+    </div>
+    <div class="form-group">
+      <label for="productDiscount">Descuento:</label>
+      <input type="number" class="form-control" id="productDiscount" name="productDiscount" [(ngModel)]="newProduct.discount">
+    </div>
+    <div class="form-group">
+      <label for="productFlavors">Sabores (separados por comas):</label>
+      <input type="text" class="form-control" id="productFlavors" name="productFlavors" [(ngModel)]="newProduct.flavors">
+    </div>
+    <div class="form-group">
+      <label for="productImageUrl">URL de la imagen (separados por comas):</label>
+      <input type="text" class="form-control" id="productImageUrl" name="productImageUrl" [(ngModel)]="newProduct.imageUrl">
+    </div>
+    <div class="form-group">
+      <label for="productPrice">Precio:</label>
+      <input type="number" class="form-control" id="productPrice" name="productPrice" [(ngModel)]="newProduct.price">
+    </div>
+    <div class="form-group">
+      <label for="productSize">Tamaño:</label>
+      <input type="text" class="form-control" id="productSize" name="productSize" [(ngModel)]="newProduct.size">
+    </div>
+    <div class="form-group">
+      <label for="productStock">Cantidad en Stock:</label>
+      <input type="number" class="form-control" id="productStock" name="productStock" [(ngModel)]="newProduct.stock">
+    </div>
+
+    <!-- Agrega otros campos según sea necesario -->
 
     <!-- Botón para agregar o guardar cambios según si se está editando o agregando -->
     <button type="submit" class="btn btn-primary">

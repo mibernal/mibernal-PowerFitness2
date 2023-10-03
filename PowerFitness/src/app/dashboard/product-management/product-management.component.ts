@@ -29,7 +29,7 @@ export class ProductManagementComponent implements OnInit {
   };
   editingProduct: boolean = false;
   selectedProductId: string = '';
-productToEdit: any;
+  selectedProduct: Product | undefined;
 
   constructor(private productService: ProductService) {}
 
@@ -44,35 +44,58 @@ productToEdit: any;
   }
 
   addProduct(): void {
-    this.productService.createProduct(this.newProduct).subscribe(() => {
-      this.loadProducts();
-      this.resetForm();
-    });
+    if (this.validateProduct(this.newProduct)) {
+      this.productService.createProduct(this.newProduct).subscribe(() => {
+        this.loadProducts();
+        this.resetForm();
+      });
+    }
   }
 
   editProduct(product: Product): void {
+    this.selectedProduct = { ...product }; // Copia profunda del producto para no modificar el original
+    this.newProduct = { ...product }; // También actualiza newProduct para mostrar los datos en el formulario
     this.editingProduct = true;
-    this.selectedProductId = product.id || '';
-    this.productService.getProductById(this.selectedProductId).subscribe((data) => {
-      if (data) {
-        this.newProduct = data;
-      } else {
-        // Manejo de error, producto no encontrado
-      }
-    });
   }
 
   updateProduct(): void {
-    this.productService.updateProduct(this.newProduct).subscribe(() => {
-      this.loadProducts();
-      this.resetForm();
-    });
+    if (this.selectedProduct) {
+      // Asegurarse de que las propiedades imageUrl sean un arreglo
+      if (!Array.isArray(this.selectedProduct.imageUrl)) {
+        this.selectedProduct.imageUrl = [this.selectedProduct.imageUrl];
+      }
+  
+      // Agregar lógica para manejar campos no fundamentales vacíos
+      if (!this.selectedProduct.flavors) {
+        this.selectedProduct.flavors = []; // Inicializa como un arreglo vacío si está vacío
+      }
+  
+      // Agregar lógica para manejar el campo imageUrl vacío
+      if (!this.selectedProduct.imageUrl || this.selectedProduct.imageUrl.length === 0) {
+        this.selectedProduct.imageUrl = ['']; // Inicializa como un arreglo con una cadena vacía si está vacío
+      }
+      
+      // Puedes hacer lo mismo para otros campos no fundamentales
+  
+      console.log('Datos antes de la actualización:', this.selectedProduct);
+      this.productService.updateProduct(this.selectedProduct).subscribe(() => {
+        this.loadProducts();
+        this.resetForm();
+      });
+    }
   }
 
   deleteProduct(product: Product): void {
-    this.productService.deleteProduct(product.id || '').subscribe(() => {
-      this.loadProducts();
-    });
+    if (product.id) {
+      const confirmed = window.confirm(`¿Seguro que deseas eliminar el producto "${product.name}"?`);
+      if (confirmed) {
+        this.productService.deleteProduct(product.id).subscribe(() => {
+          this.loadProducts();
+        });
+      }
+    } else {
+      // Manejo de error, el producto no tiene un ID válido
+    }
   }
 
   resetForm(): void {
@@ -96,5 +119,15 @@ productToEdit: any;
     };
     this.editingProduct = false;
     this.selectedProductId = '';
+    this.selectedProduct = undefined;
+  }
+
+  private validateProduct(product: Product): boolean {
+    // Aquí puedes agregar lógica de validación, por ejemplo, verificar que los campos obligatorios no estén vacíos
+    if (!product.name || !product.price || !product.brand) {
+      alert('Por favor complete los campos obligatorios: nombre, precio y marca');
+      return false;
+    }
+    return true;
   }
 }
