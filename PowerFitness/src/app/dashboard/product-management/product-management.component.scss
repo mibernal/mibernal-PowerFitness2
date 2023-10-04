@@ -19,3 +19,16 @@
     font-weight: bold;
   }
   
+/* Estilo personalizado para las notificaciones ngx-toastr */
+.custom-toast {
+  position: absolute;
+  
+ 
+top: 0;
+  right: 0;
+  width: 300px; /* Personaliza el ancho según tus preferencias */
+  margin: 20px;
+  
+ 
+z-index: 9999; /* Asegura que las notificaciones estén en la parte superior */
+}

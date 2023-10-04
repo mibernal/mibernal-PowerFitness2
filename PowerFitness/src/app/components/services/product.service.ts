@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, from } from 'rxjs';
+import { map, Observable, from  } from 'rxjs';
 import { Product } from '../../models/product.model';
 import {
   collection,
@@ -74,13 +74,15 @@ export class ProductService {
   }
 
   createProduct(product: Product): Observable<Product> {
-    const id = this.firestore.createId();
-    product.id = id;
+    // Utiliza la función doc para generar un ID único para el documento
+    const newProductRef = doc(this.collectionRef);
+  
     return new Observable((observer) => {
-      setDoc(doc(this.collectionRef, product.id), product)
+      setDoc(newProductRef, product)
         .then(() => {
-          const newProduct = { ...product };
+          const newProduct = { ...product, id: newProductRef.id };
           observer.next(newProduct);
+          observer.complete(); // Completa el observable
         })
         .catch((error) => {
           observer.error(error);
@@ -105,7 +107,7 @@ export class ProductService {
         })
         .catch((error) => {
           console.error('Error al actualizar el producto:', error);
-          return throwError(error);
+          throw error; // Cambia return throwError(error) a throw error
         })
     );
   }
@@ -116,6 +118,7 @@ export class ProductService {
       deleteDoc(productDocRef)
         .then(() => {
           observer.next();
+          observer.complete(); // Completa el observable
         })
         .catch((error) => {
           observer.error(error);

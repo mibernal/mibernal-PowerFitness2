@@ -5,6 +5,7 @@ import { Product } from '../../../models/product.model';
 import { CartService } from '../../services/cart.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',

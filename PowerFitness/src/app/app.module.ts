@@ -43,6 +43,9 @@ import { CommonModule } from '@angular/common';
 import { SlickCarouselModule } from 'ngx-slick-carousel';
 import { DecimalPipe } from '@angular/common';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { ToastrModule } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -91,7 +94,9 @@ import { DashboardModule } from './dashboard/dashboard.module';
     MatSnackBarModule,
     CommonModule,
     SlickCarouselModule,
-    DashboardModule
+    DashboardModule,
+    ModalModule,
+    ToastrModule.forRoot()
   ],
   exports: [
     // otros componentes exportados aquí
