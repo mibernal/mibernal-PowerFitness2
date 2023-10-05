@@ -49,11 +49,33 @@
       </div>
       <button type="button" class="btn btn-primary" (click)="changePassword()">Change Password</button>
     </form>
+    
 
     <h2 *ngIf="selectedModule === 'orders'">Pedidos</h2>
     <div *ngIf="selectedModule === 'orders'" class="module-content">
-      <!-- Pedidos module content -->
+      <ul *ngIf="userOrders && userOrders.length > 0">
+        <li *ngFor="let order of userOrders">
+          <!-- Mostrar información de cada pedido aquí -->
+          <p>Fecha del pedido: {{ order.fecha }}</p>
+          <p>Número de pedido: {{ order.numero_pedido }}</p>
+          <button type="button" class="btn btn-primary" (click)="viewOrderDetails(order)">Ver Detalle</button>
+          
+          <!-- Agregar un área para mostrar los detalles del pedido si showDetails es true -->
+          <div *ngIf="order.showDetails">
+            <!-- Mostrar los detalles del pedido aquí -->
+            <p>Detalles del Pedido:</p>
+            <div *ngIf="orderDetails">
+              <!-- Mostrar los detalles del pedido aquí utilizando orderDetails -->
+              <!-- Por ejemplo: -->
+              <p>Estado: {{ orderDetails.estado }}</p>
+              <!-- Agregar más detalles según tu estructura de datos de pedido -->
+            </div>
+          </div>
+        </li>
+      </ul>
+      <p *ngIf="!userOrders || userOrders.length === 0">No tienes pedidos.</p>
     </div>
+    
 
     <h2 *ngIf="selectedModule === 'addresses'">Direcciones</h2>
     <div *ngIf="selectedModule === 'addresses'" class="module-content">

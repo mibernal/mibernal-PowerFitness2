@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProductService } from '../services/product.service';
+import { ProductService } from '../services/product/product.service';
 import { BrandService } from '../services/brand/brand.service';
 import { Product } from '../../models/product.model';
 import { Brand } from '../../models/brand.model';
 import { SlickCarouselComponent } from 'ngx-slick-carousel';
 import { DecimalPipe } from '@angular/common';
 import { Router } from '@angular/router';
-import { CartService } from '../services/cart.service';
+import { CartService } from '../services/cart/cart.service';
 
 @Component({
   selector: 'app-home',

@@ -2,9 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { CartService } from '../services/cart.service';
+import { CartService } from '../services/cart/cart.service';
 import { Product } from 'src/app/models/product.model';
-import { LocationService } from '../services/location.service';
+import { LocationService } from '../services/location/location.service';
+import { OrderService } from '../services/order/order.service'; // Importa el servicio OrderService
 import { Observable } from 'rxjs';
 
 @Component({
@@ -18,13 +19,15 @@ export class CheckoutComponent implements OnInit {
   total: number;
   departments: any[];
   cities: any[];
+  simularPago: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private firestore: AngularFirestore,
     private cartService: CartService,
     private router: Router,
-    private locationService: LocationService // Inject the LocationService
+    private locationService: LocationService,
+    private orderService: OrderService // Inyecta el servicio OrderService
   ) {}
 
   ngOnInit(): void {
@@ -39,7 +42,7 @@ export class CheckoutComponent implements OnInit {
       complemento: [''],
       celular: ['', Validators.required],
       notas: [''],
-      fecha: ['', Validators.required],
+      fecha: [new Date().toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })], // Inyecta la fecha y hora actual
       numero_pedido: [''],
       estado: ['']
     });
@@ -67,6 +70,19 @@ export class CheckoutComponent implements OnInit {
         this.cities = [];
       }
     });
+  
+    // Subscribe to changes in the selected department
+    this.checkoutForm.get('departamento')?.valueChanges.subscribe((departmentId) => {
+      if (departmentId) {
+        // Fetch cities by department from the LocationService
+        this.locationService.getCitiesByDepartment(departmentId).subscribe((cities) => {
+          this.cities = cities;
+        });
+      } else {
+        // If no department selected, reset the cities array
+        this.cities = [];
+      }
+    });
   }
 
   onDepartmentChange(departmentId: string): void {
@@ -81,9 +97,42 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit(): void {
+    // Verificar si el formulario es inválido
     if (this.checkoutForm.invalid) {
+      // Marcar campos inválidos como "touched" para mostrar los mensajes de error
+      this.markFormControlsAsTouched(this.checkoutForm);
+  
+      // Mostrar mensajes de error detallados para cada control
+      for (const controlName in this.checkoutForm.controls) {
+        const control = this.checkoutForm.get(controlName);
+  
+        if (!control) {
+          continue;
+        }
+  
+        if (control instanceof FormGroup) {
+          continue; // Ignorar FormGroup anidados
+        }
+  
+        if (control.errors) {
+          for (const errorName in control.errors) {
+            switch (errorName) {
+              case 'required':
+                console.log(`${controlName} es requerido.`);
+                break;
+              case 'email':
+                console.log(`${controlName} debe ser una dirección de correo electrónico válida.`);
+                break;
+              // Agrega casos adicionales para otros tipos de validadores personalizados si los tienes
+            }
+          }
+        }
+      }
+  
       return;
     }
+    // Aquí, puedes continuar con el proceso de envío del formulario
+    // ...
 
     const pedido = {
       numero_documento: this.checkoutForm.value.numero_documento,
@@ -101,29 +150,25 @@ export class CheckoutComponent implements OnInit {
       estado: '' // Se establecerá automáticamente en Firestore
     };
 
-    this.firestore
-      .collection('pedidos')
-      .add(pedido)
-      .then((docRef: { id: any; }) => {
-        const numeroPedido = docRef.id;
-        this.firestore
-          .collection('pedidos')
-          .doc(numeroPedido)
-          .update({
-            numero_pedido: numeroPedido,
-            estado: 'pendiente'
-          })
-          .then(() => {
-            console.log('Pedido guardado exitosamente.');
-            // Aquí puedes redirigir al usuario a la página de éxito del pedido
-          })
-          .catch((error: any) => {
-            console.error('Error al actualizar el número de pedido y estado:', error);
-          });
+    this.orderService.createOrder(pedido) // Llama al método createOrder del servicio OrderService
+      .then((orderId: any) => {
+        console.log('Pedido guardado exitosamente. ID del pedido:', orderId);
+        if (this.simularPago) {
+          this.simularPagoExitoso();
+        } else {
+          console.log('No se realizó un pago real.');
+          // Aquí puedes redirigir al usuario a la página de éxito del pedido
+        }
       })
       .catch((error: any) => {
         console.error('Error al guardar el pedido:', error);
       });
+  }
+
+  simularPagoExitoso(): void {
+    // Simulación de pago exitoso
+    console.log('Pago simulado exitosamente.');
+    // Aquí puedes redirigir al usuario a la página de éxito del pedido después de la simulación de pago
   }
 
   getSelectedFlavor(product: Product): string {
@@ -142,5 +187,15 @@ export class CheckoutComponent implements OnInit {
 
   getTotal(): number {
     return this.total;
+  }
+
+  markFormControlsAsTouched(formGroup: FormGroup): void {
+    Object.values(formGroup.controls).forEach(control => {
+      if (control instanceof FormGroup) {
+        this.markFormControlsAsTouched(control);
+      } else if (control !== null) { // Verifica que control no sea nulo
+        (control as any).markAsTouched();
+      }
+    });
   }
 }

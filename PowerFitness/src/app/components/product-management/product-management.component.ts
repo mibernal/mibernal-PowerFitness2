@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CsvWriterService } from '../../services/csv-writer.service';
-import { ProductService } from '../services/product.service';
+import { ProductService } from '../services/product/product.service';
 import { Product } from '../../models/product.model';
 
 @Component({

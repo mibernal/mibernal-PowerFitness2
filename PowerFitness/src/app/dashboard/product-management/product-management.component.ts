@@ -1,6 +1,6 @@
 // product-management.component.ts
 import { Component, OnInit } from '@angular/core';
-import { ProductService } from '../../components/services/product.service';
+import { ProductService } from '../../components/services/product/product.service';
 import { Product } from '../../models/product.model';
 import { ToastrService } from 'ngx-toastr'; // Importa ToastrService
 

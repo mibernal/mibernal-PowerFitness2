@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { CartService } from '../services/cart.service';
-import { ProductService } from '../services/product.service';
+import { CartService } from '../services/cart/cart.service';
+import { ProductService } from '../services/product/product.service';
 
 @Component({
   selector: 'app-navbar',

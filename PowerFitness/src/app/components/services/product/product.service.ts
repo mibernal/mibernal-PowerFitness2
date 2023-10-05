@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable, from  } from 'rxjs';
-import { Product } from '../../models/product.model';
+import { Product } from '../../../models/product.model';
 import {
   collection,
   CollectionReference,
@@ -17,7 +17,7 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
-import { CsvParserService } from '../../services/csv-parser.service';
+import { CsvParserService } from '../../../services/csv-parser.service';
 import { Subject } from 'rxjs';
 import { Brand } from 'src/app/models/brand.model';
 import { initializeApp } from 'firebase/app';

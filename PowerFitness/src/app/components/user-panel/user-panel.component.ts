@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import firebase from 'firebase/compat/app';
 import { User } from '@firebase/auth-types';
+import { OrderService } from '../services/order/order.service';
 
 @Component({
   selector: 'app-user-panel',
@@ -18,10 +19,15 @@ export class UserPanelComponent implements OnInit, OnDestroy {
   currentUser: User | null;
   currentUserSubscription: Subscription;
 
+  userOrders: any[];
+
+  orderDetails: any;
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private orderService: OrderService
   ) {}
 
   ngOnDestroy(): void {
@@ -55,6 +61,7 @@ export class UserPanelComponent implements OnInit, OnDestroy {
           name: value.displayName || '',
           email: value.email || ''
         });
+        this.loadUserOrders(value.email || '');
       }
     });
   }
@@ -123,4 +130,34 @@ export class UserPanelComponent implements OnInit, OnDestroy {
   showSuccessMessage(message: string): void {
     this.snackBar.open(message, 'Close', { duration: 3000 });
   }
-}
+
+  loadUserOrders(email: string): void {
+    this.orderService.getUserOrdersByEmail(email).subscribe(
+      (orders: any[]) => {
+        this.userOrders = orders;
+      },
+      (error: any) => {
+        console.error('Failed to load user orders:', error);
+      }
+    );
+  }
+
+  viewOrderDetails(order: any): void {
+    console.log('Clicked on View Details');
+    if (order.showDetails) {
+      console.log('Details already visible');
+      this.orderDetails = null; // Debería establecerse en null para ocultar los detalles
+    } else {
+      console.log('Fetching order details');
+      this.orderService.getOrder(order.numero_pedido).subscribe(
+        (details: any) => {
+          this.orderDetails = details;
+        },
+        (error: any) => {
+          console.error('Failed to load order details:', error);
+        }
+      );
+    }
+    order.showDetails = !order.showDetails;
+  }
+}  
