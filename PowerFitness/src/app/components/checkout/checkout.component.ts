@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { CartService } from '../services/cart/cart.service';
 import { Product } from 'src/app/models/product.model';
 import { LocationService } from '../services/location/location.service';
-import { OrderService } from '../services/order/order.service'; // Importa el servicio OrderService
+import { OrderService } from '../services/order/order.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -27,7 +27,7 @@ export class CheckoutComponent implements OnInit {
     private cartService: CartService,
     private router: Router,
     private locationService: LocationService,
-    private orderService: OrderService // Inyecta el servicio OrderService
+    private orderService: OrderService
   ) {}
 
   ngOnInit(): void {
@@ -42,44 +42,27 @@ export class CheckoutComponent implements OnInit {
       complemento: [''],
       celular: ['', Validators.required],
       notas: [''],
-      fecha: [new Date().toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })], // Inyecta la fecha y hora actual
+      fecha: [new Date().toLocaleString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' })],
       numero_pedido: [''],
-      estado: ['']
+      estado: [''],
+      productos: this.formBuilder.array([]) 
     });
 
     this.products = this.cartService.getProducts();
     this.total = this.cartService.getTotal();
 
-    // Fetch departments from the LocationService
     this.locationService.departments$.subscribe((departments) => {
       this.departments = departments;
     });
 
-    // Initialize the cities array with an empty array
     this.cities = [];
 
-    // Subscribe to changes in the selected department
     this.checkoutForm.get('departamento')?.valueChanges.subscribe((departmentId) => {
       if (departmentId) {
-        // Fetch cities by department from the LocationService
         this.locationService.getCitiesByDepartment(departmentId).subscribe((cities) => {
           this.cities = cities;
         });
       } else {
-        // If no department selected, reset the cities array
-        this.cities = [];
-      }
-    });
-  
-    // Subscribe to changes in the selected department
-    this.checkoutForm.get('departamento')?.valueChanges.subscribe((departmentId) => {
-      if (departmentId) {
-        // Fetch cities by department from the LocationService
-        this.locationService.getCitiesByDepartment(departmentId).subscribe((cities) => {
-          this.cities = cities;
-        });
-      } else {
-        // If no department selected, reset the cities array
         this.cities = [];
       }
     });
@@ -87,7 +70,6 @@ export class CheckoutComponent implements OnInit {
 
   onDepartmentChange(departmentId: string): void {
     if (departmentId) {
-      // Fetch cities by department from the LocationService
       this.locationService.getCitiesByDepartment(departmentId).subscribe((cities: any[]) => {
         this.cities = cities;
       });
@@ -97,23 +79,16 @@ export class CheckoutComponent implements OnInit {
   }
 
   onSubmit(): void {
-    // Verificar si el formulario es inválido
     if (this.checkoutForm.invalid) {
-      // Marcar campos inválidos como "touched" para mostrar los mensajes de error
       this.markFormControlsAsTouched(this.checkoutForm);
-  
-      // Mostrar mensajes de error detallados para cada control
       for (const controlName in this.checkoutForm.controls) {
         const control = this.checkoutForm.get(controlName);
-  
         if (!control) {
           continue;
         }
-  
         if (control instanceof FormGroup) {
-          continue; // Ignorar FormGroup anidados
+          continue;
         }
-  
         if (control.errors) {
           for (const errorName in control.errors) {
             switch (errorName) {
@@ -123,17 +98,34 @@ export class CheckoutComponent implements OnInit {
               case 'email':
                 console.log(`${controlName} debe ser una dirección de correo electrónico válida.`);
                 break;
-              // Agrega casos adicionales para otros tipos de validadores personalizados si los tienes
             }
           }
         }
       }
-  
       return;
     }
-    // Aquí, puedes continuar con el proceso de envío del formulario
-    // ...
+  
+    // Agregar los detalles de los productos al FormArray 'productos'
+    const productosFormArray = this.checkoutForm.get('productos') as FormArray;
+    this.products.forEach((product) => {
+      const productFormGroup = this.formBuilder.group({
 
+        // Excluyendo los campos que no deben incluirse en el pedido
+        brand: [product.brand],
+        category: [product.category],
+        description: [product.description],
+        discount: [product.discount],
+        id: [product.id],
+        nombre: [product.name],
+        precio: [product.price],
+        cantidad: [product.quantity],
+        size: [product.selectedSize || ''], 
+        sizes: [product.selectedSize || ''], 
+        flavor: [product.selectedFlavor || ''],
+      });
+      productosFormArray.push(productFormGroup);
+    });
+  
     const pedido = {
       numero_documento: this.checkoutForm.value.numero_documento,
       email: this.checkoutForm.value.email,
@@ -147,17 +139,18 @@ export class CheckoutComponent implements OnInit {
       notas: this.checkoutForm.value.notas,
       fecha: this.checkoutForm.value.fecha,
       numero_pedido: '', // Se generará automáticamente en Firestore
-      estado: '' // Se establecerá automáticamente en Firestore
+      estado: '', // Se establecerá automáticamente en Firestore
+      productos: this.checkoutForm.value.productos // Ahora se agregarán los detalles de los productos
     };
-
-    this.orderService.createOrder(pedido) // Llama al método createOrder del servicio OrderService
+  
+    this.orderService.createOrder(pedido)
       .then((orderId: any) => {
         console.log('Pedido guardado exitosamente. ID del pedido:', orderId);
         if (this.simularPago) {
           this.simularPagoExitoso();
         } else {
           console.log('No se realizó un pago real.');
-          // Aquí puedes redirigir al usuario a la página de éxito del pedido
+          this.router.navigate(['/exito-pedido']);
         }
       })
       .catch((error: any) => {
@@ -166,9 +159,7 @@ export class CheckoutComponent implements OnInit {
   }
 
   simularPagoExitoso(): void {
-    // Simulación de pago exitoso
     console.log('Pago simulado exitosamente.');
-    // Aquí puedes redirigir al usuario a la página de éxito del pedido después de la simulación de pago
   }
 
   getSelectedFlavor(product: Product): string {
@@ -193,7 +184,7 @@ export class CheckoutComponent implements OnInit {
     Object.values(formGroup.controls).forEach(control => {
       if (control instanceof FormGroup) {
         this.markFormControlsAsTouched(control);
-      } else if (control !== null) { // Verifica que control no sea nulo
+      } else if (control !== null) {
         (control as any).markAsTouched();
       }
     });

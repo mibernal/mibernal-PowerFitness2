@@ -66,9 +66,21 @@
             <p>Detalles del Pedido:</p>
             <div *ngIf="orderDetails">
               <!-- Mostrar los detalles del pedido aquí utilizando orderDetails -->
-              <!-- Por ejemplo: -->
               <p>Estado: {{ orderDetails.estado }}</p>
-              <!-- Agregar más detalles según tu estructura de datos de pedido -->
+              <!-- Mostrar la lista de productos en el pedido -->
+              <ul>
+                <li *ngFor="let product of orderDetails.productos">
+                  <p>Nombre del Producto: {{ product.nombre }}</p>
+                  <p>Tamaño: {{ product.size }}</p>
+                  <p>Sabor: {{ product.flavor }}</p>
+                  <p>Talla: {{ product.sizes }}</p>
+                  <p>Precio: {{ product.price }}</p>
+                  <p>Total: {{ product.total }}</p>
+                  
+                </li>
+              </ul>
+              
+              <!-- Agregar más detalles según tu estructura de datos de producto en el pedido -->
             </div>
           </div>
         </li>
