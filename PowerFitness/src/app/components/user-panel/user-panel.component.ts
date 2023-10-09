@@ -23,6 +23,9 @@ export class UserPanelComponent implements OnInit, OnDestroy {
 
   orderDetails: any;
 
+  userAddresses: any[];
+  allOrders: any[];
+
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -62,6 +65,21 @@ export class UserPanelComponent implements OnInit, OnDestroy {
           email: value.email || ''
         });
         this.loadUserOrders(value.email || '');
+      }
+    });
+
+    this.currentUserSubscription = this.authService.getCurrentUser().subscribe((value: User | null) => {
+      if (value) {
+        this.currentUser = value;
+        this.profileForm.patchValue({
+          name: value.displayName || '',
+          email: value.email || ''
+        });
+        
+        this.loadUserOrders(value.email || '');
+        
+        // Cargar direcciones del usuario
+        this.loadAllOrders(); // Cargar todos los pedidos
       }
     });
   }
@@ -159,5 +177,28 @@ export class UserPanelComponent implements OnInit, OnDestroy {
       );
     }
     order.showDetails = !order.showDetails;
+  }
+
+  loadAllOrders(): void {
+    this.orderService.getAllOrders().subscribe(
+      (orders: any[]) => {
+        this.allOrders = orders;
+        this.loadUserAddresses(this.currentUser?.email || ''); // Luego, cargar las direcciones del usuario
+      },
+      (error: any) => {
+        console.error('Failed to load all orders:', error);
+      }
+    );
+  }
+
+  loadUserAddresses(email: string): void {
+    // Filtrar los pedidos por correo electrónico coincidente
+    this.userAddresses = this.allOrders
+      .filter((order) => order.email === email)
+      .map((order) => ({
+        direccion: order.direccion_envio,
+        ciudad: order.ciudad,
+        departamento: order.departamento
+      }));
   }
 }  

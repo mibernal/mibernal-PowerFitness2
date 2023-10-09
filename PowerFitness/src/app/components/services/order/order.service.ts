@@ -62,4 +62,14 @@ export class OrderService {
     ).valueChanges();
   }
 
+  getUserAddresses(email: string): Observable<any[]> {
+    return this.firestore.collection('direcciones', (ref) =>
+      ref.where('email', '==', email)
+    ).valueChanges();
+  }
+
+  getAllOrders(): Observable<any[]> {
+    return this.firestore.collection('pedidos').valueChanges();
+  }
+  
 }

@@ -91,7 +91,16 @@
 
     <h2 *ngIf="selectedModule === 'addresses'">Direcciones</h2>
     <div *ngIf="selectedModule === 'addresses'" class="module-content">
-      <!-- Direcciones module content -->
+      <ul *ngIf="userAddresses && userAddresses.length > 0">
+        <li *ngFor="let address of userAddresses">
+          <!-- Mostrar información de cada dirección aquí -->
+          <p>Dirección: {{ address.direccion }}</p>
+          <p>Ciudad: {{ address.ciudad }}</p>
+          <p>Departamento: {{ address.departamento }}</p>
+          <!-- Agregar más detalles según tu estructura de datos de dirección -->
+        </li>
+      </ul>
+      <p *ngIf="!userAddresses || userAddresses.length === 0">No tienes direcciones guardadas.</p>
     </div>
 
     <h2 *ngIf="selectedModule === 'account'">Detalles de la Cuenta</h2>
