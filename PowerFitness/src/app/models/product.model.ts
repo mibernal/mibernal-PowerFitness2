@@ -1,4 +1,3 @@
-
 export interface Product {
   quantity: number;
   currentImageIndex: number;
@@ -17,4 +16,7 @@ export interface Product {
   stock: number;
   selectedSize?: string;
   selectedFlavor?: string;
+  popularity?: number; // Add popularity property
+  averageRating?: number; // Add averageRating property
+  dateAdded?: Date; // Add dateAdded property
 }

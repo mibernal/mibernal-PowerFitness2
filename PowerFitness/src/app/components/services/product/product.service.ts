@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, Observable, from  } from 'rxjs';
-import { Product } from '../../../models/product.model';
+import { map, Observable, from } from 'rxjs';
 import {
   collection,
   CollectionReference,
@@ -15,30 +14,34 @@ import {
   QuerySnapshot,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { environment } from 'src/environments/environment';
 import { CsvParserService } from '../../../services/csv-parser.service';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Brand } from 'src/app/models/brand.model';
 import { initializeApp } from 'firebase/app';
+import { Product } from '../../../models/product.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
+
+  private selectedCategorySubject = new BehaviorSubject<string>('');
+  selectedCategory$: Observable<string> = this.selectedCategorySubject.asObservable();
+  
   private firestore: any;
   private collectionRef: CollectionReference<DocumentData>;
   private addToCartSubject: Subject<Product> = new Subject<Product>();
   addToCart$: Observable<Product> = this.addToCartSubject.asObservable();
-  productService: any;
-  selectedSize: any;
 
   constructor(private csvParserService: CsvParserService) {
     const app = initializeApp(environment.firebase);
     const firestore = getFirestore(app);
     this.collectionRef = collection(firestore, 'productos');
 
-    const file = new File([''], 'products.csv'); // Crear objeto File vacío con el nombre del archivo
+    const file = new File([''], 'products.csv');
     this.csvParserService.importProductsFromCSV(file);
   }
 
@@ -139,8 +142,10 @@ export class ProductService {
     this.addToCartSubject.next(product);
   }
 
-  getProductCategories(products: Product[]): string[] {
-    return Array.from(new Set(products.map((product) => product.category)));
+  getProductCategories(): Observable<string[]> {
+    return this.getProducts().pipe(
+      map((products) => Array.from(new Set(products.map((product) => product.category))))
+    );
   }
 
   getProductSizes(products: Product[]): string[] {
@@ -173,27 +178,22 @@ export class ProductService {
     if (selectedProduct.id !== undefined) {
       selectedProduct.id = selectedProduct.id.toString();
       return this.getProductById(selectedProduct.id).pipe(
-        map((dbProduct: Product) => 
-              this.productService
-            .getProductById(selectedProduct.id)
-            .subscribe((dbProduct: Product) => {
-          // Por ejemplo, puedes verificar si la cantidad disponible es mayor que 0
-          return dbProduct && dbProduct.quantity > 0;
-        }))
+        map((dbProduct: Product) => dbProduct && dbProduct.quantity > 0)
       );
     } else {
-      // Manejar el caso en que el ID del producto sea undefined
-      return new Observable((observer) => {
-        observer.error('ID del producto no definido');
-      });
+      return throwError('ID del producto no definido'); // Usa throwError
     }
   }
 
   filterProductsByCategory(category?: string): Observable<Product[]> {
+    if (category !== undefined) {
+      this.selectedCategorySubject.next(category);
+    }
+  
     const productsQuery = category
-      ? query(this.collectionRef, orderBy('name'))
+      ? query(this.collectionRef, where('category', '==', category), orderBy('name'))
       : query(this.collectionRef, orderBy('name'));
-
+  
     return from(getDocs(productsQuery)).pipe(
       map((querySnapshot: QuerySnapshot<DocumentData>) =>
         querySnapshot.docs.map((doc) => ({
@@ -206,7 +206,7 @@ export class ProductService {
 
   filterProductsBySize(selectedSize: string): Observable<Product[]> {
     const productsQuery = selectedSize
-      ? query(this.collectionRef, orderBy('name'))
+      ? query(this.collectionRef, where('size', '==', selectedSize), orderBy('name'))
       : query(this.collectionRef, orderBy('name'));
 
     return from(getDocs(productsQuery)).pipe(
@@ -221,7 +221,7 @@ export class ProductService {
 
   filterProductsByFlavor(selectedFlavor: string): Observable<Product[]> {
     const productsQuery = selectedFlavor
-      ? query(this.collectionRef, orderBy('name'))
+      ? query(this.collectionRef, where('flavors', 'array-contains', selectedFlavor), orderBy('name'))
       : query(this.collectionRef, orderBy('name'));
 
     return from(getDocs(productsQuery)).pipe(

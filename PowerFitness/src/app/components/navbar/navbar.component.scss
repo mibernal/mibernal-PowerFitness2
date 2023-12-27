@@ -1,15 +1,23 @@
-@import '../../../../node_modules/bootstrap/scss/bootstrap';
-@import '~bootstrap-icons/font/bootstrap-icons.css';
-//@import '../../../../node_modules/bootstrap/';
+// navbar.component.scss
 
-// Variables de color
 $primary-color: #511a87;
 $secondary-color: #fff;
 $color-change-percentage: 10%;
 
-// Estilos para la barra de navegación
 .navbar {
   background: linear-gradient(to bottom, $primary-color, $primary-color $color-change-percentage, $primary-color);
+
+  .navbar-toggler-icon {
+    background-color: $secondary-color;
+  }
+
+  .navbar-toggler:hover .navbar-toggler-icon {
+    background-color: $primary-color;
+  }
+
+  .collapse {
+    background-color: rgba($primary-color, 0.9);
+  }
 
   .navbar-brand {
     font-size: 30px;
@@ -49,6 +57,10 @@ $color-change-percentage: 10%;
     &::placeholder {
       color: $secondary-color;
     }
+
+    &:focus {
+      border-color: $primary-color;
+    }
   }
 
   .btn-outline-success {
@@ -68,24 +80,16 @@ $color-change-percentage: 10%;
     &:hover {
       color: $secondary-color;
     }
-  }
 
-  .bi.bi-cart {
-    font-size: 1.5rem;
-    color: $secondary-color;
-
-    &:hover {
-      color: $secondary-color;
-    }
     .cart-items {
-      background-color: #ff0000;  // Color de fondo para el número de elementos
-      color: #ffffff;  // Color del texto para el número de elementos
-      font-size: 12px;  // Tamaño de fuente para el número de elementos
-      border-radius: 50%;  // Forma redondeada para crear un círculo
-      padding: 2px 6px;  // Espaciado interno para el número de elementos
-      position: absolute;  // Posición absoluta para colocar el número sobre el ícono
-      top: -5px;  // Ajuste vertical para posicionar el número correctamente
-      right: -5px;  // Ajuste horizontal para posicionar el número correctamente
+      background-color: #ff0000;
+      color: #ffffff;
+      font-size: 12px;
+      border-radius: 50%;
+      padding: 2px 6px;
+      position: absolute;
+      top: -5px;
+      right: -5px;
     }
   }
 }

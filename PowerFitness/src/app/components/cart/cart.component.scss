@@ -1,3 +1,4 @@
+/* src\app\components\cart\cart.component.scss */
 
 .cart {
   display: flex;
@@ -37,6 +38,11 @@
         border: none;
         cursor: pointer;
         margin-top: 10px;
+        transition: background-color 0.3s ease;
+
+        &:hover {
+          background-color: #45a049; /* Cambio de color al pasar el ratón */
+        }
       }
     }
   }
@@ -49,19 +55,21 @@
       font-size: 20px;
       font-weight: bold;
     }
-  }
-}
 
-  .total {
-      button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 20px 30px;
-        font-size: 17px;
-        border-radius: 6px;
-        border: none;
-        cursor: pointer;
-        margin-top: 10px;
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 20px 30px;
+      font-size: 17px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #45a049; /* Cambio de color al pasar el ratón */
       }
     }
-  
+  }
+}

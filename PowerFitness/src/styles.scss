@@ -1,4 +1,28 @@
+// Definición de $link-color (puedes ajustar el color según tus necesidades)
+$link-color: #007bff;
+
+// Importa el estilo de Bootstrap
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+// Establece las fuentes y el tamaño de fuente predeterminados
+$font-family-base: 'Roboto', "Helvetica Neue", sans-serif;
+$font-size-base: 16px;
+
+// Resto de tu archivo de estilos...
+
+// Configuración para mejorar la legibilidad del enlace
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+// Ajusta el tamaño de fuente en pantallas más pequeñas
+@media (max-width: 768px) {
+  body {
+    font-size: $font-size-base - 2px; // Ajusta según tus necesidades
+  }
+}

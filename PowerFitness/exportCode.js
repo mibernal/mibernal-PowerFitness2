@@ -14,8 +14,9 @@ function exportCode(filePath, outputFile) {
 // Archivo de salida unificado
 const outputFilePath = path.join(projectDirectory, 'unified-code.txt');
 
-// Directorio de la carpeta "components"
+// Directorios de las carpetas "components" y "dashboard"
 const componentsDirectory = path.join(projectDirectory, 'src', 'app', 'components');
+const dashboardDirectory = path.join(projectDirectory, 'src', 'app', 'dashboard');
 
 // Función para buscar y exportar archivos en un directorio y sus subdirectorios
 function exportFilesInDirectory(directoryPath) {
@@ -24,9 +25,9 @@ function exportFilesInDirectory(directoryPath) {
     const filePath = path.join(directoryPath, file);
     const stats = fs.statSync(filePath);
     if (stats.isFile()) {
-      // Verificar si la extensión del archivo es .html o .ts y no es .css, .scss ni .spec.ts antes de exportarlo
+      // Verificar si la extensión del archivo es .html o .scss antes de exportarlo
       const fileExtension = path.extname(filePath);
-      if ((fileExtension === '.html' || fileExtension === '.ts') && fileExtension !== '.css' && fileExtension !== '.scss' && !file.endsWith('.spec.ts')) {
+      if ((fileExtension === '.html' || fileExtension === '.scss') && !file.endsWith('.spec.ts')) {
         exportCode(path.relative(projectDirectory, filePath), outputFilePath);
       }
     } else if (stats.isDirectory()) {
@@ -35,7 +36,8 @@ function exportFilesInDirectory(directoryPath) {
   });
 }
 
-// Inicia el proceso de exportación desde la carpeta "components"
+// Inicia el proceso de exportación desde las carpetas "components" y "dashboard"
 exportFilesInDirectory(componentsDirectory);
+exportFilesInDirectory(dashboardDirectory);
 
 console.log(`Código exportado exitosamente a ${outputFilePath}`);

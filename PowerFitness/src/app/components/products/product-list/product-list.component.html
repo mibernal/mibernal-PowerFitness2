@@ -1,10 +1,29 @@
 <!-- product-list.component.html -->
+
 <div class="container">
   <div class="row">
+    <div class="col-12">
+      <!-- Agregar el desplegable de ordenación -->
+      <label for="sortOrder">Ordenar por:</label>
+      <select id="sortOrder" [(ngModel)]="selectedSortOrder" (change)="sortProducts()">
+        <option value="popularity">Popularidad</option>
+        <option value="averageRating">Puntuación media</option>
+        <option value="latestAdded">Últimos agregados</option>
+        <option value="lowToHigh">Precio bajo a alto</option>
+        <option value="highToLow">Precio alto a bajo</option>
+        <option value="atoz">De la A a la Z</option>
+      </select>
+    </div>
+
+    <div *ngIf="confirmationMessage" class="confirmation-message col-12">
+      {{ confirmationMessage }}
+    </div>
+
     <div class="col-12 col-lg-3">
       <div class="category-menu">
         <h5>Categorías:</h5>
         <ul>
+          <li (click)="resetFilters()">Todos los Productos</li>
           <li *ngFor="let category of productCategories" (click)="filterProductsByCategory(category)">
             {{ category }}
           </li>
@@ -63,7 +82,7 @@
                 Descuento: {{ product.discount }}
               </p>
               <p class="card-text product-price" *ngIf="product.price !== undefined && product.price !== 0">
-               ${{ formatPrice(product.price) }}
+                ${{ formatPrice(product.price) }}
               </p>
               <button class="btn btn-primary add-to-cart-button" (click)="addProduct(product)">Añadir al Carrito</button>
               <button class="btn btn-primary view-more-button" *ngIf="product.id" (click)="viewProductDetails(product.id)">Ver más</button>

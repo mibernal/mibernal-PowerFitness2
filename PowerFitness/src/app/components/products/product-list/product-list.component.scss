@@ -1,3 +1,15 @@
+/* product-list.component.scss */
+
+/* Estilos adicionales para el desplegable de ordenación */
+label {
+  margin-right: 10px;
+  // Añade más estilos si es necesario
+}
+
+select {
+  padding: 5px;
+}
+
 /* Estilos generales */
 .container {
   display: flex;

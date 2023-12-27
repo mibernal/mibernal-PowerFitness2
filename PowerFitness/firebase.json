@@ -1,13 +1,6 @@
 {
-  "database": {
-    "rules": "database.rules.json"
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
   "hosting": {
-    "public": "public",
+    "public": "dist/power-fitness",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -19,43 +12,5 @@
         "destination": "/index.html"
       }
     ]
-  },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "functions": {
-      "port": 5001
-    },
-    "firestore": {
-      "port": 8089
-    },
-    "database": {
-      "port": 9004
-    },
-    "hosting": {
-      "port": 5000,
-      "host": "0.0.0.0"
-    },
-    "ui": {
-      "enabled": true
-    },
-    "singleProjectMode": true,
-    "pubsub": {
-      "port": 8086
-    },
-    "storage": {
-      "port": 9199
-    },
-    "eventarc": {
-      "port": 9299
-    }
-  },
-  "remoteconfig": {
-    "template": "remoteconfig.template.json"
-  },
-  "storage": {
-    "rules": "storage.rules"
-  },
-  "extensions": {}
+  }
 }
