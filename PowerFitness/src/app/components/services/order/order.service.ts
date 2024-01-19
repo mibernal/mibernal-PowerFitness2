@@ -31,20 +31,21 @@ export class OrderService {
     });
   }
 
-  getOrder(orderId: string): Observable<any> {
-    // Obtiene un pedido específico por su ID de Firestore
-    return this.firestore.collection('pedidos').doc(orderId).valueChanges()
+  getOrder(orderNumber: string): Observable<any> {
+    return this.firestore.collection('pedidos', ref => ref.where('numero_pedido', '==', orderNumber))
+      .valueChanges()
       .pipe(
         map((details: any) => {
           console.log('Fetched order details:', details);
-          return details;
+          return details[0]; // Considerando que debería haber solo un pedido con un número de pedido único
         }),
         catchError(error => {
-          console.error('Error al obtener el pedido:', error);
+          console.error('Error fetching order details:', error); 
           return of(null);
         })
       );
-  }  
+  }
+  
 
   // Agrega métodos adicionales según tus necesidades, como actualizar el estado del pedido, obtener historial de pedidos, etc.
 

@@ -13,20 +13,22 @@ select {
 /* Estilos generales */
 .container {
   display: flex;
+  flex-direction: column; /* Cambio de dirección a columna para dispositivos móviles */
+  align-items: center; /* Centra los elementos horizontalmente */
   margin-top: 20px;
 
   // Menú de categorías
   .category-menu {
     position: sticky;
     left: 0;
-    width: 200px;
+    width: 100%; /* Ancho completo para dispositivos móviles */
     background-color: #f2f2f2;
     padding: 10px;
     border-right: 1px solid #ccc;
-    margin-left: -50px;
+    margin-left: 0; /* Elimina el margen izquierdo para dispositivos móviles */
 
     h5 {
-      font-size: 25px;
+      font-size: 20px; /* Ajuste de tamaño para dispositivos móviles */
       font-weight: bold;
       margin-bottom: 10px;
       color: #333;
@@ -38,9 +40,9 @@ select {
 
       li {
         cursor: pointer;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
         border-radius: 5px;
-        font-size: 18px;
+        font-size: 16px; /* Ajuste de tamaño para dispositivos móviles */
         transition: all 0.2s ease;
         color: #000;
         background-color: #fff;
@@ -57,7 +59,8 @@ select {
 .product {
   margin-bottom: 5px;
   position: sticky;
-  margin-left: -15px; // Elimina el margen izquierdo para alinear a la izquierda
+  margin-left: auto; /* Elimina el margen izquierdo para alinear a la izquierda */
+  margin-right: auto; /* Centra horizontalmente */
 
   .image-wrapper {
     position: relative;
@@ -157,9 +160,13 @@ select {
 
 @media (max-width: 767px) {
   // Estilos para pantallas pequeñas
+  .col-lg-2 { // Ajustar el ancho de las tarjetas
+    flex-basis: 100%; /* Ocupa el ancho completo */
+    max-width: 100%;
+  }
   .category-menu {
-    height: 80px;
-    padding: 10px;
+    height: auto;
+    padding: 15px;
 
     h5 {
       font-size: 16px;
@@ -171,21 +178,5 @@ select {
         font-size: 12px;
       }
     }
-  }
-}
-
-@media (min-width: 768px) {
-  // Estilos para pantallas medianas
-  .col-lg-4 { // Ajustar el ancho de las tarjetas
-    flex-basis: 33.33%;
-    max-width: 33.33%;
-  }
-}
-
-@media (min-width: 992px) {
-  // Estilos para pantallas grandes
-  .col-lg-4 { // Ajustar el ancho de las tarjetas
-    flex-basis: 33.33%;
-    max-width: 33.33%;
   }
 }

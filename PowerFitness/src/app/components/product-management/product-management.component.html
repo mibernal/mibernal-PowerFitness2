@@ -1,5 +1,9 @@
-<div>
-  <h1>Product Management</h1>
-  <input type="file" #fileInput (change)="handleFileInput(fileInput)">
-  <button (click)="exportToCSV()">Exportar CSV</button>
+<!-- src\app\components\product-management\product-management.component.html -->
+
+<div class="product-management-container">
+  <h1 class="product-management-title">Product Management</h1>
+  <input class="product-management-input" type="file" #fileInput (change)="handleFileInput(fileInput)">
+  <p>
+    <button class="product-management-button" (click)="exportToCSV()">Exportar CSV</button>
+  </p>
 </div>

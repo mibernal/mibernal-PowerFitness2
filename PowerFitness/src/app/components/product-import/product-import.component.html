@@ -1,5 +1,7 @@
-<div>
-    <h1>Product Import</h1>
-    <input type="file" #fileInput (change)="handleFileInput(fileInput)">
-    <button (click)="importCSV()"> Import CSV </button>
+<!-- src\app\components\product-import\product-import.component.html -->
+
+<div class="product-import-container">
+  <h1 class="product-import-title">Product Import</h1>
+  <input class="product-import-input" type="file" #fileInput (change)="handleFileInput(fileInput)">
+  <p><button class="product-import-button" (click)="importCSV()"> Import CSV </button> </p>
   </div>

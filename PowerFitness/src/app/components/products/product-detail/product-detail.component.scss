@@ -1,42 +1,44 @@
-@import '../../../../../node_modules/bootstrap/scss/bootstrap';
-@import '~bootstrap/dist/css/bootstrap.min.css';
+/* src\app\components\products\product-detail\product-detail.component.scss */
 
 .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   padding: 20px 0;
 
   .card.product {
-    .image-wrapper {
-      .image-container {
-        display: flex;
-        align-items: left;
+    .image-container {
+      position: relative;
+      max-height: 400px;
 
-        .arrow {
-          font-size: 24px;
-          background-color: transparent;
-          border: none;
-          color: #333;
-          cursor: pointer;
-        }
+      .arrow {
+        position: absolute;
+        top: 50%;
+        font-size: 24px;
+        background-color: transparent;
+        border: none;
+        color: #333;
+        cursor: pointer;
+        transform: translateY(-50%);
+      }
 
-        .left-arrow {
-          margin-right: 10px;
-        }
+      .left-arrow {
+        left: 10px;
+      }
 
-        .right-arrow {
-          margin-left: 10px;
-        }
+      .right-arrow {
+        right: 10px;
+      }
 
-        .images {
-          flex-grow: 1;
-          display: flex;
-          justify-content: left;
-          align-items: left;
+      .images {
+        overflow: hidden;
 
-          .card-img-top.product-image {
-            max-width: 100%;
-            max-height: 500px;
-            object-fit: contain;
-          }
+        .card-img-top.product-image {
+          max-width: 100%; /* Utiliza el ancho completo para dispositivos móviles */
+          max-height: auto; /* Ajusta según tus necesidades */
+          width: auto;
+          height: auto;
+          object-fit: contain;
         }
       }
     }
@@ -47,39 +49,16 @@
         margin-bottom: 20px;
       }
 
-      .card-text.product-category,
-      .card-text.product-brand {
-        margin-bottom: 5px;
-      }
-
-      .card-text.product-size {
-        margin-bottom: 5px;
+      .card-text {
+        margin-bottom: 15px;
 
         select {
           margin-left: 5px;
         }
-      }
-
-      .card-text.product-flavor {
-        margin-bottom: 5px;
-
-        select {
-          margin-left: 5px;
-        }
-      }
-
-      .card-text.product-stock,
-      .card-text.product-discount,
-      .card-text.product-price {
-        margin-bottom: 5px;
-      }
-
-      .card-text.product-description {
-        margin-bottom: 20px;
       }
 
       .btn.btn-primary.add-to-cart-button {
-        margin-top: 10px;
+        margin-top: 15px;
       }
     }
   }

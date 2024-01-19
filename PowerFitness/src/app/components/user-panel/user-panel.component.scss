@@ -2,6 +2,7 @@
 
 .container {
   display: flex;
+  flex-wrap: wrap; /* Make container responsive */
 
   .menu {
     width: 200px;
@@ -16,7 +17,7 @@
 
       .menu-item {
         cursor: pointer;
-        padding: 5px;
+        padding: 10px;
         border-radius: 5px;
         margin-bottom: 5px;
         font-weight: bold;
@@ -35,6 +36,37 @@
     flex: 1;
     padding: 10px;
   }
-}
 
-// Rest of the styles...
+  // Additional styles...
+
+  .module-content {
+    // Styles for module content...
+  }
+
+  .order-card {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+
+    button {
+      margin-top: 10px;
+    }
+  }
+
+  .order-details {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+  }
+}

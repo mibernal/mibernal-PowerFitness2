@@ -12,109 +12,118 @@
   </div>
 
   <div class="content">
-    <h2 *ngIf="selectedModule === 'profile'">User Profile</h2>
-    <form *ngIf="selectedModule === 'profile'" [formGroup]="profileForm">
-      <div class="form-group">
-        <label for="name">Name</label>
-        <input type="text" formControlName="name" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="email">Email</label>
-        <input type="email" formControlName="email" class="form-control" required>
-      </div>
-      <!-- Add more profile fields as needed -->
-      <button type="button" class="btn btn-primary" (click)="updateProfile()">Update Profile</button>
-    </form>
-    <div *ngIf="selectedModule === 'profile'">
-      <h4>Name: {{ profileForm.get('name')?.value }}</h4>
-      <h4>Email: {{ profileForm.get('email')?.value }}</h4>
-    </div>
-
-    <h2 *ngIf="selectedModule === 'password'">Change Password</h2>
-    <form *ngIf="selectedModule === 'password'" [formGroup]="passwordForm">
-      <div class="form-group">
-        <label for="currentPassword">Current Password</label>
-        <input type="password" formControlName="currentPassword" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="newPassword">New Password</label>
-        <input type="password" formControlName="newPassword" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label for="confirmPassword">Confirm Password</label>
-        <input type="password" formControlName="confirmPassword" class="form-control" required>
-        <div *ngIf="passwordForm.hasError('passwordMismatch')" class="password-mismatch-error">
-          Passwords do not match
+    <ng-container *ngIf="selectedModule === 'profile'">
+      <h2>User Profile</h2>
+      <form [formGroup]="profileForm">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" formControlName="name" class="form-control" required>
         </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" formControlName="email" class="form-control" required>
+        </div>
+        <!-- Add more profile fields as needed -->
+        <button type="button" class="btn btn-primary" (click)="updateProfile()">Update Profile</button>
+      </form>
+      <div>
+        <h4>Name: {{ profileForm.get('name')?.value }}</h4>
+        <h4>Email: {{ profileForm.get('email')?.value }}</h4>
       </div>
-      <button type="button" class="btn btn-primary" (click)="changePassword()">Change Password</button>
-    </form>
-    
+    </ng-container>
 
-    <h2 *ngIf="selectedModule === 'orders'">Pedidos</h2>
-    <div *ngIf="selectedModule === 'orders'" class="module-content">
-      <ul *ngIf="userOrders && userOrders.length > 0">
-        <li *ngFor="let order of userOrders">
-          <!-- Mostrar información de cada pedido aquí -->
-          <p>Fecha del pedido: {{ order.fecha }}</p>
-          <p>Número de pedido: {{ order.numero_pedido }}</p>
-          <button type="button" class="btn btn-primary" (click)="viewOrderDetails(order)">Ver Detalle</button>
-          
-          <!-- Agregar un área para mostrar los detalles del pedido si showDetails es true -->
-          <div *ngIf="order.showDetails">
-            <!-- Mostrar los detalles del pedido aquí -->
-            <p>Detalles del Pedido:</p>
-            <div *ngIf="orderDetails">
-              <!-- Mostrar los detalles del pedido aquí utilizando orderDetails -->
-              <p>Estado: {{ orderDetails.estado }}</p>
-              <!-- Mostrar la lista de productos en el pedido -->
-              <ul>
-                <li *ngFor="let product of orderDetails.productos">
-                  <p>Nombre del Producto: {{ product.nombre }}</p>
-                  <p>Tamaño: {{ product.size }}</p>
-                  <p>Sabor: {{ product.flavor }}</p>
-                  <p>Talla: {{ product.sizes }}</p>
-                  <p>Precio: {{ product.price }}</p>
-                  <p>Total: {{ product.total }}</p>
-                  
-                </li>
-              </ul>
-              
-              <!-- Agregar más detalles según tu estructura de datos de producto en el pedido -->
-            </div>
+    <ng-container *ngIf="selectedModule === 'password'">
+      <h2>Change Password</h2>
+      <form [formGroup]="passwordForm">
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input type="password" formControlName="currentPassword" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input type="password" formControlName="newPassword" class="form-control" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" formControlName="confirmPassword" class="form-control" required>
+          <div *ngIf="passwordForm.hasError('passwordMismatch')" class="password-mismatch-error">
+            Passwords do not match
           </div>
-        </li>
-      </ul>
-      <p *ngIf="!userOrders || userOrders.length === 0">No tienes pedidos.</p>
-    </div>
-    
+        </div>
+        <button type="button" class="btn btn-primary" (click)="changePassword()">Change Password</button>
+      </form>
+    </ng-container>
 
-    <h2 *ngIf="selectedModule === 'addresses'">Direcciones</h2>
-    <div *ngIf="selectedModule === 'addresses'" class="module-content">
-      <ul *ngIf="userAddresses && userAddresses.length > 0">
-        <li *ngFor="let address of userAddresses">
-          <!-- Mostrar información de cada dirección aquí -->
-          <p>Dirección: {{ address.direccion }}</p>
-          <p>Ciudad: {{ address.ciudad }}</p>
-          <p>Departamento: {{ address.departamento }}</p>
-          <!-- Agregar más detalles según tu estructura de datos de dirección -->
-        </li>
-      </ul>
-      <p *ngIf="!userAddresses || userAddresses.length === 0">No tienes direcciones guardadas.</p>
-    </div>
+    <ng-container *ngIf="selectedModule === 'orders'">
+      <h2>Pedidos</h2>
+      <div class="module-content">
+        <ul *ngIf="userOrders && userOrders.length > 0">
+          <li *ngFor="let order of userOrders">
+            <!-- Mostrar información de cada pedido aquí -->
+            <p>Fecha del pedido: {{ order.fecha }}</p>
+            <p>Número de pedido: {{ order.numero_pedido }}</p>
+            <button type="button" class="btn btn-primary" (click)="viewOrderDetails(order)">Ver Detalle</button>
 
-    <h2 *ngIf="selectedModule === 'account'">Detalles de la Cuenta</h2>
-    <div *ngIf="selectedModule === 'account'" class="module-content">
-      <!-- Detalles de la Cuenta module content -->
-    </div>
+            <!-- Agregar un área para mostrar los detalles del pedido si showDetails es true -->
+            <div *ngIf="order.showDetails">
+              <!-- Mostrar los detalles del pedido aquí -->
+              <p>Detalles del Pedido:</p>
+              <div *ngIf="orderDetails">
+                <!-- Mostrar los detalles del pedido aquí utilizando orderDetails -->
+                <p>Estado: {{ orderDetails.estado }}</p>
+                <!-- Mostrar la lista de productos en el pedido -->
+                <ul>
+                  <li *ngFor="let product of orderDetails.productos">
+                    <p>Nombre del Producto: {{ product.nombre }}</p>
+                    <p>Tamaño: {{ product.size }}</p>
+                    <p>Sabor: {{ product.flavor }}</p>
+                    <p>Talla: {{ product.sizes }}</p>
+                    <p>Precio: {{ product.price }}</p>
+                    <p>Total: {{ product.total }}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <p *ngIf="!userOrders || userOrders.length === 0">No tienes pedidos.</p>
+      </div>
+    </ng-container>
 
-    <h2 *ngIf="selectedModule === 'wishlist'">Lista de Deseos</h2>
-    <div *ngIf="selectedModule === 'wishlist'" class="module-content">
-      <!-- Lista de Deseos module content -->
-    </div>
+    <ng-container *ngIf="selectedModule === 'addresses'">
+      <h2>Direcciones</h2>
+      <div class="module-content">
+        <ul *ngIf="userAddresses && userAddresses.length > 0">
+          <li *ngFor="let address of userAddresses">
+            <!-- Mostrar información de cada dirección aquí -->
+            <p>Dirección: {{ address.direccion }}</p>
+            <p>Ciudad: {{ address.ciudad }}</p>
+            <p>Departamento: {{ address.departamento }}</p>
+            <!-- Agregar más detalles según tu estructura de datos de dirección -->
+          </li>
+        </ul>
+        <p *ngIf="!userAddresses || userAddresses.length === 0">No tienes direcciones guardadas.</p>
+      </div>
+    </ng-container>
 
-    <div *ngIf="selectedModule === 'logout'" class="module-content">
-      <button type="button" class="btn btn-primary" (click)="logout()">Logout</button>
-    </div>
+    <ng-container *ngIf="selectedModule === 'account'">
+      <h2>Detalles de la Cuenta</h2>
+      <div class="module-content">
+        <!-- Detalles de la Cuenta module content -->
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="selectedModule === 'wishlist'">
+      <h2>Lista de Deseos</h2>
+      <div class="module-content">
+        <!-- Lista de Deseos module content -->
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="selectedModule === 'logout'">
+      <div class="module-content">
+        <button type="button" class="btn btn-primary" (click)="logout()">Logout</button>
+      </div>
+    </ng-container>
   </div>
 </div>

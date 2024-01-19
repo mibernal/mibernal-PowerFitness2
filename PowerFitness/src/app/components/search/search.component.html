@@ -1,5 +1,10 @@
-<form class="d-flex" (ngSubmit)="searchProducts()">
-    <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar" [(ngModel)]="searchQuery" name="searchQuery">
-    <button class="btn btn-outline-success" type="submit">Buscar</button>
-  </form>
-  
+<div *ngIf="searchResults.products && searchResults.products.length > 0">
+  <h3>Resultados de productos:</h3>
+  <ul>
+    <li *ngFor="let product of searchResults.products">
+      <span>{{ product.name }}</span>
+      <!-- Agrega aquí otras propiedades del producto según sea necesario -->
+      <button mat-button (click)="openElement(product)">Abrir</button>
+    </li>
+  </ul>
+</div>

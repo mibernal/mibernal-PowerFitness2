@@ -103,6 +103,6 @@ import { ToastrService } from 'ngx-toastr';
     LoginFormComponent,
   ],
   providers: [DecimalPipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, SearchComponent]
 })
 export class AppModule { }

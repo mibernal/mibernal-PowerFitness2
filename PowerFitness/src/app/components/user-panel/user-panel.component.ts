@@ -152,7 +152,8 @@ export class UserPanelComponent implements OnInit, OnDestroy {
   loadUserOrders(email: string): void {
     this.orderService.getUserOrdersByEmail(email).subscribe(
       (orders: any[]) => {
-        this.userOrders = orders;
+        // Inicializar showDetails en cada objeto de userOrders
+        this.userOrders = orders.map(order => ({ ...order, showDetails: false }));
       },
       (error: any) => {
         console.error('Failed to load user orders:', error);
@@ -160,24 +161,43 @@ export class UserPanelComponent implements OnInit, OnDestroy {
     );
   }
 
-  viewOrderDetails(order: any): void {
-    console.log('Clicked on View Details');
-    if (order.showDetails) {
-      console.log('Details already visible');
-      this.orderDetails = null; // Debería establecerse en null para ocultar los detalles
-    } else {
-      console.log('Fetching order details');
-      this.orderService.getOrder(order.numero_pedido).subscribe(
-        (details: any) => {
-          this.orderDetails = details;
-        },
-        (error: any) => {
-          console.error('Failed to load order details:', error);
-        }
-      );
-    }
-    order.showDetails = !order.showDetails;
+  
+viewOrderDetails(order: any): void {
+  console.log('Clicked on View Details');
+  
+  // Encuentra el índice del pedido en userOrders
+  const orderIndex = this.userOrders.findIndex(o => o.numero_pedido === order.numero_pedido);
+  
+  // Log para verificar el número de pedido
+  console.log('Order Number:', order.numero_pedido);
+
+  // Actualiza showDetails usando el índice
+  if (orderIndex !== -1) {
+    this.userOrders[orderIndex].showDetails = !this.userOrders[orderIndex].showDetails;
   }
+
+  if (this.userOrders[orderIndex].showDetails) {
+    console.log('Fetching order details');
+    this.orderService.getOrder(order.numero_pedido).subscribe(
+      (details: any) => {
+        console.log('Fetched order details:', details);
+
+        // Agregar lógica adicional si es necesario
+
+        this.orderDetails = details;
+      },
+      (error: any) => {
+        console.error('Failed to load order details:', error);
+      }
+    );
+  } else {
+    console.log('Details hidden');
+    this.orderDetails = null;
+  }
+
+  // Log para verificar el estado de orderDetails
+  console.log('Order Details:', this.orderDetails);
+}
 
   loadAllOrders(): void {
     this.orderService.getAllOrders().subscribe(
